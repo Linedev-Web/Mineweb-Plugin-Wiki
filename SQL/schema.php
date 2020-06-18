@@ -20,7 +20,7 @@ class LwikiAppSchema extends CakeSchema
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
-        'tableParameters' => ['charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB']
+        'tableParameters' => ['charset' => 'latin1', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
     public $lwiki__categories = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
@@ -31,7 +31,7 @@ class LwikiAppSchema extends CakeSchema
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
-        'tableParameters' => ['charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB']
+        'tableParameters' => ['charset' => 'latin1', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
     public $lwiki__items = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
@@ -43,6 +43,6 @@ class LwikiAppSchema extends CakeSchema
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
-        'tableParameters' => ['charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB']
+        'tableParameters' => ['charset' => 'latin1', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
 }
