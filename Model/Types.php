@@ -1,11 +1,19 @@
 <?php
-class Types extends LwikiAppModel{
 
-    public function get(){
-        return $this->find('all');
+class Types extends LwikiAppModel
+{
+
+    public function edit($id, $name)
+    {
+        $this->read(null, $id);
+        $this->set(array('name' => $name,));
+        return $this->save();
     }
 
-    public function _delete($id){
-        return $this->delete($id);
+    public function add($name)
+    {
+        $this->create();
+        $this->set(['name' => $name]);
+        return $this->save();
     }
 }

@@ -1,56 +1,70 @@
 <?php
-class LwikiController extends LwikiAppController{
 
-    public function index(){
+class LwikiController extends LwikiAppController
+{
 
-        // Chargement du Model Tutorial
+    public function index()
+    {
         $this->loadModel('Lwiki.Types');
-
-        //On enregistre dans $datas le contenu de toute la table Lwiki
-        $datas = $this->Types->find('all');
-
-        //On passe la variable à la vue afin de pouvoir la réutiliser dans index.ctp
-        $this->set(compact('datas'));
-
-        //Pour passer plusieurs variable à la vue :
-        //$this->set(compact('datas', 'variable', 'infos'));
-
-        //Pour donner un titre à votre page : Dans le html <title> Titre <title>
-        $this->set('title_for_layout', 'Titre');
+        $types = $this->Types->find('all');
+        $this->set(compact('types'));
+        $this->set('title_for_layout', 'Wiki');
     }
 
-    public function admin_index(){
-        if($this->isConnected AND $this->User->isAdmin()){
+    public function admin_index()
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
             $this->loadModel('Lwiki.Types');
 
             //Si la requete est de type ajax
-            if($this->request->is('ajax')){
+            if ($this->request->is('ajax')) {
                 $this->autoRender = null;
-
                 //Je récupère le champs name="pseudo"
-                $pseudo = $this->request->data['pseudo'];
-                $date = date('Y-m-d H:i:s');
+                $name = $this->request->data['name'];
 
-                $this->Types->add($pseudo, $date);
-
-                //Envoi réponse en ajax
-                $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
-            }else{
+                if ($name) {
+                    $this->Types->add($name);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                }
+            } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
-
-                //Je récupère les données de ma base.
-                $datas = $this->Types->get();
-
-                $this->set(compact('datas'));
+                $types = $this->Types->get();
+                $this->set(compact('types'));
             }
-        }else {
+        } else {
             $this->redirect('/');
         }
     }
 
-    public function admin_delete($id){
-        if($this->isConnected AND $this->User->isAdmin()){
+    public function admin_edit_types()
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        if ($this->isConnected and $this->User->isAdmin()) {
+            if ($this->request->is('post')) {
+                if (!empty($this->request->data['name'])) {
+                    $this->loadModel('Lwiki.Types');
+                    $id = $this->request->data['id'];
+                    $name = $this->request->data['name'];
+                    $this->Types->edit($id, $name);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                }
+            } else {
+                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    public function admin_delete($id)
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
             $this->autoRender = null;
 
             $this->loadModel('Lwiki.Types');
@@ -60,41 +74,38 @@ class LwikiController extends LwikiAppController{
 
             //Redirection vers notre page
             $this->redirect('/admin/wiki');
-        }else {
-            $this->redirect('/');
+        } else {
+            $this->redirect('/toto');
         }
     }
 
-    public function tips(){
-        $this->autoRender = null;
-        $this->layout = null;
+    public function admin_add_category()
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
+            $this->loadModel('Lwiki.Category');
 
-        var_dump('Est connecté : ', $this->isConnected);
-        echo "<br />";
+            //Si la requete est de type ajax
+            if ($this->request->is('ajax')) {
+                $this->autoRender = null;
+                //Je récupère le champs name="pseudo"
+                $types_id = $this->request->data['type'];
+                $name = $this->request->data['name'];
+                $icon = $this->request->data['icon'];
 
-        var_dump('Argument courant : ', $this->request->{'here'});
-        echo "<br />";
-
-        $this->loadModel('User');
-        var_dump('Email de l\'utilisateur en cours : ', $this->User->getFromUser('email', $_SESSION['user']));
-        echo "<br />";
-
-        var_dump('Money de l\'utilisateur en cours : ', $this->User->getFromUser('money', $_SESSION['user']));
-        echo "<br />";
-
-        var_dump('Thème actuel : ', $this->theme);
-        echo "<br />";
-
-        echo 'Requête en get ? ';
-        echo ($this->request->is('get')) ? 'Oui' : 'Non';
-        echo "<br />";
-
-        echo 'Requête en post ? ';
-        echo ($this->request->is('post')) ? 'Oui' : 'Non';
-        echo "<br />";
-
-        echo 'Requête en ajax ? ';
-        echo ($this->request->is('ajax')) ? 'Oui' : 'Non';
-        // Juste pour avoir 100 lignes :P
+                if ($name && $icon) {
+                    $this->Category->add($types_id, $name, $icon);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                }
+            } else {
+                //Je déclare le thème du panel admin
+                $this->layout = 'admin';
+                $types = $this->Types->get();
+                $this->set(compact('types'));
+            }
+        } else {
+            $this->redirect('/');
+        }
     }
 }

@@ -1,11 +1,13 @@
 <?php
-class Category extends LwikiAppModel{
 
-    public function get(){
-        return $this->find('all');
-    }
+class Category extends LwikiAppModel
+{
 
-    public function _delete($id){
-        return $this->delete($id);
+
+    public function add($types_id, $name, $icon)
+    {
+        $this->create();
+        $this->set(['types_id' => $types_id, 'name' => $name, 'icon' => $icon]);
+        return $this->save();
     }
 }

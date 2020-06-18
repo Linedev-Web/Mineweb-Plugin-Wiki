@@ -1,6 +1,12 @@
 {
-  "TUTORIAL__ID": "ID",
-  "TUTORIAL__PSEUDO": "Pseudo",
-  "TUTORIAL__DATE": "Date",
-  "TUTORIAL__ADD": "Ajouter un membre"
+  "WIKI__ID": "ID",
+  "WIKI__type": "Type",
+  "WIKI__name": "Name",
+  "WIKI__ordre": "Ordre",
+  "WIKI__categorie": "Catégorie",
+  "WIKI__icon": "Icon",
+  "WIKI__add__type": "Ajouter un type",
+  "WIKI__add__icon": "Ajouter un icon",
+  "WIKI__add__categorie": "Ajouter une catégorie",
+  "WIKI__description": "Ecrire une déscription"
 }

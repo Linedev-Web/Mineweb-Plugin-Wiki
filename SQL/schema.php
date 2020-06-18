@@ -20,6 +20,7 @@ class LwikiAppSchema extends CakeSchema
     ];
     public $lwiki__categories = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
+        'types_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
         'icon' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false]
