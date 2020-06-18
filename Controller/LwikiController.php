@@ -1,13 +1,13 @@
 <?php
-class WikiController extends WikiAppController{
+class LwikiController extends LwikiAppController{
 
     public function index(){
 
         // Chargement du Model Tutorial
-        $this->loadModel('Wiki.Info');
+        $this->loadModel('Lwiki.Types');
 
-        //On enregistre dans $datas le contenu de toute la table Wiki
-        $datas = $this->Info->find('all');
+        //On enregistre dans $datas le contenu de toute la table Lwiki
+        $datas = $this->Types->find('all');
 
         //On passe la variable à la vue afin de pouvoir la réutiliser dans index.ctp
         $this->set(compact('datas'));
@@ -21,7 +21,7 @@ class WikiController extends WikiAppController{
 
     public function admin_index(){
         if($this->isConnected AND $this->User->isAdmin()){
-            $this->loadModel('Wiki.Info');
+            $this->loadModel('Lwiki.Types');
 
             //Si la requete est de type ajax
             if($this->request->is('ajax')){
@@ -31,7 +31,7 @@ class WikiController extends WikiAppController{
                 $pseudo = $this->request->data['pseudo'];
                 $date = date('Y-m-d H:i:s');
 
-                $this->Info->add($pseudo, $date);
+                $this->Types->add($pseudo, $date);
 
                 //Envoi réponse en ajax
                 $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
@@ -40,7 +40,7 @@ class WikiController extends WikiAppController{
                 $this->layout = 'admin';
 
                 //Je récupère les données de ma base.
-                $datas = $this->Info->get();
+                $datas = $this->Types->get();
 
                 $this->set(compact('datas'));
             }
@@ -53,10 +53,10 @@ class WikiController extends WikiAppController{
         if($this->isConnected AND $this->User->isAdmin()){
             $this->autoRender = null;
 
-            $this->loadModel('Wiki.Info');
+            $this->loadModel('Lwiki.Types');
 
             //J'utilise _delete() car delete() existe déjà avec cakephp
-            $this->Info->_delete($id);
+            $this->Types->_delete($id);
 
             //Redirection vers notre page
             $this->redirect('/admin/wiki');

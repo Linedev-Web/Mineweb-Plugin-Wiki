@@ -1,4 +1,4 @@
 <?php
-Router::connect('/wiki', ['controller' => 'wiki', 'action' => 'index', 'plugin' => 'wiki']);
-Router::connect('/admin/wiki', array('controller' => 'wiki', 'action' => 'index', 'plugin' => 'wiki', 'admin' => true));
-Router::connect('/admin/wiki/categorie', array('controller' => 'wiki', 'action' => 'index', 'plugin' => 'wiki', 'admin' => true));
+Router::connect('/wiki', ['controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki']);
+Router::connect('/admin/wiki', array('controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true));
+Router::connect('/admin/wiki/categorie', array('controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true));

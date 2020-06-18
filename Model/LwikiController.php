@@ -1,8 +1,8 @@
 <?php
-class WikiController extends WikiAppController{
+class LwikiController extends LwikiAppController{
 
     public function index(){
-        $this->loadModel('Wiki.Info');
+        $this->loadModel('Lwiki.Types');
 
         //Appel de la fonction présent dans notre modèle.
         $datas = $this->Info->get();

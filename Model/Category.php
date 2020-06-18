@@ -1,5 +1,5 @@
 <?php
-class Category extends WikiAppModel{
+class Category extends LwikiAppModel{
 
     public function get(){
         return $this->find('all');

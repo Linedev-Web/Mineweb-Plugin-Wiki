@@ -13,9 +13,8 @@
                             <tbody>
                                 <?php foreach ($datas as $data): ?>
                                     <tr>
-                                        <td><?= $data['Info']['id']; ?></td>
-                                        <td><?= $data['Info']['pseudo']; ?></td>
-                                        <td><?= $this->Time->format($data['Info']['date'], '%H:%M, %e %B %Y'); ?></td>
+                                        <td><?= $data['Types']['id']; ?></td>
+                                        <td><?= $data['Types']['name']; ?></td>
                                     </tr>
                                <?php endforeach; ?>
                             </tbody>

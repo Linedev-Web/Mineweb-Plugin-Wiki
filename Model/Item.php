@@ -1,5 +1,5 @@
 <?php
-class Item extends WikiAppModel{
+class Item extends LwikiAppModel{
 
     public function get(){
         return $this->find('all');
