@@ -1,6 +1,6 @@
 <?php
 
-class Item extends LwikiAppModel
+class LItem extends LwikiAppModel
 {
 
 

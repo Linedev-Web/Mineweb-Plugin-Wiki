@@ -1,9 +1,7 @@
 <?php
 
-class Category extends LwikiAppModel
+class Lcategory extends LwikiAppModel
 {
-
-
     public function add($types_id, $name, $icon)
     {
         $this->create();

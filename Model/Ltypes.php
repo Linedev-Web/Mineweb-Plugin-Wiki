@@ -1,6 +1,6 @@
 <?php
 
-class Types extends LwikiAppModel
+class Ltypes extends LwikiAppModel
 {
 
     public function edit($id, $name)
