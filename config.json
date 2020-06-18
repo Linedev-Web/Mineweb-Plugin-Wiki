@@ -1,0 +1,36 @@
+{
+  "name": "Wiki",
+  "admin_menus": {
+    "Wiki": {
+      "icon": "user",
+      "index": "3",
+      "menu": {
+        "Wiki": {
+          "icon": "user",
+          "route": "/admin/wiki"
+        },
+        "Gérer les FAQ": {
+          "icon": "user",
+          "route": "/admin/wiki/categories"
+        }
+      }
+    }
+  },
+  "navbar_routes": {
+    "Wiki": "/wiki"
+  },
+  "author": "Linedev",
+  "version": "1.0.1",
+  "apiID": -1,
+  "useEvents": false,
+  "permissions": {
+    "available": [],
+    "default": {
+      "0": [],
+      "2": []
+    }
+  },
+  "requirements": {
+    "CMS": "^1.8.4"
+  }
+}
