@@ -21,6 +21,7 @@
                             </form>
                         </div>
                         <div class="col-md-8">
+                            <?php if ($types):?>
                             <table class="table table-responsive">
                                 <thead>
                                 <tr>
@@ -50,6 +51,9 @@
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?php else: ?>
+                            <small><?= $Lang->get('WIKI__not__type') ?></small>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
