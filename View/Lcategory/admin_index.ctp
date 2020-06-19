@@ -3,9 +3,11 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= $Lang->get('WIKI__add__type') ?></h3>
+                    <h3 class="box-title"><?= $Lang->get('WIKI__add__categorie') ?></h3>&nbsp;&nbsp;<a href="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                       class="btn btn-success"><?= $Lang->get('GLOBAL__ADD') ?></a>
+
                 </div>
-                <div class="box-body">
+                <div class=" box-body">
                     <?php if ($categorys): ?>
                         <table class="table table-responsive">
                             <thead>

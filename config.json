@@ -7,11 +7,11 @@
       "menu": {
         "Gérer le Wiki": {
           "icon": "user",
-          "route": "/admin/wiki"
+          "route": "/admin/lwiki"
         },
         "Gérer les catégories": {
           "icon": "user",
-          "route": "/admin/wiki/lcategorie"
+          "route": "/admin/lwiki/lcategorie"
         }
       }
     }

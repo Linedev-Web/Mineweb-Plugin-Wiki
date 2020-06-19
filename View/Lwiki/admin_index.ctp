@@ -128,7 +128,7 @@
                                     </td>
                                     <td>
                                         <a href="<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit/' . $category['Lcategory']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                                           class="btn btn-primary"><?= $Lang->get('GLOBAL__UPDATE') ?></a>
+                                           class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></a>
                                         <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'delete/' . $category['Lcategory']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
                                            class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                     </td>
