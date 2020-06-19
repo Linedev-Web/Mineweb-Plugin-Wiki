@@ -25,7 +25,7 @@ class LwikiAppSchema extends CakeSchema
     public $lwiki__lcategories = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
-        'type_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false],
+        'ltype_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
         'icon' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
         'indexes' => [
@@ -35,7 +35,7 @@ class LwikiAppSchema extends CakeSchema
     ];
     public $lwiki__litems = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
-        'categorie_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false],
+        'lcategorie_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
         'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
