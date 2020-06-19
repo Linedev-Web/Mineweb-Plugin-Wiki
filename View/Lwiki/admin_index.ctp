@@ -43,7 +43,7 @@
                                             </td>
                                             <td>
                                                 <button class="btn btn-primary"
-                                                        type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>
+                                                        type="submit"><?= $Lang->get('GLOBAL__UPDATE') ?></button>
                                                 <a onclick="confirmDel('/admin/lwiki/lwiki/delete/<?= $type['Ltypes']['id']; ?>')"
                                                    class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                                 </form>
@@ -108,7 +108,8 @@
                         <table class="table table-responsive">
                             <thead>
                             <tr>
-                                <th><?= $Lang->get('WIKI__categories') ?></th>
+                                <th><?= $Lang->get('WIKI__categorie') ?></th>
+                                <th><?= $Lang->get('WIKI__type') ?></th>
                                 <th><?= $Lang->get('WIKI__icon') ?></th>
                                 <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
                             </tr>
@@ -117,16 +118,18 @@
                             <?php foreach ($categorys as $category): ?>
                                 <tr>
                                     <td>
-                                <?php var_dump($category) ?>
                                         <?= $category["Lcategory"]["name"] ?>
                                     </td>
+                                    <td><?= $category['Ltypes']['name'] ?></td>
                                     <td><img src="<?= $category["Lcategory"]["icon"] ?>"
                                              title="<?= $category["Lcategory"]["name"] ?>"
-                                             alt="<?= $category["Lcategory"]["name"] ?>" style="width: 50px"></td>
+                                             alt="<?= $category["Lcategory"]["name"] ?>"
+                                             style="width: 50px;height: 50px;object-fit: contain">
+                                    </td>
                                     <td>
-                                        <button class="btn btn-primary"
-                                                type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>
-                                        <a onclick="confirmDel('/admin/lwiki/lwiki/delete/<?= $category['Lcategory']['id']; ?>')"
+                                        <a href="<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit/' . $category['Lcategory']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                                           class="btn btn-primary"><?= $Lang->get('GLOBAL__UPDATE') ?></a>
+                                        <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'delete/' . $category['Lcategory']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
                                            class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                     </td>
                                 </tr>

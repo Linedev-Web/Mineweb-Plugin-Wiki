@@ -34,7 +34,6 @@ class LwikiController extends LwikiAppController
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
-                $this->Ltypes->recursive = 1;
                 $types = $this->Ltypes->get();
                 $categorys = $this->Lcategory->get();
                 $this->set(compact('types', 'categorys'));
