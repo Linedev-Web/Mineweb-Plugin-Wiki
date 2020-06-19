@@ -1,31 +1,48 @@
 <?php
 
-class WikiAppSchema extends CakeSchema
+class LwikiAppSchema extends CakeSchema
 {
 
     public $file = 'schema.php';
 
-    public function before($event = []) {
+    public function before($event = [])
+    {
         return true;
     }
 
-    public function after($event = []) {}
+    public function after($event = [])
+    {
+    }
 
-    public $wiki__infos = [
-        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false, 'key' => 'primary'],
+    public $lwiki__ltypes = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
-        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false]
+        'indexes' => [
+            'PRIMARY' => ['column' => 'id', 'unique' => 1]
+        ],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
-    public $wiki__categories = [
-        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
+    public $lwiki__lcategories = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
-        'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false]
+        'ltype_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
+        'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
+        'icon' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'indexes' => [
+            'PRIMARY' => ['column' => 'id', 'unique' => 1]
+        ],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
-    public $wiki__items = [
-        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
-        'categories_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
+    public $lwiki__litems = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
+        'lcategorie_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
-        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false]
+        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'icon' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'indexes' => [
+            'PRIMARY' => ['column' => 'id', 'unique' => 1]
+        ],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
     ];
 }

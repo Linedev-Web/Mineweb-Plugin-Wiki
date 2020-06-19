@@ -5,11 +5,11 @@
       "icon": "user",
       "index": "3",
       "menu": {
-        "Wiki": {
+        "Gérer le Wiki": {
           "icon": "user",
           "route": "/admin/wiki"
         },
-        "Gérer les FAQ": {
+        "Gérer les catégories": {
           "icon": "user",
           "route": "/admin/wiki/categories"
         }

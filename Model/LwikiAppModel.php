@@ -1,5 +1,6 @@
 <?php
-class Category extends WikiAppModel{
+class LwikiAppModel extends AppModel{
+    public $tablePrefix = 'lwiki__';
 
     public function get(){
         return $this->find('all');
