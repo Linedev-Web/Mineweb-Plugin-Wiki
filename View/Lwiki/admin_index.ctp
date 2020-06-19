@@ -114,7 +114,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <?php var_dump($categories_count) ?>
                             <?php foreach ($categorys as $category): ?>
                                 <tr>
                                     <td>
@@ -123,7 +122,7 @@
                                     </td>
                                     <td><img src="<?= $category["Lcategory"]["icon"] ?>"
                                              title="<?= $category["Lcategory"]["name"] ?>"
-                                             alt="<?= $category["Lcategory"]["name"] ?>"></td>
+                                             alt="<?= $category["Lcategory"]["name"] ?>" style="width: 50px"></td>
                                     <td>
                                         <button class="btn btn-primary"
                                                 type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>

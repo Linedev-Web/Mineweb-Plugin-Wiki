@@ -2,6 +2,8 @@
 
 class Lcategory extends LwikiAppModel
 {
+    public  $hasOne = 'Lwiki.Ltypes';
+
     public function add($types_id, $name, $icon)
     {
         $this->create();

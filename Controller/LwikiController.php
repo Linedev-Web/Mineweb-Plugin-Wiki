@@ -34,12 +34,10 @@ class LwikiController extends LwikiAppController
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
+                $this->Ltypes->recursive = 1;
                 $types = $this->Ltypes->get();
                 $categorys = $this->Lcategory->get();
-                foreach ($types as $v) {
-                    $categories_count[$v['Ltypes']['id']] = $this->Lcategory->find('count', array('conditions' => array('types_id' => $v['Ltypes']['id'])));
-                }
-                $this->set(compact('types', 'categorys', 'categories_count'));
+                $this->set(compact('types', 'categorys'));
             }
         } else {
             $this->redirect('/');
@@ -89,7 +87,7 @@ class LwikiController extends LwikiAppController
     public function admin_add_category()
     {
         if ($this->isConnected and $this->User->isAdmin()) {
-            $this->loadModel('Lwiki.Category');
+            $this->loadModel('Lwiki.Lcategory');
 
             //Si la requete est de type ajax
             if ($this->request->is('ajax')) {
@@ -125,7 +123,7 @@ class LwikiController extends LwikiAppController
                 }
 
                 if ($name && $url_img) {
-                    $this->Category->add($types_id, $name, $url_img);
+                    $this->Lcategory->add($types_id, $name, $url_img);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
