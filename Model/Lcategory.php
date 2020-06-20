@@ -36,10 +36,10 @@ class Lcategory extends LwikiAppModel
         return $this->save();
     }
 
-    public function add($types_id, $name, $icon)
+    public function add($types_id, $name)
     {
         $this->create();
-        $this->set(['ltype_id' => $types_id, 'name' => $name, 'icon' => $icon]);
+        $this->set(['ltype_id' => $types_id, 'name' => $name]);
         return $this->save();
     }
 }

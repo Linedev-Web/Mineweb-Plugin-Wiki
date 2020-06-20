@@ -44,7 +44,7 @@
                                             <td>
                                                 <button class="btn btn-primary"
                                                         type="submit"><?= $Lang->get('GLOBAL__UPDATE') ?></button>
-                                                <a onclick="confirmDel('/admin/lwiki/lwiki/delete/<?= $type['Ltypes']['id']; ?>')"
+                                                <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'delete/' . $type['Ltypes']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
                                                    class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                                 </form>
                                             </td>
@@ -83,9 +83,6 @@
                                                 <option value="<?= $type["Ltypes"]['id'] ?>"><?= $type["Ltypes"]['name'] ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <?= $this->element('form.input.upload.img') ?>
                                     </div>
                                     <div class="col-md-12">
                                         <button class="btn btn-primary"

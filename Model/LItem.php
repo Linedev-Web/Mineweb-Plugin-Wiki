@@ -13,10 +13,10 @@ class LItem extends LwikiAppModel
         return $this->delete($id);
     }
 
-    public function add($categories_id, $order, $name, $text, $icon)
+    public function add($categories_id, $order, $name, $text)
     {
         $this->create();
-        $this->set(['categories_id' => $categories_id, 'order' => $order, 'name' => $name, 'text' => $text, 'icon' => $icon]);
+        $this->set(['categories_id' => $categories_id, 'order' => $order, 'name' => $name, 'text' => $text]);
         return $this->save();
     }
 }
