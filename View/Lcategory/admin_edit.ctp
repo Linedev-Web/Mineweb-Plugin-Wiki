@@ -22,10 +22,6 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <?= $this->element('form.input.upload.img', array('img' => $category['icon'], 'filename' => $category['filename'])) ?>
-
-                            </div>
                             <input type="hidden" name="id" value="<?= $category["id"] ?>">
 
                             <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__UPDATE') ?></button>

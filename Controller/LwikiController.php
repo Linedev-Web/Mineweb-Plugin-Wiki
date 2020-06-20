@@ -25,12 +25,14 @@ class LwikiController extends LwikiAppController
                 //Je récupère le champs name="pseudo"
                 $name = $this->request->data['name'];
 
-                if ($name) {
+                if ($this->Ltypes->validates()) {
                     $this->Ltypes->add($name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
                 }
+//                if ($name) {
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
@@ -77,7 +79,7 @@ class LwikiController extends LwikiAppController
             $this->Ltypes->_delete($id);
 
             //Redirection vers notre page
-            $this->redirect('/admin/wiki');
+            $this->redirect('/admin/lwiki');
         } else {
             $this->redirect('/toto');
         }
@@ -94,39 +96,8 @@ class LwikiController extends LwikiAppController
                 //Je récupère le champs name="pseudo"
                 $types_id = $this->request->data['type'];
                 $name = $this->request->data['name'];
-
-                $checkIfImageAlreadyUploaded = (isset($this->request->data['img-uploaded']));
-                if ($checkIfImageAlreadyUploaded) {
-                    $url_img = Router::url('/') . 'img' . DS . 'uploads' . $this->request->data['img-uploaded'];
-                } else {
-                    $isValidImg = $this->Util->isValidImage($this->request, array('png', 'jpg', 'jpeg'));
-
-                    if (!$isValidImg['status']) {
-                        $this->response->body(json_encode(array('statut' => false, 'msg' => $isValidImg['msg'])));
-                        return;
-                    } else {
-                        $infos = $isValidImg['infos'];
-                    }
-
-                    $time = date('Y-m-d_His');
-
-                    $url_img = WWW_ROOT . 'img' . DS . 'uploads' . DS . 'icons' . DS . $time . '.' . $infos['extension'];
-
-                    if (!$this->Util->uploadImage($this->request, $url_img)) {
-                        $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORM__ERROR_WHEN_UPLOAD'))));
-                        return;
-                    }
-
-                    $url_img = Router::url('/') . 'img' . DS . 'uploads' . DS . 'icons' . DS . $time . '.' . $infos['extension'];
-
-                }
-
-                if ($name && $url_img) {
-                    $this->Lcategory->add($types_id, $name, $url_img);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
-                } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
-                }
+                $this->Lcategory->add($types_id, $name);
+                $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';

@@ -2,6 +2,15 @@
 
 class Ltypes extends LwikiAppModel
 {
+
+    public $validate = array(
+        'name' => array(
+            'rule' => 'isUnique',
+            'message' => 'Ce nom name déjà utilisée.',
+            'allowEmpty' => false
+        )
+    );
+
     public function get()
     {
         return $this->find('all');

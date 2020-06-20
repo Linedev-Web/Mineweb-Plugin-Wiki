@@ -14,7 +14,6 @@
                             <tr>
                                 <th><?= $Lang->get('WIKI__categorie') ?></th>
                                 <th><?= $Lang->get('WIKI__type') ?></th>
-                                <th><?= $Lang->get('WIKI__icon') ?></th>
                                 <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
                             </tr>
                             </thead>
@@ -26,12 +25,6 @@
                                     </td>
                                     <td>
                                         <?= $category["Ltypes"]['name'] ?>
-                                    <td>
-                                        <img src="<?= $category["Lcategory"]["icon"] ?>"
-                                             title="<?= $category["Lcategory"]["name"] ?>"
-                                             alt="<?= $category["Lcategory"]["name"] ?>"
-                                             style="width: 50px;height: 50px;object-fit: contain">
-                                    </td>
                                     <td>
                                         <a class="btn btn-primary"
                                            href="<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit/' . $category['Lcategory']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
