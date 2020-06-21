@@ -85,31 +85,4 @@ class LcategoryController extends LwikiAppController
         }
     }
 
-    public function admin_edit_ajax()
-    {
-        $this->autoRender = false;
-        $this->response->type('json');
-        if ($this->isConnected and $this->User->isAdmin()) {
-            if ($this->request->is('post')) {
-                if (!empty($this->request->data['name'])) {
-                    $this->loadModel('Lwiki.Lcategory');
-
-                    $data = array(
-                        'id' => $this->request->data['id'],
-                        'name' => $this->request->data['name'],
-                        'ltype_id' => $this->request->data['type'],
-                    );
-
-                    $this->Lcategory->edit($data);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
-                } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
-                }
-            } else {
-                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
-            }
-        } else {
-            throw new ForbiddenException();
-        }
-    }
 }

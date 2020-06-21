@@ -2,6 +2,8 @@
 
 class Lcategory extends LwikiAppModel
 {
+
+    public $hasAndBelongsToMany = array('Ltypes');
     public $belongsTo = array(
         'Ltypes' => array(
             'className' => 'Ltypes',
@@ -29,17 +31,17 @@ class Lcategory extends LwikiAppModel
         return $this->delete($id);
     }
 
-    public function edit($data)
+    public function edit($id, $ltype_id, $name)
     {
-        $this->read(null, $data['id']);
-        $this->set($data);
+        $this->read(null, $id);
+        $this->set(['ltype_id' => $ltype_id, 'name' => $name]);
         return $this->save();
     }
 
-    public function add($types_id, $name)
+    public function add($ltype_id, $name)
     {
         $this->create();
-        $this->set(['ltype_id' => $types_id, 'name' => $name]);
+        $this->set(['ltype_id' => $ltype_id, 'name' => $name]);
         return $this->save();
     }
 }

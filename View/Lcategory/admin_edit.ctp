@@ -7,10 +7,9 @@
                 </div>
                 <div class="box-body">
                     <?php if ($category): ?>
-                        <?= var_dump($category['filename']) ?>
                         <form action="<?= $this->Html->url(array('controller' => 'Lcategory', 'action' => 'edit_ajax')) ?>"
                               data-redirect-url="<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                              method="post" data-upload-image="true" data-ajax="true">
+                              method="post" data-ajax="true">
                             <div class="form-group">
                                 <input class="form-control" name="name" type="text" value="<?= $category["name"] ?>"/>
                             </div>

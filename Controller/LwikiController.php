@@ -5,6 +5,8 @@ class LwikiController extends LwikiAppController
 
     public function index()
     {
+
+        $this->loadModel('Plugin');
         $this->loadModel('Lwiki.Ltypes');
         $this->loadModel('Lwiki.Lcategory');
         $types = $this->Ltypes->find('all');
@@ -37,8 +39,9 @@ class LwikiController extends LwikiAppController
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
                 $types = $this->Ltypes->get();
+                $typesAll = $this->Ltypes->Lcategory->find('all', array('Ltypes.name'));
                 $categorys = $this->Lcategory->get();
-                $this->set(compact('types', 'categorys'));
+                $this->set(compact('types', 'categorys','typesAll'));
             }
         } else {
             $this->redirect('/');
@@ -106,6 +109,33 @@ class LwikiController extends LwikiAppController
             }
         } else {
             $this->redirect('/');
+        }
+    }
+
+    public function admin_edit_category()
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        if ($this->isConnected and $this->User->isAdmin()) {
+            if ($this->request->is('post')) {
+                if (!empty($this->request->data['name'])) {
+                    $this->loadModel('Lwiki.Lcategory');
+
+                    $id = $this->request->data['id'];
+                    $ltype_id = $this->request->data['type'];
+                    $name = $this->request->data['name'];
+
+                    $this->Lcategory->edit($id, $ltype_id, $name);
+
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                }
+            } else {
+                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
+            }
+        } else {
+            throw new ForbiddenException();
         }
     }
 }
