@@ -5,8 +5,6 @@ class LwikiController extends LwikiAppController
 
     public function index()
     {
-
-        $this->loadModel('Plugin');
         $this->loadModel('Lwiki.Ltypes');
         $this->loadModel('Lwiki.Lcategory');
         $types = $this->Ltypes->find('all');
@@ -39,9 +37,8 @@ class LwikiController extends LwikiAppController
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
                 $types = $this->Ltypes->get();
-                $typesAll = $this->Ltypes->Lcategory->find('all', array('Ltypes.name'));
                 $categorys = $this->Lcategory->get();
-                $this->set(compact('types', 'categorys','typesAll'));
+                $this->set(compact('types', 'categorys'));
             }
         } else {
             $this->redirect('/');

@@ -134,17 +134,18 @@
             <div class="box">
                 <div class="box-body">
                     <div class="row">
-                        <?php if ($typesAll): ?>
+                        <?php if ($types): ?>
 
                         <?php endif ?>
-                        <?php foreach ($typesAll as $key => $value): ?>
-                            <?= print_r($value) ?>
+                        <?php foreach ($types as $key => $value): ?>
                             <div class="col-md-12">
-                                <?= $value[$key]['Ltypes']['name'] ?>
+                                <?= $value['Ltypes']['name'] ?>
                                 <div class="row">
-                                    <div class="col-md-11 col-md-offset-1">
-                                        <?= $value['Lcategory']['name'] ?>
-                                    </div>
+                                    <?php foreach ($value['Lcategory'] as $key2 => $value2): ?>
+                                        <div class="col-md-11 col-md-offset-1">
+                                            <?= $value2['name'] ?>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>

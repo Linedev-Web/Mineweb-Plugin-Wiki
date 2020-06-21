@@ -2,14 +2,9 @@
 
 class Ltypes extends LwikiAppModel
 {
-//    public $hasAndBelongsToMany = array('Lcategory');
 
-    public $belongsTo = array(
-        'Lcategory' => array(
-            'className' => 'Lcategory',
-            'foreignKey' => 'id'
-        )
-    );
+//    public $hasAndBelongsToMany = array('Lwiki.Lcategory');
+    public  $hasMany = array('Lwiki.Lcategory');
 
     public $validate = array(
         'name' => array(
@@ -24,9 +19,6 @@ class Ltypes extends LwikiAppModel
         return $this->find('all', array(
             'recursive' => 1
         ));
-    }
-    public function getAll(){
-        return $this->Ltypes->Lcategory->find('all');
     }
 
     public function _delete($id)
