@@ -3,7 +3,6 @@
 class Ltypes extends LwikiAppModel
 {
 
-//    public $hasAndBelongsToMany = array('Lwiki.Lcategory');
     public  $hasMany = array('Lwiki.Lcategory');
 
     public $validate = array(
@@ -17,7 +16,7 @@ class Ltypes extends LwikiAppModel
     public function get()
     {
         return $this->find('all', array(
-            'recursive' => 1
+            'recursive' => 2
         ));
     }
 

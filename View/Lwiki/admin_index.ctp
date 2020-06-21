@@ -1,3 +1,48 @@
+<style>
+    .box-col-header {
+        font-weight: bold;
+        margin-left: -30px;
+    }
+
+    .box-col-header .box-title {
+        font-weight: bold;
+    }
+
+    .col--type {
+        background-color: #fdfdfd;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        margin: 1rem 0;
+        padding: 1rem 15px;
+        position: relative
+    }
+
+    .col--type .box-header {
+
+    }
+
+    .col--category {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem 15px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .fa-arrows {
+        font-size: 20px;
+        cursor: pointer
+    }
+
+    .icon {
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        display: inline-block;
+        width: 45px;
+        position: absolute;
+        top: 0;
+        left: -45px
+    }
+</style>
 <section class="content">
     <div class="row">
         <div class="col-md-6">
@@ -133,22 +178,68 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <div class="row">
-                        <?php if ($types): ?>
-
-                        <?php endif ?>
-                        <?php foreach ($types as $key => $value): ?>
-                            <div class="col-md-12">
-                                <?= $value['Ltypes']['name'] ?>
-                                <div class="row">
-                                    <?php foreach ($value['Lcategory'] as $key2 => $value2): ?>
-                                        <div class="col-md-11 col-md-offset-1">
-                                            <?= $value2['name'] ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="box-header box-col-header">
+                                <h3 class="box-title"><?= $Lang->get('WIKI__type') ?></h3>
                             </div>
-                        <?php endforeach; ?>
+                            <?php foreach ($types as $key => $type): ?>
+                                <div class="col-md-12 col--type">
+                                    <div class="icon">
+                                        <i class="fa fa-arrows"></i>
+                                    </div>
+                                    <blockquote style="display: inline-block">
+                                        <?= $type['Ltypes']['name'] ?>
+                                    </blockquote>
+                                    <div class="row">
+                                        <div class="col-md-11 col-md-offset-1">
+                                            <div class="box-header box-col-header">
+                                                <h3 class="box-title"><?= $Lang->get('WIKI__categorie') ?></h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <?php foreach ($type['Lcategory'] as $key2 => $category): ?>
+                                                <div class="col-md-10 col-md-push-1 col--category">
+                                                    <div class="icon">
+                                                        <i class="fa fa-arrows"></i>
+                                                    </div>
+                                                    <blockquote style="display: inline-block">
+                                                        <?= $category['name'] ?>
+                                                        <?= $category['id'] ?>
+                                                    </blockquote>
+                                                    <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'add/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                                                       class="btn btn-primary"><?= $Lang->get('GLOBAL__ADD') ?></a>
+
+                                                    <div class="row">
+                                                        <div class="col-md-9 col-md-push-2">
+                                                            <div class="box-header box-col-header">
+                                                                <h3 class="box-title"><?= $Lang->get('WIKI__article') ?></h3>
+                                                            </div>
+                                                        </div>
+                                                        <?php foreach ($category['Litem'] as $key3 => $item): ?>
+                                                            <div class="col-md-9 col-md-push-2 col--category">
+
+                                                                <div class="icon">
+                                                                    <i class="fa fa-arrows"></i>
+                                                                </div>
+                                                                <blockquote style="display: inline-block">
+                                                                    <?= $item['name'] ?>
+                                                                </blockquote>
+
+                                                                <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                                                                   class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></a>
+                                                                <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'litem', 'action' => 'delete/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
+                                                                   class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>

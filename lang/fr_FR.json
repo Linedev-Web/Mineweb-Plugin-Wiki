@@ -6,10 +6,9 @@
   "WIKI__add__categorie": "Ajouter une catégorie",
   "WIKI__edit__categorie": "Modifier une catégorie",
   "WIKI__not__categorie": "Nous n'avons pas trouvée de catégorie",
+  "WIKI__article": "Article",
   "WIKI__type": "Type",
   "WIKI__add__type": "Ajouter un type",
   "WIKI__not__type": "Nous n'avons pas trouvée de type",
-  "WIKI__icon": "Icon",
-  "WIKI__add__icon": "Ajouter un icon",
   "WIKI__description": "Ecrire une déscription"
 }

@@ -2,11 +2,17 @@
 
 class Lcategory extends LwikiAppModel
 {
-//    public $hasAndBelongsToMany = array('Lwiki.Ltypes');
+
+    public $hasMany = array(
+        'Litem' => array(
+            'className' => 'Lwiki.Litem',
+            'foreignKey' => 'lcategorie_id'
+        )
+    );
 
     public $belongsTo = array(
         'Ltypes' => array(
-            'className' => 'Ltypes',
+            'className' => 'Lwiki.Ltypes',
             'foreignKey' => 'ltype_id'
         )
     );
