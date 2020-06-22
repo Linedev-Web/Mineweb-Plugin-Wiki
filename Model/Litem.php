@@ -23,7 +23,7 @@ class Litem extends LwikiAppModel
     {
         return $this->find('first', array(
             'conditions' => array('litem.id' => $id),
-            'recursive' => 1
+            'recursive' => 0
         ));
     }
     public function edit($id, $lcategorie_id, $name, $text)

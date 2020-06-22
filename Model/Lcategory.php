@@ -6,8 +6,10 @@ class Lcategory extends LwikiAppModel
     public $hasMany = array(
         'Litem' => array(
             'className' => 'Lwiki.Litem',
-            'foreignKey' => 'lcategorie_id'
-        )
+            'foreignKey' => 'lcategorie_id',
+            'order' => 'Litem.order ASC',
+            'dependent' => true
+        ),
     );
 
     public $belongsTo = array(

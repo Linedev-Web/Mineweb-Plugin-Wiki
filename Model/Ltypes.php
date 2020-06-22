@@ -3,7 +3,11 @@
 class Ltypes extends LwikiAppModel
 {
 
-    public  $hasMany = array('Lwiki.Lcategory');
+    public $hasMany = array(
+        'Lwiki.Lcategory' => array(
+            'order' => 'Lcategory.order ASC',
+            'dependent' => true
+        ));
 
     public $validate = array(
         'name' => array(

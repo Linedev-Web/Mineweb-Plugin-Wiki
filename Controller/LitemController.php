@@ -96,4 +96,70 @@ class LitemController extends LwikiAppController
         }
     }
 
+    public function admin_delete($id)
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
+            $this->autoRender = null;
+
+            $this->loadModel('Lwiki.Litem');
+
+            //J'utilise _delete() car delete() existe déjà avec cakephp
+            $this->Litem->_delete($id);
+
+            //Redirection vers notre page
+            $this->redirect('/admin/lwiki');
+        } else {
+            $this->redirect('/toto');
+        }
+    }
+
+    public function admin_save_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->Permissions->can('MANAGE_NAV')) {
+
+            if ($this->request->is('post')) {
+                if (!empty($this->request->data)) {
+                    $data = $this->request->data['wiki_item_order'];
+                    $data = explode('&', $data);
+                    $i = 1;
+                    foreach ($data as $key => $value) {
+                        $data2[] = explode('=', $value);
+                        $data3 = substr($data2[0][0], 0, -2);
+                        $data1[$data3] = $i;
+                        unset($data3);
+                        unset($data2);
+                        $i++;
+                    }
+                    $data = $data1;
+                    $this->loadModel('Lwiki.Litem');
+                    foreach ($data as $key => $value) {
+                        $find = $this->Litem->find('first', array('conditions' => array('name' => $key)));
+                        if (!empty($find)) {
+                            $id = $find['Litem']['id'];
+                            $this->Litem->read(null, $id);
+                            $this->Litem->set(array(
+                                'order' => $value,
+                            ));
+                            $this->Litem->save();
+                        } else {
+                            $error = 1;
+                        }
+                    }
+                    if (empty($error)) {
+                        return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                    } else {
+                        return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                    }
+                } else {
+                    return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                }
+            } else {
+                return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST')]);
+
+            }
+        } else {
+            $this->redirect('/');
+        }
+    }
 }
