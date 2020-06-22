@@ -122,6 +122,13 @@ class LitemController extends LwikiAppController
                 if (!empty($this->request->data)) {
                     $data = $this->request->data['wiki_item_order'];
                     $data = explode('&', $data);
+
+                    $category = $this->request->data['wiki_category_id'];
+                    $category = explode('-', $category);
+
+                    $itemIdSelected = $this->request->data['wiki_item_id_selected'];
+                    $itemIdSelected = explode('-', $itemIdSelected);
+
                     $i = 1;
                     foreach ($data as $key => $value) {
                         $data2[] = explode('=', $value);
@@ -132,20 +139,34 @@ class LitemController extends LwikiAppController
                         $i++;
                     }
                     $data = $data1;
+
                     $this->loadModel('Lwiki.Litem');
+                    $this->loadModel('Lwiki.Lcategory');
+
+                    $categoryName = $this->Lcategory->findByName($category[0]);
+                    $itemName = $this->Litem->findByName($itemIdSelected[0]);
+
                     foreach ($data as $key => $value) {
-                        $find = $this->Litem->find('first', array('conditions' => array('name' => $key)));
+
+                        $find = $this->Litem->findByName($key);
                         if (!empty($find)) {
                             $id = $find['Litem']['id'];
                             $this->Litem->read(null, $id);
                             $this->Litem->set(array(
                                 'order' => $value,
                             ));
+                            if ($id === $itemName['Litem']['id']) {
+                                $this->Litem->set(array(
+                                    'lcategorie_id' => $categoryName['Lcategory']['id'],
+                                ));
+                            }
                             $this->Litem->save();
                         } else {
                             $error = 1;
                         }
                     }
+
+
                     if (empty($error)) {
                         return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
                     } else {

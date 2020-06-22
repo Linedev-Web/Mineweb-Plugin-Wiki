@@ -135,7 +135,7 @@
 </style>
 <section class="container wiki">
     <div class="row">
-        <div class="col-md-12 col--type">
+        <div class="col-md-12 col--type" id="sortable">
             <div class="box-header box-col-header">
                 <i class="fa fa-folder"></i>
                 <h3 class="box-title">Ajouter une catégorie</h3>
@@ -151,7 +151,8 @@
                     </button>
                 </div>
             </form>
-            <?php foreach ($types as $key => $type): ?>
+            <?php $t = -1;
+            foreach ($types as $key => $type): $i++ ?>
                 <div class="col--drag-type" id="accordion">
                     <?php if (count($type["Ltypes"]) > 1) { ?>
                         <div class="icon">
@@ -205,9 +206,11 @@
                                     </button>
                                 </div>
                             </form>
-                            <?php foreach ($type['Lcategory'] as $key2 => $category): ?>
-                                <div class="col--drag-category">
-                                    <?php if (count($type['Lcategory']) > 1) { ?>
+                            <?php $c = -1;
+                            foreach ($type['Lcategory'] as $key2 => $category): $c++ ?>
+                                <!--                                --><? //= var_dump($type['Lcategory'][$c]) ?>
+                                <div class="col--drag-category" id="<?= $category['name'] ?>-<?= $c ?>">
+                                    <?php if (count($type['Lcategory'][$c]) > 1) { ?>
                                         <div class="icon">
                                             <i class="fa fa-arrows"></i>
                                         </div>
@@ -246,7 +249,7 @@
 
                                     <div id="collapse-category-<?= $category["id"] ?>"
                                          class="panel-collapse collapse in">
-                                        <div class="col--item" id="sortable-item">
+                                        <div class="col--item">
                                             <div class="box-header box-col-header">
                                                 <i class="fa fa-file"></i>
                                                 <h3 class="box-title">Ajouter un article</h3>
@@ -255,10 +258,10 @@
                                                     <i class="fa fa-plus"></i>
                                                 </a>
                                             </div>
-                                            <?php $i=-1; foreach ($category['Litem'] as $key3 => $item): $i++ ?>
+                                            <?php $i = -1;
+                                            foreach ($category['Litem'] as $key3 => $item): $i++ ?>
 
                                                 <div class="col--drag-item" id="<?= $item['name'] ?>-<?= $i ?>">
-                                                    <?= var_dump($category['Litem'][$i]) ?>
                                                     <?php if (count($category['Litem'][$i]) > 1) { ?>
                                                         <div class="icon">
                                                             <i class="fa fa-arrows"></i>
@@ -268,7 +271,6 @@
                                                         <form class="form-inline">
                                                             <div class="form-group">
                                                                 <?= $item['name'] ?>
-                                                                <br><?= $item['order'] ?>
                                                             </div>
                                                             <div class="form-group float-right">
                                                                 <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
@@ -297,21 +299,29 @@
 </section>
 <script>
     $(function () {
-        $("#sortable-item").sortable({
+        $("#sortable").sortable({
             axis: 'y',
             items: '.col--drag-item',
+            revert: true,
+            start: function (evt, ui) {
+                // console.log(this)
+            },
             stop: function (event, ui) {
+                // offsetParent
+                let itemId = $(ui['item'][0]['id'])
                 var inputs = {};
-                var wiki_item_order = $(this).sortable('serialize');
-                inputs['wiki_item_order'] = wiki_item_order;
-                $('#wiki_item_order').text(wiki_item_order);
+
+                inputs['wiki_item_order'] = $(this).sortable('serialize');
+                inputs['wiki_item_id_selected'] = itemId.selector
+                inputs['wiki_category_id'] = $(ui['item'][0]['offsetParent']).attr(('id'))
                 inputs['data[_Token][key]'] = '<?= $csrfToken ?>';
-                $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function(data) {
+
+                $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     console.log(data)
-                    if(data.statut) {
+                    if (data.statut) {
                         $('#save').empty().html('Save');
-                    } else if(!data.statut) {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> '+data.msg+'</i></div>').fadeIn(500);
+                    } else if (!data.statut) {
+                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                     } else {
                         $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
                     }
