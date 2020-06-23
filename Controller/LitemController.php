@@ -3,6 +3,20 @@
 class LitemController extends LwikiAppController
 {
 
+    public function getWiki()
+    {
+
+        $this->autoRender = false;
+        $this->response->type('json');
+        if ($this->request->is('post')) {
+            $this->loadModel('Lwiki.Litem');
+            $id = $this->request->data['id'];
+            $item = $this->Litem->findById($id);
+            $this->response->body(json_encode(array('statut' => true, 'content' => htmlspecialchars_decode($item['Litem']['text']))));
+        }
+
+    }
+
     public function admin_edit($id)
     {
         if ($this->isConnected and $this->User->isAdmin()) {

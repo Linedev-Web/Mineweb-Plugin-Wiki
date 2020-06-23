@@ -6,11 +6,17 @@ class LwikiController extends LwikiAppController
     public function index()
     {
         $this->loadModel('Lwiki.Ltypes');
-        $this->loadModel('Lwiki.Lcategory');
-        $types = $this->Ltypes->find('all');
-        $categorys = $this->Lcategory->find('all');
-        $this->set(compact('types', 'categorys'));
+        $types = $this->Ltypes->get();
+        $this->set(compact('types'));
         $this->set('title_for_layout', 'Wiki');
+
+        if ($this->request->is('get')) {
+            $this->loadModel('Lwiki.Litem');
+            $id = $this->request->param('pass');
+            $item = $this->Litem->findById($id);
+            $text = htmlspecialchars_decode($item['Litem']['text']);
+            $this->set(compact('text'));
+        }
     }
 
     public function admin_index()

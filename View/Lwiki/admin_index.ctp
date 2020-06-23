@@ -210,7 +210,7 @@
                         </blockquote>
 
                         <div id="collapse-type-<?= $type["Ltypes"]["id"] ?>"
-                             class="panel-collapse collapse <?php if ($type["Ltypes"]['collapse']): ?> in<?php endif; ?>">
+                             class="panel-collapse collapse <?php if (!$type["Ltypes"]['collapse']): ?> in<?php endif; ?>">
                             <div class="col--category">
                                 <div class="box-header box-col-header">
                                     <i class="fa fa-folder-open"></i>
@@ -272,7 +272,7 @@
                                             </blockquote>
 
                                             <div id="collapse-category-<?= $category["id"] ?>"
-                                                 class="collapse <?php if ($category['collapse']): ?> in<?php endif; ?>">
+                                                 class="collapse <?php if (!$category['collapse']): ?> in<?php endif; ?>">
                                                 <div class="col--item">
                                                     <div class="box-header box-col-header">
                                                         <i class="fa fa-file"></i>

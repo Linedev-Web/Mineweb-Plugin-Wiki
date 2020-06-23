@@ -1,6 +1,6 @@
-<section class="content">
+<section class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-9 col-md-offset-1">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?= $Lang->get('WIKI__edit__categorie') ?></h3>
@@ -13,10 +13,20 @@
                         <div class="form-group">
                             <input class="form-control" name="name" type="text""/>
                         </div>
+                        <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
+                        <script type="text/javascript">
+                            tinymce.init({
+                                selector: "textarea",
+                                height: 300,
+                                width: '100%',
+                                language: 'fr_FR',
+                                plugins: "textcolor code image link",
+                                toolbar: "fontselect fontsizeselect bold italic underline strikethrough image link forecolor backcolor alignleft aligncenter alignright alignjustify cut copy paste bullist numlist outdent indent blockquote code"
+                            });
+                        </script>
                         <div class="form-group">
-                            <textarea name="text">
-
-                            </textarea>
+                            <label style="display: block" for="type"><?= $Lang->get('WIKI__type') ?></label>
+                            <textarea id="editor" name="text" cols="30" rows="10"></textarea>
                         </div>
 
                         <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__UPDATE') ?></button>
