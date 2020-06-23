@@ -35,13 +35,13 @@ class LitemController extends LwikiAppController
             if ($this->request->is('post')) {
 
                 $id = $this->request->data['id'];
-                $lcategorie_id = $this->request->data['lcategorie_id'];
+                $lcategory_id = $this->request->data['lcategory_id'];
                 $name = $this->request->data['name'];
                 $text = $this->request->data['text'];
 
-                if (!empty($lcategorie_id) && !empty($name) && !empty($text)) {
+                if (!empty($lcategory_id) && !empty($name) && !empty($text)) {
                     $this->loadModel('Lwiki.Litem');
-                    $this->Litem->edit($id, $lcategorie_id, $name, $text);
+                    $this->Litem->edit($id, $lcategory_id, $name, $text);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
 
                 } else {
@@ -55,13 +55,13 @@ class LitemController extends LwikiAppController
         }
     }
 
-    public function admin_add($lcategorie_id)
+    public function admin_add($lcategory_id)
     {
         if ($this->isConnected and $this->User->isAdmin()) {
             $this->layout = 'admin';
 
-            if ($lcategorie_id != false) {
-                $this->set(compact('lcategorie_id'));
+            if ($lcategory_id != false) {
+                $this->set(compact('lcategory_id'));
             } else {
                 $this->redirect('/');
             }
@@ -79,7 +79,7 @@ class LitemController extends LwikiAppController
                 $this->autoRender = null;
                 //Je récupère le champs name="pseudo"
 
-                $categories_id = $this->request->data['lcategorie_id'];
+                $categories_id = $this->request->data['lcategory_id'];
                 $name = $this->request->data['name'];
                 $text = $this->request->data['text'];
 
@@ -120,13 +120,17 @@ class LitemController extends LwikiAppController
 
             if ($this->request->is('post')) {
                 if (!empty($this->request->data)) {
+
+                    //I explode the contents of the wiki_category_name to retrieve the name of each item.
                     $data = $this->request->data['wiki_item_order'];
                     $data = explode('&', $data);
 
-                    $category = $this->request->data['wiki_category_id'];
+                    //I explode the contents of the wiki_category_name to retrieve the name of the selected category.
+                    $category = $this->request->data['wiki_category_name'];
                     $category = explode('-', $category);
 
-                    $itemIdSelected = $this->request->data['wiki_item_id_selected'];
+                    //I explode the contents of the wiki_item_name_selected to retrieve the name of the selected category.
+                    $itemIdSelected = $this->request->data['wiki_item_name_selected'];
                     $itemIdSelected = explode('-', $itemIdSelected);
 
                     $i = 1;
@@ -140,14 +144,15 @@ class LitemController extends LwikiAppController
                     }
                     $data = $data1;
 
+                    //we change the modules
                     $this->loadModel('Lwiki.Litem');
                     $this->loadModel('Lwiki.Lcategory');
 
+                    //We retrieve the information of the element passed in variable ex: id, name, etc...
                     $categoryName = $this->Lcategory->findByName($category[0]);
                     $itemName = $this->Litem->findByName($itemIdSelected[0]);
 
                     foreach ($data as $key => $value) {
-
                         $find = $this->Litem->findByName($key);
                         if (!empty($find)) {
                             $id = $find['Litem']['id'];
@@ -155,9 +160,10 @@ class LitemController extends LwikiAppController
                             $this->Litem->set(array(
                                 'order' => $value,
                             ));
+                            // we check if the id which is in $data exists in our variable $itemName which returns the id of the item selection to it
                             if ($id === $itemName['Litem']['id']) {
                                 $this->Litem->set(array(
-                                    'lcategorie_id' => $categoryName['Lcategory']['id'],
+                                    'lcategory_id' => $categoryName['Lcategory']['id'],
                                 ));
                             }
                             $this->Litem->save();
@@ -165,7 +171,6 @@ class LitemController extends LwikiAppController
                             $error = 1;
                         }
                     }
-
 
                     if (empty($error)) {
                         return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);

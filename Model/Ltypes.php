@@ -20,6 +20,7 @@ class Ltypes extends LwikiAppModel
     public function get()
     {
         return $this->find('all', array(
+            'order' => 'Ltypes.order ASC',
             'recursive' => 2
         ));
     }

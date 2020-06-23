@@ -37,8 +37,7 @@ class LwikiController extends LwikiAppController
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
                 $types = $this->Ltypes->get();
-                $categorys = $this->Lcategory->get();
-                $this->set(compact('types', 'categorys'));
+                $this->set(compact('types'));
             }
         } else {
             $this->redirect('/');
@@ -133,6 +132,61 @@ class LwikiController extends LwikiAppController
             }
         } else {
             throw new ForbiddenException();
+        }
+    }
+
+    public function admin_save_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->Permissions->can('MANAGE_NAV')) {
+
+            if ($this->request->is('post')) {
+                if (!empty($this->request->data)) {
+
+                    //I explode the contents of the wiki_category_order to retrieve the name of each item.
+                    $data = $this->request->data['wiki_type_order'];
+                    $data = explode('&', $data);
+
+                    $i = 1;
+                    foreach ($data as $key => $value) {
+                        $data2[] = explode('=', $value);
+                        $data3 = substr($data2[0][0], 0, -2);
+                        $data1[$data3] = $i;
+                        unset($data3);
+                        unset($data2);
+                        $i++;
+                    }
+                    $data = $data1;
+
+                    $this->loadModel('Lwiki.Ltypes');
+                    foreach ($data as $key => $value) {
+                        $find = $this->Ltypes->findByName($key);
+                        if (!empty($find)) {
+                            $id = $find['Ltypes']['id'];
+                            $this->Ltypes->read(null, $id);
+                            $this->Ltypes->set(array(
+                                'order' => $value,
+                            ));
+                            $this->Ltypes->save();
+                        } else {
+                            $error = 1;
+                        }
+                    }
+
+                    if (empty($error)) {
+                        return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                    } else {
+                        return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                    }
+                } else {
+                    return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                }
+            } else {
+                return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST')]);
+
+            }
+        } else {
+            $this->redirect('/');
         }
     }
 }

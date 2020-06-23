@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group">
                             <label for="type"><?= $Lang->get('WIKI__type') ?></label>
-                            <select class="form-control" name="lcategorie_id">
+                            <select class="form-control" name="lcategory_id">
                                 <option value="<?= $item['id'] ?>"><?= $ltypeId['name'] ?></option>
                                 <?php foreach ($categories as $categorie): ?>
                                     <option value="<?= $categorie["Lcategory"]['id'] ?>"><?= $categorie["Lcategory"]['name'] ?></option>

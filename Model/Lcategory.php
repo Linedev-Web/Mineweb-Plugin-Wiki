@@ -6,7 +6,7 @@ class Lcategory extends LwikiAppModel
     public $hasMany = array(
         'Litem' => array(
             'className' => 'Lwiki.Litem',
-            'foreignKey' => 'lcategorie_id',
+            'foreignKey' => 'lcategory_id',
             'order' => 'Litem.order ASC',
             'dependent' => true
         ),
@@ -15,7 +15,16 @@ class Lcategory extends LwikiAppModel
     public $belongsTo = array(
         'Ltypes' => array(
             'className' => 'Lwiki.Ltypes',
-            'foreignKey' => 'ltype_id'
+            'foreignKey' => 'ltype_id',
+            'counterCache' => true
+        )
+    );
+
+    public $validate = array(
+        'name' => array(
+            'rule' => 'isUnique',
+            'message' => 'Ce nom name déjà utilisée.',
+            'allowEmpty' => false
         )
     );
 

@@ -5,9 +5,19 @@ class Litem extends LwikiAppModel
     public $belongsTo = array(
         'Lcategory' => array(
             'className' => 'Lwiki.Lcategory',
-            'foreignKey' => 'lcategorie_id'
+            'foreignKey' => 'lcategory_id',
+            'counterCache' => true
         )
     );
+
+    public $validate = array(
+        'name' => array(
+            'rule' => 'isUnique',
+            'message' => 'Ce nom name déjà utilisée.',
+            'allowEmpty' => false
+        )
+    );
+
     public function get()
     {
         return $this->find('all', array(
@@ -19,6 +29,7 @@ class Litem extends LwikiAppModel
     {
         return $this->delete($id);
     }
+
     public function getFindId($id)
     {
         return $this->find('first', array(
@@ -26,17 +37,18 @@ class Litem extends LwikiAppModel
             'recursive' => 0
         ));
     }
-    public function edit($id, $lcategorie_id, $name, $text)
+
+    public function edit($id, $lcategory_id, $name, $text)
     {
         $this->read(null, $id);
-        $this->set(['lcategorie_id' => $lcategorie_id, 'name' => $name, 'text' => $text]);
+        $this->set(['lcategory_id' => $lcategory_id, 'name' => $name, 'text' => $text]);
         return $this->save();
     }
 
-    public function add($lcategorie_id, $name, $text)
+    public function add($lcategory_id, $name, $text)
     {
         $this->create();
-        $this->set(['lcategorie_id' => $lcategorie_id, 'name' => $name, 'text' => $text]);
+        $this->set(['lcategory_id' => $lcategory_id, 'name' => $name, 'text' => $text]);
         return $this->save();
     }
 }

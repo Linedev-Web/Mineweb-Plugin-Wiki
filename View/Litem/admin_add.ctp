@@ -9,7 +9,7 @@
                     <form action="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'add_ajax', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           data-redirect-url="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           method="post" data-ajax="true">
-                        <input type="hidden" name="lcategorie_id" value="<?= $lcategorie_id ?>">
+                        <input type="hidden" name="lcategory_id" value="<?= $lcategory_id ?>">
                         <div class="form-group">
                             <input class="form-control" name="name" type="text""/>
                         </div>
