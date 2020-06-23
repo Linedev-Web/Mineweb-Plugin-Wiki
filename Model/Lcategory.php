@@ -41,10 +41,38 @@ class Lcategory extends LwikiAppModel
         return $this->delete($id);
     }
 
-    public function edit($id, $ltype_id, $name)
+
+    public function editTypeAndOrderFindId($id, $order, $category_id, $typeName)
     {
         $this->read(null, $id);
-        $this->set(['ltype_id' => $ltype_id, 'name' => $name]);
+        $this->set(array(
+            'order' => $order,
+        ));
+        if ($id === $category_id) {
+            $this->set(array(
+                'ltype_id' => $typeName,
+            ));
+        }
+        $this->save();
+    }
+
+    public function edit_collapse_ajax($id)
+    {
+        $idCategory = $this->findById($id);
+        if ($idCategory['Lcategory']['collapse'] == '0') {
+            $collapse = 1;
+        } else {
+            $collapse = 0;
+        }
+        $this->read(null, $id);
+        $this->set(['collapse' => $collapse]);
+        return $this->save();
+    }
+
+    public function edit($id, $name)
+    {
+        $this->read(null, $id);
+        $this->set(['name' => $name]);
         return $this->save();
     }
 

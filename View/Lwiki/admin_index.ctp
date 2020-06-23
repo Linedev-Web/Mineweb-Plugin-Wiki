@@ -132,6 +132,15 @@
         cursor: pointer;
     }
 
+    .icon--custom .fa-eye,
+    .icon--custom .fa-eye-slash {
+        background-color: #b3804a;
+    }
+
+    .icon--custom .fa-eye-slash {
+        opacity: 0.5;
+    }
+
     .icon--custom .fa-pencil {
         background-color: #1976d2;
 
@@ -147,7 +156,7 @@
 </style>
 <section class="container wiki  sortable-type">
     <div class="row">
-        <div class="col-md-12 col--type" id="accordion">
+        <div class="col-md-12 col--type">
             <div class="box-header box-col-header">
                 <i class="fa fa-folder"></i>
                 <h3 class="box-title">Ajouter une catégorie</h3>
@@ -192,13 +201,16 @@
                                             </a>
                                 </div>
                             </form>
-                            <a class="icon--custom" data-toggle="collapse" data-parent="#accordion"
+                            <a onclick="collapse(<?= $type['Ltypes']["id"] ?>, event)"
+                               class="icon--custom type <?php if (!$type['Ltypes']['collapse']): ?>collapsed<?php endif; ?>"
+                               data-parent="#accordion" data-toggle="collapse"
                                href="#collapse-type-<?= $type["Ltypes"]["id"] ?>">
                                 <i class="fa fa-chevron-down"></i>
                             </a>
                         </blockquote>
 
-                        <div id="collapse-type-<?= $type["Ltypes"]["id"] ?>" class="panel-collapse collapse in">
+                        <div id="collapse-type-<?= $type["Ltypes"]["id"] ?>"
+                             class="panel-collapse collapse <?php if ($type["Ltypes"]['collapse']): ?> in<?php endif; ?>">
                             <div class="col--category">
                                 <div class="box-header box-col-header">
                                     <i class="fa fa-folder-open"></i>
@@ -209,8 +221,8 @@
                                       method="post" data-upload-image="true" data-ajax="true"
                                       class="form-inline">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" id="name" name="name" required>
-                                        <input class="form-control" type="hidden" id="type" name="type"
+                                        <input class="form-control" type="text" name="name" required>
+                                        <input class="form-control" type="hidden" name="type"
                                                value="<?= $type["Ltypes"]["id"] ?>">
                                     </div>
                                     <div class="form-group">
@@ -251,14 +263,16 @@
                                                            class="icon--custom"><i class="fa fa-trash-o"></i></a>
                                                     </div>
                                                 </form>
-                                                <a class="icon--custom" data-toggle="collapse" data-parent="#accordion"
+                                                <a onclick="collapse(<?= $category["id"] ?>, event)"
+                                                   class="icon--custom category <?php if (!$category['collapse']): ?>collapsed<?php endif; ?>"
+                                                   data-toggle="collapse" data-parent="#accordion"
                                                    href="#collapse-category-<?= $category["id"] ?>">
                                                     <i class="fa fa-chevron-down"></i>
                                                 </a>
                                             </blockquote>
 
                                             <div id="collapse-category-<?= $category["id"] ?>"
-                                                 class="panel-collapse collapse in">
+                                                 class="collapse <?php if ($category['collapse']): ?> in<?php endif; ?>">
                                                 <div class="col--item">
                                                     <div class="box-header box-col-header">
                                                         <i class="fa fa-file"></i>
@@ -283,13 +297,19 @@
                                                                         <?= $item['name'] ?>
                                                                     </div>
                                                                     <div class="form-group float-right">
+                                                                        <a href="#" class="icon--custom item-display"
+                                                                           data-id="<?= $item['id'] ?>">
+                                                                            <i class="
+                                                                           fa <?php if (!$item['display']) { ?> fa-eye <?php } else { ?>
+                                                                           fa-eye-slash <?php } ?>"></i>
+                                                                        </a>
                                                                         <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                                                                           class="icon--custom"><i
-                                                                                    class="fa fa-pencil"></i>
+                                                                           class="icon--custom">
+                                                                            <i class="fa fa-pencil"></i>
                                                                         </a>
                                                                         <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'litem', 'action' => 'delete/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
-                                                                           class="icon--custom"><i
-                                                                                    class="fa fa-trash-o"></i></a>
+                                                                           class="icon--custom">
+                                                                            <i class="fa fa-trash-o"></i></a>
                                                                     </div>
                                                                 </form>
                                                             </blockquote>
@@ -319,7 +339,7 @@
             revert: true,
             stop: function (event, ui) {
                 let itemId = $(ui['item'][0]['id'])
-                var inputs = {};
+                let inputs = {};
 
                 inputs['wiki_item_order'] = $(this).sortable('serialize');
                 inputs['wiki_item_name_selected'] = itemId.selector
@@ -337,7 +357,6 @@
                 });
             }
         });
-        $(".sortable-item").disableSelection();
 
         $(".sortable-category").sortable({
             axis: 'y',
@@ -345,7 +364,7 @@
             revert: true,
             stop: function (event, ui) {
                 let categoryId = $(ui['item'][0]['id'])
-                var inputs = {};
+                let inputs = {};
 
                 inputs['wiki_category_order'] = $(this).sortable('serialize');
                 inputs['wiki_category_name_selected'] = categoryId.selector
@@ -363,20 +382,69 @@
                 });
             }
         });
+        $(".sortable-type").sortable({
+            axis: 'y',
+            items: '.col--drag-type',
+            revert: true,
+            stop: function (event, ui) {
+                let inputs = {};
+
+                inputs['wiki_type_order'] = $(this).sortable('serialize');
+                inputs['data[_Token][key]'] = '<?= $csrfToken ?>';
+
+                $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
+                    if (data.statut) {
+                        editElementToast('success', 'Modification enregistrer')
+                    } else if (!data.statut) {
+                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
+                    } else {
+                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                    }
+                });
+            }
+        });
+
+        $('.item-display').on('click', function (event) {
+            event.preventDefault()
+            let selectId = {};
+            selectId['id'] = $(this).data('id')
+            let button = $(this).find('i')
+            $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
+                if (data.statut) {
+                    if (data.display) {
+                        $(button).replaceWith('<i class="fa fa-eye"></i>')
+                    } else {
+                        $(button).replaceWith('<i class="fa fa-eye-slash"></i>')
+                    }
+                    editElementToast('success', 'Modification enregistrer')
+                } else if (!data.statut) {
+                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
+                } else {
+                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                }
+                return true
+            });
+        })
     });
-    $(".sortable-type").sortable({
-        axis: 'y',
-        items: '.col--drag-type',
-        revert: true,
-        stop: function (event, ui) {
-            var inputs = {};
 
-            inputs['wiki_type_order'] = $(this).sortable('serialize');
-            inputs['data[_Token][key]'] = '<?= $csrfToken ?>';
-            console.log(inputs)
-
-            $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
-                console.log(data)
+    function collapse(id, event) {
+        let selectId = {};
+        selectId['id'] = id
+        let bouton = $(event['path'][1]['classList'][1])
+        if (bouton.selector === 'category') {
+            $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
+                if (data.statut) {
+                    editElementToast('success', 'Modification enregistrer')
+                } else if (!data.statut) {
+                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
+                } else {
+                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                }
+                return true
+            });
+        }
+        if (bouton.selector === 'type') {
+            $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
                 if (data.statut) {
                     editElementToast('success', 'Modification enregistrer')
                 } else if (!data.statut) {
@@ -385,8 +453,10 @@
                     $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
                 }
             });
+            return true
         }
-    });
+    }
+
 
     function editElementToast(icon, title) {
         const Toast = Swal.mixin({

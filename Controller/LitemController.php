@@ -35,13 +35,15 @@ class LitemController extends LwikiAppController
             if ($this->request->is('post')) {
 
                 $id = $this->request->data['id'];
-                $lcategory_id = $this->request->data['lcategory_id'];
                 $name = $this->request->data['name'];
                 $text = $this->request->data['text'];
 
-                if (!empty($lcategory_id) && !empty($name) && !empty($text)) {
+//                var_dump($text);
+//                die();
+
+                if (!empty($name) && !empty($text)) {
                     $this->loadModel('Lwiki.Litem');
-                    $this->Litem->edit($id, $lcategory_id, $name, $text);
+                    $this->Litem->edit($id, $name, $text);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
 
                 } else {
@@ -113,10 +115,26 @@ class LitemController extends LwikiAppController
         }
     }
 
+    public function admin_edit_display_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->User->isAdmin()) {
+
+            if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Litem');
+
+                $id = $this->request->data['id'];
+                $this->Litem->edit_display_ajax($id);
+                $display = $this->Litem->findById($id);
+                return $this->sendJSON(['statut' => true, 'display' => $display['Litem']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+            }
+        }
+    }
+
     public function admin_save_ajax()
     {
         $this->autoRender = false;
-        if ($this->isConnected and $this->Permissions->can('MANAGE_NAV')) {
+        if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
                 if (!empty($this->request->data)) {
@@ -156,17 +174,11 @@ class LitemController extends LwikiAppController
                         $find = $this->Litem->findByName($key);
                         if (!empty($find)) {
                             $id = $find['Litem']['id'];
-                            $this->Litem->read(null, $id);
-                            $this->Litem->set(array(
-                                'order' => $value,
-                            ));
-                            // we check if the id which is in $data exists in our variable $itemName which returns the id of the item selection to it
-                            if ($id === $itemName['Litem']['id']) {
-                                $this->Litem->set(array(
-                                    'lcategory_id' => $categoryName['Lcategory']['id'],
-                                ));
-                            }
-                            $this->Litem->save();
+                            $this->Litem->editCategoryAndOrderFindId(
+                                $id,
+                                $value,
+                                $itemName['Litem']['id'],
+                                $categoryName['Lcategory']['id']);
                         } else {
                             $error = 1;
                         }

@@ -118,10 +118,9 @@ class LwikiController extends LwikiAppController
                     $this->loadModel('Lwiki.Lcategory');
 
                     $id = $this->request->data['id'];
-                    $ltype_id = $this->request->data['type'];
                     $name = $this->request->data['name'];
 
-                    $this->Lcategory->edit($id, $ltype_id, $name);
+                    $this->Lcategory->edit($id, $name);
 
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
                 } else {
@@ -135,10 +134,26 @@ class LwikiController extends LwikiAppController
         }
     }
 
+    public function admin_edit_collapse_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->User->isAdmin()) {
+
+            if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Ltypes');
+
+                $id = $this->request->data['id'];
+                $this->Ltypes->edit_collapse_ajax($id);
+                return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+            }
+        }
+    }
+
+
     public function admin_save_ajax()
     {
         $this->autoRender = false;
-        if ($this->isConnected and $this->Permissions->can('MANAGE_NAV')) {
+        if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
                 if (!empty($this->request->data)) {

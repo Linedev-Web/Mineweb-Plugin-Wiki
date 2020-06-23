@@ -30,10 +30,25 @@ class LcategoryController extends LwikiAppController
         }
     }
 
+    public function admin_edit_collapse_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->User->isAdmin()) {
+
+            if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Lcategory');
+
+                $id = $this->request->data['id'];
+                $this->Lcategory->edit_collapse_ajax($id);
+                return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+            }
+        }
+    }
+
     public function admin_save_ajax()
     {
         $this->autoRender = false;
-        if ($this->isConnected and $this->Permissions->can('MANAGE_NAV')) {
+        if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
                 if (!empty($this->request->data)) {
@@ -76,17 +91,13 @@ class LcategoryController extends LwikiAppController
                         $find = $this->Lcategory->findByName($key);
                         if (!empty($find)) {
                             $id = $find['Lcategory']['id'];
-                            $this->Lcategory->read(null, $id);
-                            $this->Lcategory->set(array(
-                                'order' => $value,
-                            ));
-                            // we check if the id which is in $data exists in our variable $itemName which returns the id of the item selection to it
-                            if ($id === $categoryName['Lcategory']['id']) {
-                                $this->Lcategory->set(array(
-                                    'ltype_id' => $typeName['Ltypes']['id'],
-                                ));
-                            }
-                            $this->Lcategory->save();
+
+                            $this->Lcategory->editTypeAndOrderFindId(
+                                $id,
+                                $value,
+                                $categoryName['Lcategory']['id'],
+                                $typeName['Ltypes']['id']);
+
                         } else {
                             $error = 1;
                         }
