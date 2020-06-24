@@ -12,37 +12,28 @@
                         <ul class="list-group">
                             <?php foreach ($types as $key => $type) { ?>
                                 <li class="list-group-item">
-                                    <a class=""
-                                       href="#type-<?= $type['Ltypes']['id'] ?>"><?= $type['Ltypes']['name'] ?></a>
-                                    <ul class="ml-3">
-                                        <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
-                                            <?php if ($category['display'] == 0): ?>
-                                                <li class="mt-3">
-                                                    <a class="click-element" data-action="category"
-                                                       data-toggle="collapse" role="button" aria-expanded="false"
-                                                       data-id="<?= $category['id'] ?>"
-                                                       href="#category-<?= $category['id'] ?>">
-                                                        <?php if ($category['litem_count']): ?>
-                                                            <i class="fa fa-chevron-right"></i>
-                                                        <?php endif ?>
-                                                        <?= $category['name'] ?></a>
-                                                    <div class="collapse" id="category-<?= $category['id'] ?>">
-                                                        <ul class="ml-3">
-                                                            <?php foreach ($category['Litem'] as $key2 => $item) { ?>
-                                                                <?php if ($item['display'] == 0): ?>
-                                                                    <li class="p-1 m-1">
-                                                                        <a class="click-element" data-action="item"
-                                                                           data-id="<?= $item['id'] ?>"
-                                                                           href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
-                                                                    </li>
-                                                                <?php endif; ?>
-                                                            <?php } ?>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                            <?php endif; ?>
-                                        <?php } ?>
-                                    </ul>
+                                    <a class="" data-action="type" href="#type-<?= $type['Ltypes']['id'] ?>"><?= $type['Ltypes']['name'] ?></a>
+                                    <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
+                                        <?php if ($category['display'] == 0): ?>
+                                            <a class="click-element" data-action="category"
+                                               data-toggle="collapse" role="button" aria-expanded="false"
+                                               data-id="<?= $category['id'] ?>"
+                                               href="#category-<?= $category['id'] ?>">
+                                                <?php if ($category['litem_count']): ?>
+                                                <div class="icon-triangle"></div>
+                                                <?php endif ?>
+                                                <?= $category['name'] ?></a>
+                                            <div class="collapse" id="category-<?= $category['id'] ?>">
+                                                <?php foreach ($category['Litem'] as $key2 => $item) { ?>
+                                                    <?php if ($item['display'] == 0): ?>
+                                                        <a class="click-element" data-action="item"
+                                                           data-id="<?= $item['id'] ?>"
+                                                           href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
+                                                    <?php endif; ?>
+                                                <?php } ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php } ?>
                                 </li>
                             <?php } ?>
                         </ul>
