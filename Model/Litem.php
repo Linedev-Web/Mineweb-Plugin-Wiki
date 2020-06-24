@@ -30,14 +30,6 @@ class Litem extends LwikiAppModel
         return $this->delete($id);
     }
 
-    public function getFindId($id)
-    {
-        return $this->find('first', array(
-            'conditions' => array('litem.id' => $id),
-            'recursive' => 0
-        ));
-    }
-
     public function edit_display_ajax($id)
     {
         $idItem = $this->findById($id);

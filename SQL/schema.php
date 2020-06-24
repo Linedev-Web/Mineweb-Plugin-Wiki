@@ -31,6 +31,7 @@ class LwikiAppSchema extends CakeSchema
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'ltype_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
+        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
         'litem_count' => ['type' => 'integer', 'null' => true, 'default' => 0, 'length' => 20, 'unsigned' => false],
         'collapse' => ['type' => 'tinyint', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [

@@ -11,11 +11,21 @@ class LwikiController extends LwikiAppController
         $this->set('title_for_layout', 'Wiki');
 
         if ($this->request->is('get')) {
-            $this->loadModel('Lwiki.Litem');
-            $id = $this->request->param('pass');
-            $item = $this->Litem->findById($id);
-            $text = htmlspecialchars_decode($item['Litem']['text']);
-            $this->set(compact('text'));
+            $element = $this->request->param('element');
+            $id = $this->request->param('id');
+
+            if ($element === 'item') {
+                $this->loadModel('Lwiki.Litem');
+                $item = $this->Litem->findById($id);
+                $text = htmlspecialchars_decode($item['Litem']['text']);
+                $this->set(compact('text'));
+            }
+            if ($element === 'category') {
+                $this->loadModel('Lwiki.Lcategory');
+                $category = $this->Lcategory->findById($id);
+                $text = htmlspecialchars_decode($category['Lcategory']['text']);
+                $this->set(compact('text'));
+            }
         }
     }
 

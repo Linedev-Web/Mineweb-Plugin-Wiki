@@ -56,6 +56,19 @@ class Lcategory extends LwikiAppModel
         $this->save();
     }
 
+    public function edit_display_ajax($id)
+    {
+        $idCategory = $this->findById($id);
+        if ($idCategory['Lcategory']['display'] == '0') {
+            $display = 1;
+        } else {
+            $display = 0;
+        }
+        $this->read(null, $id);
+        $this->set(['display' => $display]);
+        return $this->save();
+    }
+
     public function edit_collapse_ajax($id)
     {
         $idCategory = $this->findById($id);
@@ -69,10 +82,10 @@ class Lcategory extends LwikiAppModel
         return $this->save();
     }
 
-    public function edit($id, $name)
+    public function edit($id, $name, $text)
     {
         $this->read(null, $id);
-        $this->set(['name' => $name]);
+        $this->set(['name' => $name, 'text' => $text]);
         return $this->save();
     }
 

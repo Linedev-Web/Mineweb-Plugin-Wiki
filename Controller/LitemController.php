@@ -5,16 +5,14 @@ class LitemController extends LwikiAppController
 
     public function getWiki()
     {
-
         $this->autoRender = false;
         $this->response->type('json');
         if ($this->request->is('post')) {
             $this->loadModel('Lwiki.Litem');
             $id = $this->request->data['id'];
             $item = $this->Litem->findById($id);
-            $this->response->body(json_encode(array('statut' => true, 'content' => htmlspecialchars_decode($item['Litem']['text']))));
+            $this->response->body(json_encode(array('statut' => true, 'slug' => $item['Litem']['name'] ,'content' => htmlspecialchars_decode($item['Litem']['text']))));
         }
-
     }
 
     public function admin_edit($id)
@@ -23,14 +21,11 @@ class LitemController extends LwikiAppController
             $this->layout = 'admin';
 
             if ($id != false) {
-                $this->loadModel('Lwiki.Lcategory');
                 $this->loadModel('Lwiki.Litem');
-                $categories = $this->Lcategory->get();
-                $search = $this->Litem->getFindId($id);
+                $search = $this->Litem->findById($id);
                 if (!empty($search)) {
                     $item = $search["Litem"];
-                    $ltypeId = $search['Lcategory'];
-                    $this->set(compact('item', 'categories', 'ltypeId'));
+                    $this->set(compact('item'));
                 } else {
                     throw new NotFoundException();
                 }
@@ -51,9 +46,6 @@ class LitemController extends LwikiAppController
                 $id = $this->request->data['id'];
                 $name = $this->request->data['name'];
                 $text = $this->request->data['text'];
-
-//                var_dump($text);
-//                die();
 
                 if (!empty($name) && !empty($text)) {
                     $this->loadModel('Lwiki.Litem');

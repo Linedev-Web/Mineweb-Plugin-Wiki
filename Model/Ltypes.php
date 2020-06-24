@@ -42,6 +42,7 @@ class Ltypes extends LwikiAppModel
         $this->set(['collapse' => $collapse]);
         return $this->save();
     }
+
     public function edit($id, $name)
     {
         $this->read(null, $id);

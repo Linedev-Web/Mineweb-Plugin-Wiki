@@ -246,19 +246,22 @@
                                                 </div>
                                             <?php } ?>
                                             <blockquote>
-                                                <form action="<?= $this->Html->url(array('controller' => 'Lwiki', 'action' => 'edit_category', 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                                                      data-redirect-url="<?= $this->Html->url(array('controller' => 'Lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                                                      method="post" data-ajax="true" class="form-inline">
+                                                <form class="form-inline">
                                                     <div class="form-group">
-                                                        <input class="form-control" name="name" type="text"
-                                                               value="<?= $category["name"] ?>"/>
-                                                        <input type="hidden" name="id"
-                                                               value="<?= $category["id"] ?>">
+                                                        <?= $category["name"] ?>
                                                     </div>
                                                     <div class="form-group float-right">
-                                                        <button class="icon--custom" type="submit">
+                                                        <a href="#" class="icon--custom element-display"
+                                                           data-id="<?= $category['id'] ?>"
+                                                           data-action="category">
+                                                            <i class="
+                                                           fa <?php if (!$category['display']) { ?> fa-eye <?php } else { ?>
+                                                           fa-eye-slash <?php } ?>"></i>
+                                                        </a>
+                                                        <a class="icon--custom" type="submit"
+                                                           href="<?= $this->Html->url(array('controller' => 'Lcategory', 'action' => 'edit/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>">
                                                             <i class="fa fa-pencil"></i>
-                                                        </button>
+                                                        </a>
                                                         <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'delete/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
                                                            class="icon--custom"><i class="fa fa-trash-o"></i></a>
                                                     </div>
@@ -297,8 +300,9 @@
                                                                         <?= $item['name'] ?>
                                                                     </div>
                                                                     <div class="form-group float-right">
-                                                                        <a href="#" class="icon--custom item-display"
-                                                                           data-id="<?= $item['id'] ?>">
+                                                                        <a href="#" class="icon--custom element-display"
+                                                                           data-id="<?= $item['id'] ?>"
+                                                                           data-action="item">
                                                                             <i class="
                                                                            fa <?php if (!$item['display']) { ?> fa-eye <?php } else { ?>
                                                                            fa-eye-slash <?php } ?>"></i>
@@ -349,10 +353,8 @@
                 $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
                         editElementToast('success', 'Modification enregistrer')
-                    } else if (!data.statut) {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                     } else {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                        editElementToast('error', 'Une erreur vient de se produire')
                     }
                 });
             }
@@ -374,10 +376,8 @@
                 $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
                         editElementToast('success', 'Modification enregistrer')
-                    } else if (!data.statut) {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                     } else {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                        editElementToast('error', 'Une erreur vient de se produire')
                     }
                 });
             }
@@ -395,35 +395,53 @@
                 $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
                         editElementToast('success', 'Modification enregistrer')
-                    } else if (!data.statut) {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                     } else {
-                        $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                        editElementToast('error', 'Une erreur vient de se produire')
                     }
                 });
             }
         });
 
-        $('.item-display').on('click', function (event) {
+        $('.element-display').on('click', function (event) {
             event.preventDefault()
             let selectId = {};
+            let button = {}
             selectId['id'] = $(this).data('id')
-            let button = $(this).find('i')
-            $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
-                if (data.statut) {
-                    if (data.display) {
-                        $(button).replaceWith('<i class="fa fa-eye"></i>')
+            button = $(this)
+            let element = $(this).data('action')
+            console.log(button)
+            console.log(selectId)
+            if (element == "category") {
+                $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
+                    if (data.statut) {
+                        if (data.display == 1) {
+                            $(button).html('<i class="fa fa-eye"></i>')
+                        } else {
+                            $(button).html('<i class="fa fa-eye-slash"></i>')
+                        }
+                        editElementToast('success', 'Modification enregistré')
                     } else {
-                        $(button).replaceWith('<i class="fa fa-eye-slash"></i>')
+                        editElementToast('error', 'Une erreur vient de se produire')
                     }
-                    editElementToast('success', 'Modification enregistrer')
-                } else if (!data.statut) {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
-                } else {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
-                }
-                return true
-            });
+                    return true
+                });
+            }
+            if (element == "item") {
+                $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
+                    console.log(data)
+                    if (data.statut) {
+                        if (data.display == 1) {
+                            $(button).html('<i class="fa fa-eye"></i>')
+                        } else {
+                            $(button).html('<i class="fa fa-eye-slash"></i>')
+                        }
+                        editElementToast('success', 'Modification enregistré')
+                    } else {
+                        editElementToast('error', 'Une erreur vient de se produire')
+                    }
+                    return true
+                });
+            }
         })
     });
 
@@ -435,10 +453,8 @@
             $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
                 if (data.statut) {
                     editElementToast('success', 'Modification enregistrer')
-                } else if (!data.statut) {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                 } else {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                    editElementToast('error', 'Une erreur vient de se produire')
                 }
                 return true
             });
@@ -447,10 +463,8 @@
             $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
                 if (data.statut) {
                     editElementToast('success', 'Modification enregistrer')
-                } else if (!data.statut) {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> ' + data.msg + '</i></div>').fadeIn(500);
                 } else {
-                    $('.ajax-msg').empty().html('<div class="alert alert-danger" style="margin-top:10px;margin-right:10px;margin-left:10px;"><a class="close" data-dismiss="alert">×</a><i class="icon icon-warning-sign"></i> <b><?= $Lang->get('GLOBAL__ERROR') ?> :</b> <?= $Lang->get('ERROR__INTERNAL_ERROR') ?></i></div>');
+                    editElementToast('error', 'Une erreur vient de se produire')
                 }
             });
             return true

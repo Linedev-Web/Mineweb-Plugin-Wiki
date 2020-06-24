@@ -2,6 +2,64 @@
 
 class LcategoryController extends LwikiAppController
 {
+    public function getWiki()
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        if ($this->request->is('post')) {
+            $this->loadModel('Lwiki.Lcategory');
+            $id = $this->request->data['id'];
+            $category = $this->Lcategory->findById($id);
+            $this->response->body(json_encode(array('statut' => true, 'slug' => $category['Lcategory']['name'], 'content' => htmlspecialchars_decode($category['Lcategory']['text']))));
+        }
+    }
+
+    public function admin_edit($id)
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
+            $this->layout = 'admin';
+            if ($id != false) {
+                $this->loadModel('Lwiki.Lcategory');
+                $search = $this->Lcategory->findById($id);
+                if (!empty($search)) {
+                    $category = $search['Lcategory'];
+                    $this->set(compact('category'));
+                } else {
+                    throw new NotFoundException();
+                }
+            } else {
+                $this->redirect('/');
+            }
+        }
+
+    }
+
+    public function admin_edit_ajax()
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        if ($this->isConnected and $this->User->isAdmin()) {
+            if ($this->request->is('post')) {
+
+                $id = $this->request->data['id'];
+                $name = $this->request->data['name'];
+                $text = $this->request->data['text'];
+
+                if (!empty($name) && !empty($text)) {
+                    $this->loadModel('Lwiki.Lcategory');
+                    $this->Lcategory->edit($id, $name, $text);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                }
+            } else {
+                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+    }
 
     public function index()
     {
@@ -20,13 +78,27 @@ class LcategoryController extends LwikiAppController
 
             $this->loadModel('Lwiki.Lcategory');
 
-            //J'utilise _delete() car delete() existe déjà avec cakephp
             $this->Lcategory->_delete($id);
 
-            //Redirection vers notre page
             $this->redirect('/admin/lwiki');
         } else {
             $this->redirect('/toto');
+        }
+    }
+
+    public function admin_edit_display_ajax()
+    {
+        $this->autoRender = false;
+        if ($this->isConnected and $this->User->isAdmin()) {
+
+            if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Lcategory');
+
+                $id = $this->request->data['id'];
+                $this->Lcategory->edit_display_ajax($id);
+                $display = $this->Lcategory->findById($id);
+                return $this->sendJSON(['statut' => true, 'display' => $display['Lcategory']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+            }
         }
     }
 
