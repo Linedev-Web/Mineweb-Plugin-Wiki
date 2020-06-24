@@ -10,38 +10,39 @@
                 <div class="col-md-3">
                     <div id="accordion">
                         <ul class="list-group">
-                            <?php foreach ($types as $key => $type) { ?>
-                                <li class="list-group-item">
-                                    <a class="" data-action="type" href="#type-<?= $type['Ltypes']['id'] ?>"><?= $type['Ltypes']['name'] ?></a>
-                                    <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
-                                        <?php if ($category['display'] == 0): ?>
-                                            <a class="click-element" data-action="category"
-                                               data-toggle="collapse" role="button" aria-expanded="false"
-                                               data-id="<?= $category['id'] ?>"
-                                               href="#category-<?= $category['id'] ?>">
-                                                <?php if ($category['litem_count']): ?>
-                                                <div class="icon-triangle"></div>
-                                                <?php endif ?>
-                                                <?= $category['name'] ?></a>
-                                            <div class="collapse" id="category-<?= $category['id'] ?>">
-                                                <?php foreach ($category['Litem'] as $key2 => $item) { ?>
-                                                    <?php if ($item['display'] == 0): ?>
-                                                        <a class="click-element" data-action="item"
-                                                           data-id="<?= $item['id'] ?>"
-                                                           href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
-                                                    <?php endif; ?>
-                                                <?php } ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php } ?>
-                                </li>
-                            <?php } ?>
+                          <?php foreach ($types as $key => $type) { ?>
+                              <li class="list-group-item">
+                                  <a class="" data-action="type"
+                                     href="#type-<?= $type['Ltypes']['id'] ?>"><?= $type['Ltypes']['name'] ?></a>
+                                <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
+                                  <?php if ($category['display'] == 0): ?>
+                                        <a class="click-element" data-action="category"
+                                           data-toggle="collapse" role="button" aria-expanded="false"
+                                           data-id="<?= $category['id'] ?>"
+                                           href="#category-<?= $category['id'] ?>">
+                                          <?php if ($category['litem_count']): ?>
+                                              <div class="icon-triangle"></div>
+                                          <?php endif ?>
+                                          <?= $category['name'] ?></a>
+                                        <div class="collapse" id="category-<?= $category['id'] ?>">
+                                          <?php foreach ($category['Litem'] as $key2 => $item) { ?>
+                                            <?php if ($item['display'] == 0): ?>
+                                                  <a class="click-element" data-action="item"
+                                                     data-id="<?= $item['id'] ?>"
+                                                     href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
+                                            <?php endif; ?>
+                                          <?php } ?>
+                                        </div>
+                                  <?php endif; ?>
+                                <?php } ?>
+                              </li>
+                          <?php } ?>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="replace-element">
-                        <?= $text ?>
+                      <?= $text ?>
                     </div>
                 </div>
             </div>
@@ -108,32 +109,26 @@
             return str;
         }
 
-        function insertParam(key, value) {
-            key = encodeURIComponent(key);
-            value = encodeURIComponent(value);
-
-            // kvp looks like ['key1=value1', 'key2=value2', ...]
-            var kvp = document.location.search.substr(1).split('&');
-            let i = 0;
-
-            for (; i < kvp.length; i++) {
-                if (kvp[i].startsWith(key + '=')) {
-                    let pair = kvp[i].split('=');
-                    pair[1] = value;
-                    kvp[i] = pair.join('=');
-                    break;
+        $(document).ready(function () {
+            let kvp = document.location['pathname'];
+            let data = kvp.split('&')
+            url = {}
+            url['element'] = data[0].split('/')[2]
+            url['id'] = data[2]
+            console.log(url.element)
+            $button = $('.click-element')
+            $button.each(function () {
+                if ($(this).data('action') == url.element && $(this).data('id') == url.id) {
+                    $(this).addClass('active')
+                    if ($(this).data('action') == 'item') {
+                        $(this).closest('.collapse').addClass('show')
+                    }
                 }
-            }
-
-            if (i >= kvp.length) {
-                kvp[kvp.length] = [key, value].join('=');
-            }
-
-            // can return this or...
-            let params = kvp.join('&');
-
-            // reload page with new params
-            document.location.search = params;
-        }
+            })
+            $button.on('click', function () {
+                $('a').removeClass('active')
+                $(this).addClass('active')
+            })
+        })
     </script>
 </div>
