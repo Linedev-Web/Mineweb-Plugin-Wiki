@@ -1,17 +1,17 @@
 {
-  "name": "Wiki",
+  "name": "   Wiki",
   "admin_menus": {
     "Wiki": {
-      "icon": "user",
+      "icon": "wikipedia-w",
       "index": "3",
       "menu": {
-        "Gérer le Wiki": {
-          "icon": "user",
-          "route": "/admin/lwiki"
+        "Configuration du wiki": {
+          "icon": "cogs",
+          "route": "/admin/lwiki/config"
         },
-        "Gérer les catégories": {
-          "icon": "user",
-          "route": "/admin/lwiki/lcategorie"
+        "Gérer le Wiki": {
+          "icon": "list-alt",
+          "route": "/admin/lwiki"
         }
       }
     }

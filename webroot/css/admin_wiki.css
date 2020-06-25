@@ -1,0 +1,205 @@
+.popup-class {
+    font-size: 2rem;
+}
+
+.box-col-header {
+    margin-left: -30px;
+}
+
+input {
+    min-width: 250px;
+}
+
+form,
+a[data-toggle="collapse"] {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.float-right {
+    float: right;
+}
+
+a[data-toggle="collapse"] {
+    transition: transform 0.25s ease;
+    transform: rotate(-180deg);
+    color: #000;
+}
+
+a[data-toggle="collapse"].collapsed {
+    transform: rotate(0deg);
+}
+
+.box-col-header .box-title {
+    font-weight: bold;
+}
+
+.ui-sortable-helper {
+    left: 45px !important;
+}
+
+.col--category,
+.col--item {
+    padding-left: 50px;
+}
+
+.col--type {
+    padding: 0;
+}
+
+.col--type > form {
+    background-color: rgba(222, 222, 222, 0.56);
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+
+.col--category {
+    width: 95%;
+    margin: 0;
+}
+
+.col--category > form {
+    margin-bottom: 1rem;
+}
+
+.col--item {
+    margin: 1rem 0 2rem 0;
+    padding-bottom: 1rem;
+    background-color: rgba(222, 222, 222, 0.56);
+    border-radius: 8px;
+    display: inline-block;
+    width: 100%;
+}
+
+.col--drag-type,
+.col--drag-category,
+.col--drag-item {
+    position: relative
+}
+
+.col--drag-type.fixed,
+.col--drag-category.fixed,
+.col--drag-item.fixed {
+    height: 10px;
+    width: 100%;
+}
+
+.col--drag-type > blockquote {
+    background-color: rgba(222, 222, 222, 0.56);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.col--drag-category blockquote {
+}
+
+.col--drag-item blockquote {
+
+}
+
+.col--drag-type {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin-bottom: 0;
+    border-left: 0;
+    width: 100%;
+}
+
+
+.col--drag-category blockquote,
+.col--drag-item blockquote {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16), 0 2px 3px rgba(0, 0, 0, 0.23);
+    margin-bottom: 1rem;
+    width: 100%;
+    border-left: 0;
+}
+
+.col--drag-type blockquote form,
+.col--drag-category blockquote form,
+.col--drag-item blockquote form {
+    flex: 0 1 100%;
+    width: 100%;
+}
+
+
+.col--drag-type {
+    background-color: white;
+    margin-bottom: 5rem;
+    padding-bottom: 2rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.col--drag-category {
+}
+
+.col--drag-item {
+    margin-right: 5%;
+}
+
+.fa-arrows {
+    font-size: 20px;
+    cursor: pointer
+}
+
+.icon {
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    display: inline-block;
+    width: 45px;
+    position: absolute;
+    top: 10px;
+    left: -45px
+}
+
+.wiki button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.icon--custom {
+    margin: 0 0.3em;
+}
+
+.icon--custom .fa {
+    color: #fff;
+    background-color: #00a65a;
+    text-align: center;
+    border-radius: 10px;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.icon--custom .fa-eye,
+.icon--custom .fa-eye-slash {
+    background-color: #b3804a;
+}
+
+.icon--custom .fa-eye-slash {
+    opacity: 0.5;
+}
+
+.icon--custom .fa-pencil {
+    background-color: #1976d2;
+
+}
+
+.icon--custom .fa-trash-o {
+    background-color: #d32f2f;
+}
+
+.icon--custom .fa-chevron-down {
+    background-color: #d2d2d2;
+}

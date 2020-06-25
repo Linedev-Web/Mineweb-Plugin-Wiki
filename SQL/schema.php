@@ -52,4 +52,11 @@ class LwikiAppSchema extends CakeSchema
         ],
         'tableParameters' => ['charset' => 'utf8mb4', 'collate' => 'utf8mb4_unicode_ci ', 'encoding ' => 'utf8mb4', 'engine' => 'InnoDB']
     ];
+    public $lwiki__lconfigs = [
+        'title' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
+        'content' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'color' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'position' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'tableParameters' => ['charset' => 'utf8mb4', 'collate' => 'utf8mb4_unicode_ci ', 'encoding ' => 'utf8mb4', 'engine' => 'InnoDB']
+    ];
 }

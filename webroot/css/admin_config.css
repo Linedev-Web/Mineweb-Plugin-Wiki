@@ -1,0 +1,49 @@
+#canva-wiki {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto 10rem;
+}
+
+.color--background {
+    background: red;
+}
+
+.color--background .color--block {
+    margin: 0.5rem;
+    width: 150px;
+    padding: 1rem;
+}
+
+.block--random {
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.block--random .block-text {
+    margin: 0.5rem;
+    padding: 1rem;
+    background: #0b2e13;
+}
+
+.block--random .block-text:nth-child(odd) {
+    width: 160px;
+}
+
+.block--random .block-text:nth-child(even) {
+    width: 230px;
+}
+
+.block--random .block-text:nth-child(3 ) {
+    width: 400px;
+}
+
+
+.color--block {
+    background: blue;
+}
+
+.color--text {
+    color: white;
+}
