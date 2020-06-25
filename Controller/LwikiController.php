@@ -35,18 +35,17 @@ class LwikiController extends LwikiAppController
             $this->loadModel('Lwiki.Ltypes');
             $this->loadModel('Lwiki.Lcategory');
 
-            //Si la requete est de type ajax
             if ($this->request->is('ajax')) {
                 $this->autoRender = null;
-                //Je récupère le champs name="pseudo"
-                $name = $this->request->data['name'];
 
+
+                $this->Ltypes->set($this->request->data);
                 if ($this->Ltypes->validates()) {
+                    $name = $this->request->data['name'];
                     $this->Ltypes->add($name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
-
                 } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Ltypes->validationErrors))));
                 }
 //                if ($name) {
             } else {
@@ -66,14 +65,19 @@ class LwikiController extends LwikiAppController
         $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
-                if (!empty($this->request->data['name'])) {
-                    $this->loadModel('Lwiki.Ltypes');
+
+                $this->loadModel('Lwiki.Ltypes');
+
+                $this->Ltypes->set($this->request->data);
+                if ($this->Ltypes->validates()) {
+
                     $id = $this->request->data['id'];
                     $name = $this->request->data['name'];
                     $this->Ltypes->edit($id, $name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+
                 } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Ltypes->validationErrors))));
                 }
             } else {
                 $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
@@ -90,10 +94,8 @@ class LwikiController extends LwikiAppController
 
             $this->loadModel('Lwiki.Ltypes');
 
-            //J'utilise _delete() car delete() existe déjà avec cakephp
             $this->Ltypes->_delete($id);
 
-            //Redirection vers notre page
             $this->redirect('/admin/lwiki');
         } else {
             $this->redirect('/toto');
@@ -105,14 +107,20 @@ class LwikiController extends LwikiAppController
         if ($this->isConnected and $this->User->isAdmin()) {
             $this->loadModel('Lwiki.Lcategory');
 
-            //Si la requete est de type ajax
+            $this->autoRender = null;
             if ($this->request->is('ajax')) {
-                $this->autoRender = null;
-                //Je récupère le champs name="pseudo"
-                $types_id = $this->request->data['type'];
-                $name = $this->request->data['name'];
-                $this->Lcategory->add($types_id, $name);
-                $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+
+                $this->Lcategory->set($this->request->data);
+                if ($this->Lcategory->validates()) {
+
+                    $types_id = $this->request->data['type'];
+                    $name = $this->request->data['name'];
+                    $this->Lcategory->add($types_id, $name);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
+                }
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
@@ -130,17 +138,19 @@ class LwikiController extends LwikiAppController
         $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
-                if (!empty($this->request->data['name'])) {
-                    $this->loadModel('Lwiki.Lcategory');
+                $this->loadModel('Lwiki.Lcategory');
+
+                $this->Lcategory->set($this->request->data);
+                if ($this->Lcategory->validates()) {
 
                     $id = $this->request->data['id'];
                     $name = $this->request->data['name'];
 
                     $this->Lcategory->edit($id, $name);
-
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+
                 } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
                 }
             } else {
                 $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
@@ -190,24 +200,30 @@ class LwikiController extends LwikiAppController
                     $data = $data1;
 
                     $this->loadModel('Lwiki.Ltypes');
-                    foreach ($data as $key => $value) {
-                        $find = $this->Ltypes->findByName($key);
-                        if (!empty($find)) {
-                            $id = $find['Ltypes']['id'];
-                            $this->Ltypes->read(null, $id);
-                            $this->Ltypes->set(array(
-                                'order' => $value,
-                            ));
-                            $this->Ltypes->save();
-                        } else {
-                            $error = 1;
-                        }
-                    }
 
-                    if (empty($error)) {
-                        return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                    $this->Ltypes->set($this->request->data);
+                    if ($this->Ltypes->validates()) {
+                        foreach ($data as $key => $value) {
+                            $find = $this->Ltypes->findByName($key);
+                            if (!empty($find)) {
+                                $id = $find['Ltypes']['id'];
+                                $this->Ltypes->read(null, $id);
+                                $this->Ltypes->set(array(
+                                    'order' => $value,
+                                ));
+                                $this->Ltypes->save();
+                            } else {
+                                $error = 1;
+                            }
+                        }
+
+                        if (empty($error)) {
+                            return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                        } else {
+                            return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                        }
                     } else {
-                        return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                        $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Ltypes->validationErrors))));
                     }
                 } else {
                     return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);

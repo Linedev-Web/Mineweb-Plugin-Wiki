@@ -19,7 +19,7 @@ class LwikiAppSchema extends CakeSchema
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
         'lcategory_count' => ['type' => 'integer', 'null' => true, 'default' => 0, 'length' => 20, 'unsigned' => false],
-        'collapse' => ['type' => 'tinyint', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
+        'collapse' => ['type' => 'tinyinteger', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
@@ -33,7 +33,7 @@ class LwikiAppSchema extends CakeSchema
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
         'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
         'litem_count' => ['type' => 'integer', 'null' => true, 'default' => 0, 'length' => 20, 'unsigned' => false],
-        'collapse' => ['type' => 'tinyint', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
+        'collapse' => ['type' => 'tinyinteger', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
@@ -46,7 +46,7 @@ class LwikiAppSchema extends CakeSchema
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
         'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
-        'display' => ['type' => 'tinyint', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
+        'display' => ['type' => 'tinyinteger', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],

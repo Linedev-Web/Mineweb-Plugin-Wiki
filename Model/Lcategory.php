@@ -21,11 +21,29 @@ class Lcategory extends LwikiAppModel
     );
 
     public $validate = array(
+        'id' => array(
+            'rule' => 'naturalNumber',
+            'message' => 'l\'identification de l\'id, actualiser la page pour corriger le problème.'
+        ),
+        'order' => array(
+            'rule' => 'naturalNumber',
+            'message' => 'l\'ordre de la sous-catégorie est erroné'
+        ),
+        'ltype_id' => array(
+            'rule' => 'naturalNumber',
+            'message' => 'Identification de l\'id Type, actualiser la page pour corriger le problème.'
+        ),
         'name' => array(
-            'rule' => 'isUnique',
-            'message' => 'Ce nom name déjà utilisée.',
-            'allowEmpty' => false
-        )
+            'between' => array(
+                'rule' => array('between', 1, 30),
+                'message' => 'Le nom de sous-catégorie doit avoir une longueur comprise entre 1 et 30 caractères.',
+                'allowEmpty' => false
+            ),
+            'isUnique' => array(
+                'rule' => 'isUnique',
+                'message' => 'Cette sous-catégorie a déjà êtes crée.',
+                'allowEmpty' => false)
+        ),
     );
 
     public function get()

@@ -10,12 +10,27 @@ class Litem extends LwikiAppModel
         )
     );
 
+
     public $validate = array(
+        'id' => array(
+            'rule' => 'naturalNumber',
+            'message' => 'Une erreur d\'identification de l\'id, actualiser la page pour corriger le problème.'
+        ),
+        'order' => array(
+            'rule' => 'naturalNumber',
+            'message' => 'Une erreur l\'ordre de l\'article est erroné'
+        ),
         'name' => array(
-            'rule' => 'isUnique',
-            'message' => 'Ce nom name déjà utilisée.',
-            'allowEmpty' => false
-        )
+            'between' => array(
+                'rule' => array('between', 1, 30),
+                'message' => 'Le nom de l\'article doit avoir une longueur comprise entre 1 et 30 caractères.',
+                'allowEmpty' => false
+            ),
+            'isUnique' => array(
+                'rule' => 'isUnique',
+                'message' => 'Cette article a déjà êtes crée.',
+                'allowEmpty' => false)
+        ),
     );
 
     public function get()

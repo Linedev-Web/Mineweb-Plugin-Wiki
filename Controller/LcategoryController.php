@@ -40,18 +40,18 @@ class LcategoryController extends LwikiAppController
         $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Lcategory');
 
                 $id = $this->request->data['id'];
                 $name = $this->request->data['name'];
                 $text = $this->request->data['text'];
 
-                if (!empty($name) && !empty($text)) {
-                    $this->loadModel('Lwiki.Lcategory');
+                $this->Lcategory->set($this->request->data);
+                if ($this->Lcategory->validates()) {
                     $this->Lcategory->edit($id, $name, $text);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
-
                 } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
                 }
             } else {
                 $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
@@ -156,8 +156,6 @@ class LcategoryController extends LwikiAppController
                     //We retrieve the information of the element passed in variable ex: id, name, etc...
                     $typeName = $this->Ltypes->findByName($category[0]);
                     $categoryName = $this->Lcategory->findByName($itemIdSelected[0]);
-//                    var_dump($typeName);
-//                    die();
 
                     foreach ($data as $key => $value) {
                         $find = $this->Lcategory->findByName($key);

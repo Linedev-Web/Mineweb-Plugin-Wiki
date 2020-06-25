@@ -1,22 +1,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.1/dist/sweetalert2.all.min.js"></script>
 <style>
+
     .popup-class {
         font-size: 2rem;
     }
 
     .box-col-header {
-        font-weight: bold;
         margin-left: -30px;
+    }
+
+    input {
+        min-width: 250px;
     }
 
     form,
     a[data-toggle="collapse"] {
         display: inline-block;
         vertical-align: middle;
-    }
-
-    form {
-        width: 90%;
     }
 
     .float-right {
@@ -43,17 +43,39 @@
 
     .col--category,
     .col--item {
-        border-left: 2px solid rgba(190, 190, 190, 0.56);
         padding-left: 50px;
     }
 
     .col--type {
+        padding: 0;
     }
 
+    .col--type > form {
+        background-color: rgba(222, 222, 222, 0.56);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 1rem;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+
     .col--category {
+        width: 95%;
+        margin: 0;
+    }
+
+    .col--category > form {
+        margin-bottom: 1rem;
     }
 
     .col--item {
+        margin: 1rem 0 2rem 0;
+        padding-bottom: 1rem;
+        background-color: rgba(222, 222, 222, 0.56);
+        border-radius: 8px;
+        display: inline-block;
+        width: 100%;
     }
 
     .col--drag-type,
@@ -69,28 +91,60 @@
         width: 100%;
     }
 
-    .col--drag-type blockquote,
+    .col--drag-type > blockquote {
+        background-color: rgba(222, 222, 222, 0.56);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .col--drag-category blockquote {
+    }
+
+    .col--drag-item blockquote {
+
+    }
+
+    .col--drag-type {
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        margin-bottom: 0;
+        border-left: 0;
+        width: 100%;
+    }
+
+
     .col--drag-category blockquote,
     .col--drag-item blockquote {
-        background-color: #fdfdfd;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-        margin: 1rem 0;
-        padding: 1rem 15px;
-        border-radius: 8px;
+        display: flex;
+        align-content: center;
+        justify-content: flex-end;
+        background-color: white;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16), 0 2px 3px rgba(0, 0, 0, 0.23);
+        margin-bottom: 1rem;
+        width: 100%;
+        border-left: 0;
+    }
+
+    .col--drag-type blockquote form,
+    .col--drag-category blockquote form,
+    .col--drag-item blockquote form {
+        flex: 0 1 100%;
         width: 100%;
     }
 
 
     .col--drag-type {
-        border-bottom: 2px solid rgba(190, 190, 190, 0.56);
-        margin-bottom: 10rem;
+        background-color: white;
+        margin-bottom: 5rem;
+        padding-bottom: 2rem;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
     }
 
     .col--drag-category {
-        margin-bottom: 5rem;
     }
 
     .col--drag-item {
+        margin-right: 5%;
     }
 
     .fa-arrows {
@@ -126,9 +180,9 @@
         text-align: center;
         border-radius: 10px;
         display: inline-block;
-        height: 40px;
-        width: 40px;
-        line-height: 40px;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
         cursor: pointer;
     }
 
@@ -157,14 +211,11 @@
 <section class="container wiki  sortable-type">
     <div class="row">
         <div class="col-md-12 col--type">
-            <div class="box-header box-col-header">
-                <i class="fa fa-folder"></i>
-                <h3 class="box-title">Ajouter une catégorie</h3>
-            </div>
             <form action="" class="form-inline" method="post" data-ajax="true"
                   data-redirect-url="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'admin' => true)) ?>">
                 <div class="form-group">
-                    <input type="text" name="name" class="form-control" required/>
+                    <i class="fa fa-folder" style="margin-right: 1rem"></i>
+                    <input type="text" name="name" class="form-control" placeholder="Ajouter une catégorie" required/>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="icon--custom">
@@ -194,34 +245,32 @@
                                 <div class="form-group float-right">
                                     <button type="submit" class="icon--custom">
                                         <i class="fa fa-pencil"></i>
-                                        <button>
-                                            <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'delete/' . $type['Ltypes']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
-                                               class="icon--custom">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
+                                    </button>
+                                    <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'delete/' . $type['Ltypes']['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
+                                       class="icon--custom">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    <a onclick="collapse(<?= $type['Ltypes']["id"] ?>, event)"
+                                       class="icon--custom type <?php if (!$type['Ltypes']['collapse']): ?>collapsed<?php endif; ?>"
+                                       data-parent="#accordion" data-toggle="collapse"
+                                       href="#collapse-type-<?= $type["Ltypes"]["id"] ?>">
+                                        <i class="fa fa-chevron-down"></i>
+                                    </a>
                                 </div>
                             </form>
-                            <a onclick="collapse(<?= $type['Ltypes']["id"] ?>, event)"
-                               class="icon--custom type <?php if (!$type['Ltypes']['collapse']): ?>collapsed<?php endif; ?>"
-                               data-parent="#accordion" data-toggle="collapse"
-                               href="#collapse-type-<?= $type["Ltypes"]["id"] ?>">
-                                <i class="fa fa-chevron-down"></i>
-                            </a>
                         </blockquote>
 
                         <div id="collapse-type-<?= $type["Ltypes"]["id"] ?>"
-                             class="panel-collapse collapse <?php if (!$type["Ltypes"]['collapse']): ?> in<?php endif; ?>">
+                             class="collapse <?php if (!$type["Ltypes"]['collapse']): ?> in<?php endif; ?>">
                             <div class="col--category">
-                                <div class="box-header box-col-header">
-                                    <i class="fa fa-folder-open"></i>
-                                    <h3 class="box-title">Ajouter une sous-catégorie</h3>
-                                </div>
                                 <form action="<?= $this->Html->url(array('controller' => 'Lwiki', 'action' => 'add_category')) ?>"
                                       data-redirect-url="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'admin' => true)) ?>"
                                       method="post" data-upload-image="true" data-ajax="true"
                                       class="form-inline">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="name" required>
+                                        <i class="fa fa-folder-open" style="margin-right: 1rem"></i>
+                                        <input class="form-control" type="text" name="name"
+                                               placeholder="Ajouter une sous-catégorie" required>
                                         <input class="form-control" type="hidden" name="type"
                                                value="<?= $type["Ltypes"]["id"] ?>">
                                     </div>
@@ -250,22 +299,20 @@
                                                     <div class="form-group">
                                                         <?= $category["name"] ?>
                                                     </div>
-                                                    <div class="form-group float-right">
-                                                        <a href="#" class="icon--custom element-display"
-                                                           data-id="<?= $category['id'] ?>"
-                                                           data-action="category">
-                                                            <i class="
+                                                </form>
+                                                <a href="#" class="icon--custom element-display"
+                                                   data-id="<?= $category['id'] ?>"
+                                                   data-action="category">
+                                                    <i class="
                                                            fa <?php if (!$category['display']) { ?> fa-eye <?php } else { ?>
                                                            fa-eye-slash <?php } ?>"></i>
-                                                        </a>
-                                                        <a class="icon--custom" type="submit"
-                                                           href="<?= $this->Html->url(array('controller' => 'Lcategory', 'action' => 'edit/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                        <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'delete/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
-                                                           class="icon--custom"><i class="fa fa-trash-o"></i></a>
-                                                    </div>
-                                                </form>
+                                                </a>
+                                                <a class="icon--custom" type="submit"
+                                                   href="<?= $this->Html->url(array('controller' => 'Lcategory', 'action' => 'edit/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'delete/' . $category['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
+                                                   class="icon--custom"><i class="fa fa-trash-o"></i></a>
                                                 <a onclick="collapse(<?= $category["id"] ?>, event)"
                                                    class="icon--custom category <?php if (!$category['collapse']): ?>collapsed<?php endif; ?>"
                                                    data-toggle="collapse" data-parent="#accordion"
@@ -294,28 +341,26 @@
                                                                     <i class="fa fa-arrows"></i>
                                                                 </div>
                                                             <?php } ?>
-                                                            <blockquote style="display: inline-block">
+                                                            <blockquote>
                                                                 <form class="form-inline">
                                                                     <div class="form-group">
                                                                         <?= $item['name'] ?>
                                                                     </div>
-                                                                    <div class="form-group float-right">
-                                                                        <a href="#" class="icon--custom element-display"
-                                                                           data-id="<?= $item['id'] ?>"
-                                                                           data-action="item">
-                                                                            <i class="
+                                                                </form>
+                                                                <a href="#" class="icon--custom element-display"
+                                                                   data-id="<?= $item['id'] ?>"
+                                                                   data-action="item">
+                                                                    <i class="
                                                                            fa <?php if (!$item['display']) { ?> fa-eye <?php } else { ?>
                                                                            fa-eye-slash <?php } ?>"></i>
-                                                                        </a>
-                                                                        <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                                                                           class="icon--custom">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'litem', 'action' => 'delete/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
-                                                                           class="icon--custom">
-                                                                            <i class="fa fa-trash-o"></i></a>
-                                                                    </div>
-                                                                </form>
+                                                                </a>
+                                                                <a href="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                                                                   class="icon--custom">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a>
+                                                                <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'litem', 'action' => 'delete/' . $item['id'], 'plugin' => 'lwiki', 'admin' => true)) ?>')"
+                                                                   class="icon--custom">
+                                                                    <i class="fa fa-trash-o"></i></a>
                                                             </blockquote>
                                                         </div>
                                                     <?php endforeach; ?>
@@ -339,6 +384,7 @@
     $(function () {
         $(".sortable-item").sortable({
             axis: 'y',
+            delay: 300,
             items: '.col--drag-item',
             revert: true,
             stop: function (event, ui) {
@@ -362,6 +408,7 @@
 
         $(".sortable-category").sortable({
             axis: 'y',
+            delay: 300,
             items: '.col--drag-category',
             revert: true,
             stop: function (event, ui) {
@@ -384,6 +431,7 @@
         });
         $(".sortable-type").sortable({
             axis: 'y',
+            delay: 300,
             items: '.col--drag-type',
             revert: true,
             stop: function (event, ui) {
@@ -409,10 +457,9 @@
             selectId['id'] = $(this).data('id')
             button = $(this)
             let element = $(this).data('action')
-            console.log(button)
-            console.log(selectId)
             if (element == "category") {
                 $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
+                    console.log(data)
                     if (data.statut) {
                         if (data.display == 1) {
                             $(button).html('<i class="fa fa-eye"></i>')
