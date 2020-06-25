@@ -14,27 +14,31 @@
                                 <li class="list-group-item">
                                     <a class="" data-action="type"
                                        href="#"><?= $type['Ltypes']['name'] ?></a>
-                                    <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
-                                        <?php if ($category['display'] == 0): ?>
-                                            <a class="click-element" data-action="category"
-                                               data-toggle="collapse" role="button" aria-expanded="false"
-                                               data-id="<?= $category['id'] ?>"
-                                               href="#category-<?= $category['id'] ?>">
-                                                <?php if ($category['litem_count']): ?>
-                                                    <div class="icon-triangle"></div>
-                                                <?php endif ?>
-                                                <?= $category['name'] ?></a>
-                                            <div class="collapse" id="category-<?= $category['id'] ?>">
-                                                <?php foreach ($category['Litem'] as $key2 => $item) { ?>
-                                                    <?php if ($item['display'] == 0): ?>
-                                                        <a class="click-element" data-action="item"
-                                                           data-id="<?= $item['id'] ?>"
-                                                           href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
+                                    <?php if ($type['Lcategory'] != "undefined"): ?>
+                                        <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
+                                            <?php if ($category['display'] == 0): ?>
+                                                <a class="click-element" data-action="category"
+                                                   data-toggle="collapse" role="button" aria-expanded="false"
+                                                   data-id="<?= $category['id'] ?>"
+                                                   href="#category-<?= $category['id'] ?>">
+                                                    <?php if ($category['litem_count']): ?>
+                                                        <div class="icon-triangle"></div>
+                                                    <?php endif ?>
+                                                    <?= $category['name'] ?></a>
+                                                <div class="collapse" id="category-<?= $category['id'] ?>">
+                                                    <?php if ($category['Litem'] != "undefined"): ?>
+                                                        <?php foreach ($category['Litem'] as $key2 => $item) { ?>
+                                                            <?php if ($item['display'] == 0): ?>
+                                                                <a class="click-element" data-action="item"
+                                                                   data-id="<?= $item['id'] ?>"
+                                                                   href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
+                                                            <?php endif; ?>
+                                                        <?php } ?>
                                                     <?php endif; ?>
-                                                <?php } ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php } ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php } ?>
+                                    <?php endif; ?>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -60,7 +64,6 @@
             element['action'] = $(this).data('action')
             if ($(this).data('action') === 'item') {
                 $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'getWiki', 'plugin' => 'lwiki')) ?>", element, function (data) {
-                    console.log(data)
                     if (data.statut) {
                         history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
                         $('.replace-element').html(data.content)
@@ -74,7 +77,6 @@
 
             if ($(this).data('action') === 'category') {
                 $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'getWiki', 'plugin' => 'lwiki')) ?>", element, function (data) {
-                    console.log(data)
                     if (data.statut) {
                         history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
                         if (data.content.length > 1) {

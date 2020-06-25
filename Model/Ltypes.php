@@ -14,10 +14,6 @@ class Ltypes extends LwikiAppModel
             'rule' => 'naturalNumber',
             'message' => 'Une erreur d\'identification de l\'id, actualiser la page pour corriger le problème.'
         ),
-        'order' => array(
-            'rule' => 'naturalNumber',
-            'message' => 'Une erreur le collapse de la catégorie est erroné.'
-        ),
         'name' => array(
             'isUnique' => array(
                 'rule' => 'isUnique',
@@ -44,19 +40,6 @@ class Ltypes extends LwikiAppModel
         return $this->delete($id);
     }
 
-    public function edit_collapse_ajax($id)
-    {
-        $idTypes = $this->findById($id);
-        if ($idTypes['Ltypes']['collapse'] == '0') {
-            $collapse = 1;
-        } else {
-            $collapse = 0;
-        }
-        $this->read(null, $id);
-        $this->set(['collapse' => $collapse]);
-        return $this->save();
-    }
-
     public function edit($id, $name)
     {
         $this->read(null, $id);
@@ -69,5 +52,18 @@ class Ltypes extends LwikiAppModel
         $this->create();
         $this->set(['name' => $name]);
         $this->save();
+    }
+
+    public function edit_collapse_ajax($id)
+    {
+        $idTypes = $this->findById($id);
+        if ($idTypes['Ltypes']['collapse'] == '0') {
+            $collapse = 1;
+        } else {
+            $collapse = 0;
+        }
+        $this->read(null, $id);
+        $this->set(['collapse' => $collapse]);
+        return $this->save();
     }
 }

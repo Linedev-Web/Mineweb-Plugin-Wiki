@@ -52,8 +52,7 @@
 
     .col--type > form {
         background-color: rgba(222, 222, 222, 0.56);
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+        border-radius: 8px;
         padding: 1rem;
         width: 100%;
         margin-bottom: 2rem;
@@ -286,6 +285,8 @@
                                     <?php $c = -1;
                                     if (count($type['Lcategory']) > 1) {
                                         $countCategory = true;
+                                    } else {
+                                        $countCategory = false;
                                     };
                                     foreach ($type['Lcategory'] as $key2 => $category): $c++ ?>
                                         <div class="col--drag-category" id="<?= $category['name'] ?>-<?= $c ?>">
@@ -459,9 +460,8 @@
             let element = $(this).data('action')
             if (element == "category") {
                 $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
-                    console.log(data)
                     if (data.statut) {
-                        if (data.display == 1) {
+                        if (data.display) {
                             $(button).html('<i class="fa fa-eye"></i>')
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')
@@ -475,9 +475,8 @@
             }
             if (element == "item") {
                 $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'edit_display_ajax', 'admin' => true)) ?>", selectId, function (data) {
-                    console.log(data)
                     if (data.statut) {
-                        if (data.display == 1) {
+                        if (data.display) {
                             $(button).html('<i class="fa fa-eye"></i>')
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')

@@ -9,9 +9,32 @@ class LitemController extends LwikiAppController
         $this->response->type('json');
         if ($this->request->is('post')) {
             $this->loadModel('Lwiki.Litem');
-            $id = $this->request->data['id'];
-            $item = $this->Litem->findById($id);
-            $this->response->body(json_encode(array('statut' => true, 'slug' => $item['Litem']['name'] ,'content' => htmlspecialchars_decode($item['Litem']['text']))));
+
+            $this->Litem->set($this->request->data);
+            if ($this->Litem->validates()) {
+
+                $id = $this->request->data['id'];
+                $item = $this->Litem->findById($id);
+                $this->response->body(json_encode(array('statut' => true, 'slug' => $item['Litem']['name'], 'content' => htmlspecialchars_decode($item['Litem']['text']))));
+
+            } else {
+                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
+            }
+        }
+    }
+
+    public function admin_delete($id)
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
+            $this->autoRender = null;
+
+            $this->loadModel('Lwiki.Litem');
+
+            $this->Litem->_delete($id);
+
+            $this->redirect('/admin/lwiki');
+        } else {
+            $this->redirect('/toto');
         }
     }
 
@@ -42,18 +65,21 @@ class LitemController extends LwikiAppController
         $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->loadModel('Lwiki.Litem');
 
-                $id = $this->request->data['id'];
-                $name = $this->request->data['name'];
-                $text = $this->request->data['text'];
 
-                if (!empty($name) && !empty($text)) {
-                    $this->loadModel('Lwiki.Litem');
+                $this->Litem->set($this->request->data);
+                if ($this->Litem->validates()) {
+
+                    $id = $this->request->data['id'];
+                    $name = $this->request->data['name'];
+                    $text = $this->request->data['text'];
+
                     $this->Litem->edit($id, $name, $text);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
 
                 } else {
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS'))));
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
                 }
             } else {
                 $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('ERROR__BAD_REQUEST'))));
@@ -79,20 +105,24 @@ class LitemController extends LwikiAppController
 
     public function admin_add_ajax()
     {
+        $this->autoRender = null;
         if ($this->isConnected and $this->User->isAdmin()) {
             $this->loadModel('Lwiki.Litem');
-
-            //Si la requete est de type ajax
             if ($this->request->is('ajax')) {
-                $this->autoRender = null;
-                //Je récupère le champs name="pseudo"
 
-                $categories_id = $this->request->data['lcategory_id'];
-                $name = $this->request->data['name'];
-                $text = $this->request->data['text'];
+                $this->Litem->set($this->request->data);
+                if ($this->Litem->validates()) {
 
-                $this->Litem->add($categories_id, $name, $text);
-                $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+                    $categories_id = $this->request->data['lcategory_id'];
+                    $name = $this->request->data['name'];
+                    $text = $this->request->data['text'];
+
+                    $this->Litem->add($categories_id, $name, $text);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
+                }
             } else {
                 //Je déclare le thème du panel admin
                 $this->layout = 'admin';
@@ -104,23 +134,6 @@ class LitemController extends LwikiAppController
         }
     }
 
-    public function admin_delete($id)
-    {
-        if ($this->isConnected and $this->User->isAdmin()) {
-            $this->autoRender = null;
-
-            $this->loadModel('Lwiki.Litem');
-
-            //J'utilise _delete() car delete() existe déjà avec cakephp
-            $this->Litem->_delete($id);
-
-            //Redirection vers notre page
-            $this->redirect('/admin/lwiki');
-        } else {
-            $this->redirect('/toto');
-        }
-    }
-
     public function admin_edit_display_ajax()
     {
         $this->autoRender = false;
@@ -129,10 +142,17 @@ class LitemController extends LwikiAppController
             if ($this->request->is('post')) {
                 $this->loadModel('Lwiki.Litem');
 
-                $id = $this->request->data['id'];
-                $this->Litem->edit_display_ajax($id);
-                $display = $this->Litem->findById($id);
-                return $this->sendJSON(['statut' => true, 'display' => $display['Litem']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                $this->Litem->set($this->request->data);
+                if ($this->Litem->validates()) {
+
+                    $id = $this->request->data['id'];
+                    $this->Litem->edit_display_ajax($id);
+                    $display = $this->Litem->findById($id);
+                    return $this->sendJSON(['statut' => true, 'display' => $display['Litem']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
+                }
             }
         }
     }

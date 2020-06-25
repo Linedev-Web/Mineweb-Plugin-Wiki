@@ -16,9 +16,9 @@ class Litem extends LwikiAppModel
             'rule' => 'naturalNumber',
             'message' => 'Une erreur d\'identification de l\'id, actualiser la page pour corriger le problème.'
         ),
-        'order' => array(
+        'lcategory_id' => array(
             'rule' => 'naturalNumber',
-            'message' => 'Une erreur l\'ordre de l\'article est erroné'
+            'message' => 'Identification de l\'id Catégorie, actualiser la page pour corriger le problème.'
         ),
         'name' => array(
             'between' => array(
@@ -45,13 +45,27 @@ class Litem extends LwikiAppModel
         return $this->delete($id);
     }
 
+    public function edit($id, $name, $text)
+    {
+        $this->read(null, $id);
+        $this->set(['name' => $name, 'text' => $text]);
+        return $this->save();
+    }
+
+    public function add($lcategory_id, $name, $text)
+    {
+        $this->create();
+        $this->set(['lcategory_id' => $lcategory_id, 'name' => $name, 'text' => $text]);
+        return $this->save();
+    }
+
     public function edit_display_ajax($id)
     {
         $idItem = $this->findById($id);
-        if ($idItem['Litem']['display'] == '0') {
-            $display = 1;
+        if ($idItem['Litem']['display'] == false) {
+            $display = true;
         } else {
-            $display = 0;
+            $display = false;
         }
         $this->read(null, $id);
         $this->set(['display' => $display]);
@@ -70,19 +84,5 @@ class Litem extends LwikiAppModel
             ));
         }
         $this->save();
-    }
-
-    public function edit($id, $name, $text)
-    {
-        $this->read(null, $id);
-        $this->set(['name' => $name, 'text' => $text]);
-        return $this->save();
-    }
-
-    public function add($lcategory_id, $name, $text)
-    {
-        $this->create();
-        $this->set(['lcategory_id' => $lcategory_id, 'name' => $name, 'text' => $text]);
-        return $this->save();
     }
 }

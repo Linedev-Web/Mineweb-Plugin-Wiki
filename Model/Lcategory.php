@@ -25,10 +25,6 @@ class Lcategory extends LwikiAppModel
             'rule' => 'naturalNumber',
             'message' => 'l\'identification de l\'id, actualiser la page pour corriger le problème.'
         ),
-        'order' => array(
-            'rule' => 'naturalNumber',
-            'message' => 'l\'ordre de la sous-catégorie est erroné'
-        ),
         'ltype_id' => array(
             'rule' => 'naturalNumber',
             'message' => 'Identification de l\'id Type, actualiser la page pour corriger le problème.'
@@ -43,7 +39,7 @@ class Lcategory extends LwikiAppModel
                 'rule' => 'isUnique',
                 'message' => 'Cette sous-catégorie a déjà êtes crée.',
                 'allowEmpty' => false)
-        ),
+        )
     );
 
     public function get()
@@ -59,6 +55,19 @@ class Lcategory extends LwikiAppModel
         return $this->delete($id);
     }
 
+    public function edit($id, $name, $text)
+    {
+        $this->read(null, $id);
+        $this->set(['name' => $name, 'text' => $text]);
+        return $this->save();
+    }
+
+    public function add($ltype_id, $name)
+    {
+        $this->create();
+        $this->set(['ltype_id' => $ltype_id, 'name' => $name]);
+        return $this->save();
+    }
 
     public function editTypeAndOrderFindId($id, $order, $category_id, $typeName)
     {
@@ -77,10 +86,10 @@ class Lcategory extends LwikiAppModel
     public function edit_display_ajax($id)
     {
         $idCategory = $this->findById($id);
-        if ($idCategory['Lcategory']['display'] == '0') {
-            $display = 1;
+        if ($idCategory['Lcategory']['display'] == false) {
+            $display = true;
         } else {
-            $display = 0;
+            $display = false;
         }
         $this->read(null, $id);
         $this->set(['display' => $display]);
@@ -97,20 +106,6 @@ class Lcategory extends LwikiAppModel
         }
         $this->read(null, $id);
         $this->set(['collapse' => $collapse]);
-        return $this->save();
-    }
-
-    public function edit($id, $name, $text)
-    {
-        $this->read(null, $id);
-        $this->set(['name' => $name, 'text' => $text]);
-        return $this->save();
-    }
-
-    public function add($ltype_id, $name)
-    {
-        $this->create();
-        $this->set(['ltype_id' => $ltype_id, 'name' => $name]);
         return $this->save();
     }
 }

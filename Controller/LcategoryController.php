@@ -2,15 +2,51 @@
 
 class LcategoryController extends LwikiAppController
 {
+
+
     public function getWiki()
     {
         $this->autoRender = false;
         $this->response->type('json');
         if ($this->request->is('post')) {
+
             $this->loadModel('Lwiki.Lcategory');
-            $id = $this->request->data['id'];
-            $category = $this->Lcategory->findById($id);
-            $this->response->body(json_encode(array('statut' => true, 'slug' => $category['Lcategory']['name'], 'content' => htmlspecialchars_decode($category['Lcategory']['text']))));
+
+            $this->Lcategory->set($this->request->data);
+            if ($this->Lcategory->validates()) {
+
+                $id = $this->request->data['id'];
+                $category = $this->Lcategory->findById($id);
+                $this->response->body(json_encode(array('statut' => true, 'slug' => $category['Lcategory']['name'], 'content' => htmlspecialchars_decode($category['Lcategory']['text']))));
+
+            } else {
+                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
+            }
+        }
+    }
+
+    public function index()
+    {
+        $this->loadModel('Lwiki.Ltypes');
+        $this->loadModel('Lwiki.Lcategory');
+        $types = $this->Ltypes->find('all');
+        $categorys = $this->Lcategory->find('all');
+        $this->set(compact('types', 'categorys'));
+        $this->set('title_for_layout', 'Wiki');
+    }
+
+    public function admin_delete($id)
+    {
+        if ($this->isConnected and $this->User->isAdmin()) {
+            $this->autoRender = null;
+
+            $this->loadModel('Lwiki.Lcategory');
+
+            $this->Lcategory->_delete($id);
+
+            $this->redirect('/admin/lwiki');
+        } else {
+            $this->redirect('/toto');
         }
     }
 
@@ -42,14 +78,16 @@ class LcategoryController extends LwikiAppController
             if ($this->request->is('post')) {
                 $this->loadModel('Lwiki.Lcategory');
 
-                $id = $this->request->data['id'];
-                $name = $this->request->data['name'];
-                $text = $this->request->data['text'];
 
                 $this->Lcategory->set($this->request->data);
                 if ($this->Lcategory->validates()) {
+
+                    $id = $this->request->data['id'];
+                    $name = $this->request->data['name'];
+                    $text = $this->request->data['text'];
                     $this->Lcategory->edit($id, $name, $text);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
                 }
@@ -61,30 +99,6 @@ class LcategoryController extends LwikiAppController
         }
     }
 
-    public function index()
-    {
-        $this->loadModel('Lwiki.Ltypes');
-        $this->loadModel('Lwiki.Lcategory');
-        $types = $this->Ltypes->find('all');
-        $categorys = $this->Lcategory->find('all');
-        $this->set(compact('types', 'categorys'));
-        $this->set('title_for_layout', 'Wiki');
-    }
-
-    public function admin_delete($id)
-    {
-        if ($this->isConnected and $this->User->isAdmin()) {
-            $this->autoRender = null;
-
-            $this->loadModel('Lwiki.Lcategory');
-
-            $this->Lcategory->_delete($id);
-
-            $this->redirect('/admin/lwiki');
-        } else {
-            $this->redirect('/toto');
-        }
-    }
 
     public function admin_edit_display_ajax()
     {
@@ -94,10 +108,17 @@ class LcategoryController extends LwikiAppController
             if ($this->request->is('post')) {
                 $this->loadModel('Lwiki.Lcategory');
 
-                $id = $this->request->data['id'];
-                $this->Lcategory->edit_display_ajax($id);
-                $display = $this->Lcategory->findById($id);
-                return $this->sendJSON(['statut' => true, 'display' => $display['Lcategory']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                $this->Lcategory->set($this->request->data);
+                if ($this->Lcategory->validates()) {
+
+                    $id = $this->request->data['id'];
+                    $this->Lcategory->edit_display_ajax($id);
+                    $display = $this->Lcategory->findById($id);
+                    return $this->sendJSON(['statut' => true, 'display' => $display['Lcategory']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+
+                } else {
+                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
+                }
             }
         }
     }
