@@ -13,7 +13,7 @@
                         <ul class="list-group">
                             <?php foreach ($types as $key => $type) { ?>
                                 <li class="list-group-item">
-                                    <a class="" data-action="type"
+                                    <a data-action="type"
                                        href="#"><?= $type['Ltypes']['name'] ?></a>
                                     <?php if ($type['Lcategory'] != "undefined"): ?>
                                         <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
@@ -25,14 +25,17 @@
                                                     <?php if ($category['litem_count']): ?>
                                                         <div class="icon-triangle"></div>
                                                     <?php endif ?>
-                                                    <?= $category['name'] ?></a>
+                                                    <span><?= $category['name'] ?></span>
+                                                </a>
                                                 <div class="collapse" id="category-<?= $category['id'] ?>">
                                                     <?php if ($category['Litem'] != "undefined"): ?>
                                                         <?php foreach ($category['Litem'] as $key2 => $item) { ?>
                                                             <?php if ($item['display'] == 0): ?>
                                                                 <a class="click-element" data-action="item"
                                                                    data-id="<?= $item['id'] ?>"
-                                                                   href="#category-<?= $item['id'] ?>"><?= $item['name'] ?></a>
+                                                                   href="#category-<?= $item['id'] ?>">
+                                                                    <span><?= $item['name'] ?></span>
+                                                                </a>
                                                             <?php endif; ?>
                                                         <?php } ?>
                                                     <?php endif; ?>

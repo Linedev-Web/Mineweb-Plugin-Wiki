@@ -1,49 +1,120 @@
 #canva-wiki {
-    max-width: 900px;
-    width: 100%;
     margin: 0 auto 10rem;
 }
 
-.color--background {
-    background: red;
-}
-
-.color--background .color--block {
-    margin: 0.5rem;
-    width: 150px;
-    padding: 1rem;
-}
-
-.block--random {
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-}
-
-.block--random .block-text {
-    margin: 0.5rem;
-    padding: 1rem;
-    background: #0b2e13;
-}
-
-.block--random .block-text:nth-child(odd) {
-    width: 160px;
-}
-
-.block--random .block-text:nth-child(even) {
-    width: 230px;
-}
-
-.block--random .block-text:nth-child(3 ) {
-    width: 400px;
-}
-
-
-.color--block {
-    background: blue;
+input[type=color] {
+    height: 60px;
 }
 
 .color--text {
-    color: white;
+    color: #3c3c3c;
 }
+
+.color--background {
+    background: #efefef;
+}
+
+.color--button {
+    background: #c1c1c1;
+}
+
+.color--hover {
+    background-color: #606060;
+}
+
+.color--hover-text {
+    color: #ffffff;
+}
+
+.replace-element {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+}
+
+.replace-element .block-text {
+    margin: 0.5rem;
+    padding: 1rem;
+    background: #e2dfdf;
+    border-radius: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23);
+    width: 160px;
+}
+
+.replace-element.block-text:nth-child(2n+1) {
+    width: 50px;
+}
+
+.replace-element .block-text:nth-child(3n+2) {
+    width: 160px;
+}
+
+.replace-element .block-text:nth-child(4n+1) {
+    width: 340px;
+}
+
+
+#canva-wiki .list-group {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+#canva-wiki .list-group .list-group-item {
+    padding: 1rem 0.5rem;
+    border-radius: 8px;
+    border: none;
+}
+
+#canva-wiki span {
+    display: inline-block;
+    position: relative;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#canva-wiki span .icon-triangle {
+    margin-left: -.5rem;
+    padding-right: 0.5rem;
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid var(--color-accent);
+}
+
+
+#canva-wiki span[data-action=type] {
+    font-weight: bold;
+    font-size: 14px;
+    cursor: default;
+}
+
+#canva-wiki span[data-action=category],
+#canva-wiki span[data-action=item] {
+    margin: 0.1rem 0;
+}
+
+#canva-wiki span[data-action=category] {
+    text-indent: 1rem;
+}
+
+#canva-wiki span[data-action=item] {
+    text-indent: 1rem;
+    margin-left: 2rem;
+    max-width: 206px;
+}
+
+#canva-wiki span[data-toggle="collapse"][aria-expanded="true"] .icon-triangle {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
