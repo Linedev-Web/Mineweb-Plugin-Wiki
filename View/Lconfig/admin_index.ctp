@@ -7,19 +7,23 @@
                     <h3 class="box-title">Information du wiki</h3>
                 </div>
                 <div class="box-body">
-                    <form action="<?= $this->Html->url(array('controller' => 'Lconfig', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
-                          data-redirect-url="<?= $this->Html->url(array('controller' => 'Lconfig', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
+<!--                    --><?//= print_r($color) ?>
+                    <form action="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_info', 'plugin' => 'lwiki', 'admin' => true)) ?>"
+                          data-redirect-url="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           method="post" data-ajax="true">
                         <div class="form-group">
-                            <label for="text">Titre</label>
-                            <input class="form-control" id="text" name="title" type="text"/>
+                            <label for="title">Titre</label>
+                            <input class="form-control" id="title" name="title" type="text"
+                                   value="<?php if ($config['title']) echo $config['title'] ?>"/>
+
                         </div>
                         <div class="form-group">
                             <label for="content">Description</label>
-                            <textarea class="form-control" rows="5" id="content" style="w"></textarea>
+                            <textarea class="form-control" rows="5" id="content"
+                                      name="content"><?php if ($config['content']) echo $config['content'] ?></textarea>
                         </div>
                         <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__ADD') ?></button>
+                            <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></button>
                         </div>
                     </form>
                 </div>
@@ -36,32 +40,54 @@
                           method="post" data-ajax="true" class="row">
 
                         <div class="form-group col-md-2">
-                            <label for="color_text">Text</label>
-                            <input class="form-control" id="color_text" value="#3c3c3c" name="color_text" type="color"/>
+                            <label for="color_background">Fond</label>
+                            <input class="form-control" id="color_background" name="color_background"
+                                   type="color"
+                                   value="<?php if ($color['color_background']) {
+                                       echo $color['color_background'];
+                                   } else {
+                                       '#efefef';
+                                   }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="color_background">Fond</label>
-                            <input class="form-control" id="color_background" value="#efefef" name="color_background"
-                                   type="color"/>
+                            <label for="color_text">Text</label>
+                            <input class="form-control" id="color_text" name="color_text" type="color"
+                                   value="<?php if ($color['color_text']) {
+                                       echo $color['color_text'];
+                                   } else {
+                                       '#3c3c3c';
+                                   }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="color_button">Boutton</label>
-                            <input class="form-control" id="color_button" value="#c1c1c1" name="color_button"
-                                   type="color"/>
+                            <input class="form-control" id="color_button" name="color_button" type="color"
+                                   value="<?php if ($color['color_button']) {
+                                       echo $color['color_button'];
+                                   } else {
+                                       '#c1c1c1';
+                                   }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="color_hover">Font au survol</label>
-                            <input class="form-control" id="color_hover" value="#606060" name="color_hover"
-                                   type="color"/>
+                            <input class="form-control" id="color_hover" name="color_hover" type="color"
+                                   value="<?php if ($color['color_hover']) {
+                                       echo $color['color_hover'];
+                                   } else {
+                                       '#606060';
+                                   }; ?>"/>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class=" form-group col-md-2">
                             <label for="color_hover-text">Text au survol</label>
-                            <input class="form-control" id="color_hover-text" value="#ffffff" name="color_hover_text"
-                                   type="color"/>
+                            <input class="form-control" id="color_hover_text" name="color_hover_text" type="color"
+                                   value="<?php if ($color['color_hover_text']) {
+                                       echo $color['color_hover_text'];
+                                   } else {
+                                       '#ffffff';
+                                   }; ?>"/>
                         </div>
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></button>
-                            <button type="submit" class="btn btn-danger"><?= $Lang->get('GLOBAL__RESET') ?></button>
+                        <div class=" form-group col-md-12">
+                            <a href="#" class="btn btn-primary element-color"><?= $Lang->get('GLOBAL__EDIT') ?></a>
+                            <a href="" class="btn btn-danger element-color-reset"><?= $Lang->get('GLOBAL__RESET') ?></a>
                         </div>
                     </form>
                 </div>
@@ -70,76 +96,83 @@
         <div class="col-md-12">
             <div class="container" id="canva-wiki">
                 <div class="row">
-                    <div class="col-md-3">
-                        <ul class="list-group">
-                            <li class="list-group-item color--background">
-                                <span class="color--text" data-action="type">Catégorie 1</span>
-                                <span class="click-element" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="false">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Prévisualisation du thème</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item color--background">
+                                        <span class="color--text" data-action="type">Catégorie 1</span>
+                                        <span class="click-element" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 1</span>
                                 </span>
-                                <span class="click-element color--hover" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="false">
+                                        <span class="click-element color--hover" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--hover-text">Sous-catégorie 2</span>
                                 </span>
-                                <span class="click-element" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="false">
+                                        <span class="click-element" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 3</span>
                                 </span>
-                                <span class="color--text" data-action="type">Catégorie 2</span>
-                                <span class="click-element" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="false">
+                                        <span class="color--text" data-action="type">Catégorie 2</span>
+                                        <span class="click-element" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 1</span>
                                 </span>
-                                <span class="click-element color--button" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="true">
+                                        <span class="click-element color--button" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="true">
                                     <span class="color--text">
                                         <div class="icon-triangle"></div>Sous-catégorie 2</span>
                                 </span>
-                                <div class="collapse show">
+                                        <div class="collapse show">
                                     <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                    <span class="click-element" data-action="item">
+                                            <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                    <span class="click-element" data-action="item">
+                                            <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                </div>
-                                <span class="click-element" data-action="category"
-                                      data-toggle="collapse" role="button" aria-expanded="false">
+                                        </div>
+                                        <span class="click-element" data-action="category"
+                                              data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 3</span>
                                 </span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-9 color--background replace-element">
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
-                        <div class="block-text"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-9 color--background replace-element">
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                                <div class="block-text"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,6 +180,88 @@
     </div>
 </div>
 <script>
+    $(function () {
+        $(document).ready(function () {
+            $('.color--background').css('background', '<?php if ($color['color_background']) {
+                echo $color['color_background'];
+            } else {
+                #efefef;
+            }; ?>')
+            $('.color--text').css('color', '<?php if ($color['color_text']) {
+                echo $color['color_text'];
+            } else {
+                #3c3c3c;
+            }; ?>')
+            $('.color--button').css('background', '<?php if ($color['color_button']) {
+                echo $color['color_button'];
+            } else {
+                #c1c1c1;
+            }; ?>')
+            $('.color--hover').css('background', '<?php if ($color['color_hover']) {
+                echo $color['color_hover'];
+            } else {
+                #ffffff;
+            }; ?>')
+            $('.color--hover-text').css('color', '<?php if ($color['color_hover_text']) {
+                echo $color['color_hover_text'];
+            } else {
+                #efefef;
+            }; ?>')
+        })
+
+        $('.element-color').on('click', function (event) {
+            event.preventDefault()
+            let color = {};
+            color['color_background'] = $('#color_background').val()
+            color['color_text'] = $('#color_text').val()
+            color['color_button'] = $('#color_button').val()
+            color['color_hover'] = $('#color_hover').val()
+            color['color_hover_text'] = $('#color_hover_text').val()
+            console.log(color)
+
+            $.post("<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_color', 'admin' => true)) ?>", color, function (data) {
+                console.log(data)
+                if (data.statut) {
+                    editElementToast('success', 'Modification enregistrée')
+                } else {
+                    editElementToast('error', 'Une erreur vient de se produire')
+                }
+                return true
+            });
+        })
+        $('.element-color-reset').on('click', function (event) {
+            event.preventDefault()
+            let color = {};
+            color['color_background'] = "#efefef"
+            color['color_text'] = "#3c3c3c"
+            color['color_button'] = "#c1c1c1"
+            color['color_hover'] = "#606060"
+            color['color_hover_text'] = "#ffffff"
+            console.log(color)
+
+            $.post("<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_color', 'admin' => true)) ?>", color, function (data) {
+                console.log(data)
+                if (data.statut) {
+                    $('#color_background').val(color['color_background'])
+                    $('#color_text').val(color['color_text'])
+                    $('#color_button').val(color['color_button'])
+                    $('#color_hover').val(color['color_hover'])
+                    $('#color_hover_text').val(color['color_hover_text'])
+                    $('.color--background').css('background', color['color_background'])
+                    $('.color--text').css('color', color['color_text'])
+                    $('.color--button').css('background', color['color_button'])
+                    $('.color--hover').css('background', color['color_hover'])
+                    $('.color--hover-text').css('color', color['color_hover_text'])
+
+                    editElementToast('success', 'Réinitialisation enregistrée')
+                } else {
+                    editElementToast('error', 'Une erreur vient de se produire')
+                }
+                return true
+            });
+        })
+    })
+
     let colorBackground, colorText, colorButton, colorHover, colorHoverText;
 
     window.addEventListener("load", startup, false);
@@ -207,4 +322,27 @@
             element.style.color = event.target.value;
         });
     }
+
+    function editElementToast(icon, title) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-right',
+            showConfirmButton: false,
+            timer: 3000,
+            customClass: {
+                popup: 'popup-class',
+            },
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: icon,
+            title: title
+        })
+    }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.1/dist/sweetalert2.all.min.js"></script>

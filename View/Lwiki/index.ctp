@@ -4,13 +4,13 @@
         <img src="/theme/Custom/img/vote/vote.png" alt="shop" classe="img-responsive">
     </div>
     <div class="row">
-        <div class="col-md-12 text-left">
-            <h1 class="page--title">Skyhell</h1>
-            <p>Retrouvez toutes les réponses à vos questions regroupées sur ce wiki.</p>
+        <div class="col-md-12 text-center">
+            <h1 class="page--title"><?= $config[0]['Lconfig']['title'] ?></h1>
+            <p><?= $config[0]['Lconfig']['content'] ?></p>
             <div class="row contenu-wiki">
                 <div class="col-md-3">
                     <div id="accordion">
-                        <ul class="list-group">
+                        <ul class="list-group text-left">
                             <?php foreach ($types as $key => $type) { ?>
                                 <li class="list-group-item">
                                     <a data-action="type"

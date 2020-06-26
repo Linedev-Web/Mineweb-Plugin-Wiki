@@ -53,10 +53,22 @@ class LwikiAppSchema extends CakeSchema
         'tableParameters' => ['charset' => 'utf8mb4', 'collate' => 'utf8mb4_unicode_ci ', 'encoding ' => 'utf8mb4', 'engine' => 'InnoDB']
     ];
     public $lwiki__lconfigs = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
         'title' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
         'content' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
-        'color' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'lcolor_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => false, 'key' => 'primary'],
         'position' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'indexes' => [
+            'PRIMARY' => ['column' => 'id', 'unique' => 1]
+        ],
+        'tableParameters' => ['charset' => 'utf8mb4', 'collate' => 'utf8mb4_unicode_ci ', 'encoding ' => 'utf8mb4', 'engine' => 'InnoDB']
+    ];
+    public $lwiki__lcolors = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 11, 'unsigned' => true, 'key' => 'primary'],
+        'color' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'indexes' => [
+            'PRIMARY' => ['column' => 'id', 'unique' => 1]
+        ],
         'tableParameters' => ['charset' => 'utf8mb4', 'collate' => 'utf8mb4_unicode_ci ', 'encoding ' => 'utf8mb4', 'engine' => 'InnoDB']
     ];
 }

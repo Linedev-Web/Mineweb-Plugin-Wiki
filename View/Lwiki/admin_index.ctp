@@ -259,7 +259,7 @@
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')
                         }
-                        editElementToast('success', 'Modification enregistré')
+                        editElementToast('success', 'Modification enregistrée')
                     } else {
                         editElementToast('error', 'Une erreur vient de se produire')
                     }
@@ -274,7 +274,7 @@
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')
                         }
-                        editElementToast('success', 'Modification enregistré')
+                        editElementToast('success', 'Modification enregistrée')
                     } else {
                         editElementToast('error', 'Une erreur vient de se produire')
                     }

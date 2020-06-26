@@ -6,8 +6,10 @@ class LwikiController extends LwikiAppController
     public function index()
     {
         $this->loadModel('Lwiki.Ltypes');
+        $this->loadModel('Lwiki.Lconfig');
         $types = $this->Ltypes->get();
-        $this->set(compact('types'));
+        $config = $this->Lconfig->get();
+        $this->set(compact('types','config'));
         $this->set('title_for_layout', 'Wiki');
 
         if ($this->request->is('get')) {
