@@ -17,10 +17,10 @@ class Lconfig extends LwikiAppModel
         ),
     );
 
-    public function edit($title, $content)
+    public function edit($title, $content, $position)
     {
         $this->read(null, 1);
-        $this->set(['title' => $title, 'content' => $content]);
+        $this->set(['title' => $title, 'content' => $content, 'position' => $position]);
         return $this->save();
     }
 

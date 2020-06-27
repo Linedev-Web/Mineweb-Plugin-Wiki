@@ -61,6 +61,10 @@ input[type=color] {
     width: 340px;
 }
 
+#canva-wiki .page--title {
+    margin: 1rem auto 2rem auto;
+}
+
 
 #canva-wiki .list-group {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -114,6 +118,10 @@ input[type=color] {
     text-indent: 1rem;
     margin-left: 2rem;
     max-width: 206px;
+}
+
+#canva-wiki .contenu-wiki {
+    margin-top: 3rem;
 }
 
 #canva-wiki span[data-toggle="collapse"][aria-expanded="true"] .icon-triangle {

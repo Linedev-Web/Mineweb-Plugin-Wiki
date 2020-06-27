@@ -35,7 +35,8 @@ class LconfigController extends LwikiAppController
 
                     $title = $this->request->data('title');
                     $content = $this->request->data('content');
-                    $this->Lconfig->edit($title, $content);
+                    $position = $this->request->data('position');
+                    $this->Lconfig->edit($title, $content, $position);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
 
                 } else {

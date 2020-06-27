@@ -1,12 +1,39 @@
 <?= $this->Html->css('Lwiki.style.css') ?>
+<style>
+    #page--lwiki .list-group .list-group-item,
+    #page--lwiki .replace-element {
+        background-color: <?= $color["color_background"]?>;
+        color: <?= $color["color_text"]?>;
+    }
+
+    #page--lwiki .replace-element p {
+        color: <?= $color["color_text"]?>;
+    }
+
+    #page--lwiki a {
+        color: <?= $color["color_text"]?>
+    }
+
+    #page--lwiki a:not([data-action=type]).active {
+        background-color: <?= $color["color_button"]?>;
+        color: <?= $color["color_button_text"]?>
+
+    }
+
+    #page--lwiki a:not([data-action=type]):active,
+    #page--lwiki a:not([data-action=type]):focus,
+    #page--lwiki a:not([data-action=type]):hover {
+        background-color: <?= $color["color_hover"]?>;
+        color: <?= $color["color_hover_text"]?>;
+    }
+</style>
 <div id="page--lwiki" class="container plugin-lwiki">
-    <div class="container-background">
-        <img src="/theme/Custom/img/vote/vote.png" alt="shop" classe="img-responsive">
-    </div>
     <div class="row">
-        <div class="col-md-12 text-center">
-            <h1 class="page--title"><?= $config[0]['Lconfig']['title'] ?></h1>
-            <p><?= $config[0]['Lconfig']['content'] ?></p>
+        <div class="col-md-12">
+            <div class="text-<?= $config['position'] ?>">
+                <h1 class="page--title"><?= $config['title'] ?></h1>
+                <p><?= $config['content'] ?></p>
+            </div>
             <div class="row contenu-wiki">
                 <div class="col-md-3">
                     <div id="accordion">

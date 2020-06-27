@@ -25,10 +25,10 @@ class Lcategory extends LwikiAppModel
             'rule' => 'naturalNumber',
             'message' => 'l\'identification de l\'id, actualiser la page pour corriger le problème.'
         ),
-        'ltype_id' => array(
-            'rule' => 'naturalNumber',
-            'message' => 'Identification de l\'id Type, actualiser la page pour corriger le problème.'
-        ),
+//        'ltype_id' => array(
+//            'rule' => 'naturalNumber',
+//            'message' => 'Identification de l\'id Type, actualiser la page pour corriger le problème.'
+//        ),
         'name' => array(
             'between' => array(
                 'rule' => array('between', 1, 30),

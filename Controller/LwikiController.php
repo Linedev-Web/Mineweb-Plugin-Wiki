@@ -7,10 +7,16 @@ class LwikiController extends LwikiAppController
     {
         $this->loadModel('Lwiki.Ltypes');
         $this->loadModel('Lwiki.Lconfig');
+        $this->loadModel('Lwiki.Lcolor');
         $types = $this->Ltypes->get();
         $config = $this->Lconfig->get();
-        $this->set(compact('types','config'));
-        $this->set('title_for_layout', 'Wiki');
+        $color = $this->Lcolor->get();
+        if ($types[0] && $color[0]) {
+            $config = $config[0]['Lconfig'];
+            $color = json_decode($color[0]['Lcolor']['color'], true);
+            $this->set(compact('types', 'config', 'color'));
+            $this->set('title_for_layout', 'Wiki');
+        }
 
         if ($this->request->is('get')) {
             $element = $this->request->param('element');

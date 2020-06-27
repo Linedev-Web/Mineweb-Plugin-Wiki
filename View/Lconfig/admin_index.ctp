@@ -7,7 +7,6 @@
                     <h3 class="box-title">Information du wiki</h3>
                 </div>
                 <div class="box-body">
-<!--                    --><?//= print_r($color) ?>
                     <form action="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_info', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           data-redirect-url="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           method="post" data-ajax="true">
@@ -22,9 +21,17 @@
                             <textarea class="form-control" rows="5" id="content"
                                       name="content"><?php if ($config['content']) echo $config['content'] ?></textarea>
                         </div>
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></button>
-                        </div>
+                        <label for="position">Alignement du titre, description</label>
+                        <select class="form-control" name="position" id="position">
+                            <?php if ($config['position']) : ?>
+                                <option value="<?= $config["position"] ?>"><?= $config["position"] ?></option>
+                            <?php endif ?>
+                            <option value="center">Center</option>
+                            <option value="right">Droit</option>
+                            <option value="left">Gauche</option>
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT') ?></button>
                     </form>
                 </div>
             </div>
@@ -68,6 +75,15 @@
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
+                            <label for="color_button_text">Boutton text</label>
+                            <input class="form-control" id="color_button_text" name="color_button_text" type="color"
+                                   value="<?php if ($color['color_button_text']) {
+                                       echo $color['color_button_text'];
+                                   } else {
+                                       '#000000';
+                                   }; ?>"/>
+                        </div>
+                        <div class="form-group col-md-2">
                             <label for="color_hover">Font au survol</label>
                             <input class="form-control" id="color_hover" name="color_hover" type="color"
                                    value="<?php if ($color['color_hover']) {
@@ -101,76 +117,82 @@
                             <h3 class="box-title">Prévisualisation du thème</h3>
                         </div>
                         <div class="box-body">
-                            <div class="col-md-3">
-                                <ul class="list-group">
-                                    <li class="list-group-item color--background">
-                                        <span class="color--text" data-action="type">Catégorie 1</span>
-                                        <span class="click-element" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="false">
+                            <div class="position--block">
+                                <h1 class="page--title"><?= $config['title'] ?></h1>
+                                <p><?= $config['content'] ?></p>
+                            </div>
+                            <div class="contenu-wiki">
+                                <div class="col-md-3">
+                                    <ul class="list-group">
+                                        <li class="list-group-item color--background">
+                                            <span class="color--text" data-action="type">Catégorie 1</span>
+                                            <span class="click-element" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 1</span>
                                 </span>
-                                        <span class="click-element color--hover" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="false">
+                                            <span class="click-element color--hover" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--hover-text">Sous-catégorie 2</span>
                                 </span>
-                                        <span class="click-element" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="false">
+                                            <span class="click-element" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 3</span>
                                 </span>
-                                        <span class="color--text" data-action="type">Catégorie 2</span>
-                                        <span class="click-element" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="false">
+                                            <span class="color--text" data-action="type">Catégorie 2</span>
+                                            <span class="click-element" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 1</span>
                                 </span>
-                                        <span class="click-element color--button" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="true">
-                                    <span class="color--text">
+                                            <span class="click-element color--button" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="true">
+                                    <span class="color--button-text">
                                         <div class="icon-triangle"></div>Sous-catégorie 2</span>
                                 </span>
-                                        <div class="collapse show">
+                                            <div class="collapse show">
                                     <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                            <span class="click-element" data-action="item">
+                                                <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                            <span class="click-element" data-action="item">
+                                                <span class="click-element" data-action="item">
                                     <span class="color--text">Article 1</span>
                                     </span>
-                                        </div>
-                                        <span class="click-element" data-action="category"
-                                              data-toggle="collapse" role="button" aria-expanded="false">
+                                            </div>
+                                            <span class="click-element" data-action="category"
+                                                  data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="color--text">Sous-catégorie 3</span>
                                 </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-9 color--background replace-element">
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
-                                <div class="block-text"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-9 color--background replace-element">
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                    <div class="block-text"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,6 +219,11 @@
             } else {
                 #c1c1c1;
             }; ?>')
+            $('.color--button-text').css('color', '<?php if ($color['color_button_text']) {
+                echo $color['color_button_text'];
+            } else {
+                #000000;
+            }; ?>')
             $('.color--hover').css('background', '<?php if ($color['color_hover']) {
                 echo $color['color_hover'];
             } else {
@@ -207,6 +234,9 @@
             } else {
                 #efefef;
             }; ?>')
+            $('.position--block').css('text-align', '<?php if ($config['position']) {
+                echo $config['position'];
+            }?>')
         })
 
         $('.element-color').on('click', function (event) {
@@ -215,6 +245,7 @@
             color['color_background'] = $('#color_background').val()
             color['color_text'] = $('#color_text').val()
             color['color_button'] = $('#color_button').val()
+            color['color_button_text'] = $('#color_button_text').val()
             color['color_hover'] = $('#color_hover').val()
             color['color_hover_text'] = $('#color_hover_text').val()
             console.log(color)
@@ -235,6 +266,7 @@
             color['color_background'] = "#efefef"
             color['color_text'] = "#3c3c3c"
             color['color_button'] = "#c1c1c1"
+            color['color_button_text'] = "#000000"
             color['color_hover'] = "#606060"
             color['color_hover_text'] = "#ffffff"
             console.log(color)
@@ -245,11 +277,13 @@
                     $('#color_background').val(color['color_background'])
                     $('#color_text').val(color['color_text'])
                     $('#color_button').val(color['color_button'])
+                    $('#color_button_text').val(color['color_button_text'])
                     $('#color_hover').val(color['color_hover'])
                     $('#color_hover_text').val(color['color_hover_text'])
                     $('.color--background').css('background', color['color_background'])
                     $('.color--text').css('color', color['color_text'])
                     $('.color--button').css('background', color['color_button'])
+                    $('.color--button-text').css('color', color['color_button_text'])
                     $('.color--hover').css('background', color['color_hover'])
                     $('.color--hover-text').css('color', color['color_hover_text'])
 
@@ -282,13 +316,18 @@
         colorButton.addEventListener("input", updateColorButton, false);
         colorButton.select();
 
+        // Color for colorButtonText
+        colorButton = document.querySelector("#color_button_text");
+        colorButton.addEventListener("input", updateColorButtonText, false);
+        colorButton.select();
+
         // Color for colorHover
         colorHover = document.querySelector("#color_hover");
         colorHover.addEventListener("input", updateColorHover, false);
         colorHover.select();
 
         // Color for colorHoverText
-        colorHoverText = document.querySelector("#color_hover-text");
+        colorHoverText = document.querySelector("#color_hover_text");
         colorHoverText.addEventListener("input", updateColorHoverText, false);
         colorHoverText.select();
     }
@@ -308,6 +347,12 @@
     function updateColorButton(event) {
         document.querySelectorAll('.color--button').forEach(function (element) {
             element.style.background = event.target.value;
+        });
+    }
+
+    function updateColorButtonText(event) {
+        document.querySelectorAll('.color--button-text').forEach(function (element) {
+            element.style.color = event.target.value;
         });
     }
 
