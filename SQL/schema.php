@@ -19,7 +19,7 @@ class LwikiAppSchema extends CakeSchema
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'ltype_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false],
-        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'text' => ['type' => 'text', 'null' => true, 'default' => null, 'unsigned' => false],
         'litem_count' => ['type' => 'integer', 'null' => true, 'default' => 0, 'length' => 20, 'unsigned' => false],
         'collapse' => ['type' => 'tinyinteger', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [
@@ -30,7 +30,7 @@ class LwikiAppSchema extends CakeSchema
 
     public $lwiki__lcolors = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'],
-        'color' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'color' => ['type' => 'text', 'null' => true, 'default' => null, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
@@ -39,10 +39,10 @@ class LwikiAppSchema extends CakeSchema
 
     public $lwiki__lconfigs = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'],
-        'title' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
-        'content' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
-        'lcolor_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
-        'position' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'title' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 64, 'unsigned' => false],
+        'content' => ['type' => 'text', 'null' => true, 'default' => null, 'unsigned' => false],
+        'lcolor_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false],
+        'position' => ['type' => 'text', 'null' => true, 'default' => null, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]
         ],
@@ -54,7 +54,7 @@ class LwikiAppSchema extends CakeSchema
         'lcategory_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
         'order' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'unsigned' => false],
-        'text' => ['type' => 'text', 'null' => false, 'default' => null, 'unsigned' => false],
+        'text' => ['type' => 'text', 'null' => true, 'default' => null, 'unsigned' => false],
         'display' => ['type' => 'tinyinteger', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'indexes' => [
             'PRIMARY' => ['column' => 'id', 'unique' => 1]

@@ -53,7 +53,7 @@
                                    value="<?php if ($color['color_background']) {
                                        echo $color['color_background'];
                                    } else {
-                                       '#efefef';
+                                       echo '#efefef';
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
@@ -62,7 +62,7 @@
                                    value="<?php if ($color['color_text']) {
                                        echo $color['color_text'];
                                    } else {
-                                       '#3c3c3c';
+                                       echo '#3c3c3c';
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
@@ -71,7 +71,7 @@
                                    value="<?php if ($color['color_button']) {
                                        echo $color['color_button'];
                                    } else {
-                                       '#c1c1c1';
+                                       echo '#c1c1c1';
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
@@ -80,7 +80,7 @@
                                    value="<?php if ($color['color_button_text']) {
                                        echo $color['color_button_text'];
                                    } else {
-                                       '#000000';
+                                       echo '#000000';
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
@@ -89,7 +89,7 @@
                                    value="<?php if ($color['color_hover']) {
                                        echo $color['color_hover'];
                                    } else {
-                                       '#606060';
+                                       echo '#606060';
                                    }; ?>"/>
                         </div>
                         <div class=" form-group col-md-2">
@@ -98,7 +98,7 @@
                                    value="<?php if ($color['color_hover_text']) {
                                        echo $color['color_hover_text'];
                                    } else {
-                                       '#ffffff';
+                                       echo '#ffffff';
                                    }; ?>"/>
                         </div>
                         <div class=" form-group col-md-12">
@@ -207,32 +207,32 @@
             $('.color--background').css('background', '<?php if ($color['color_background']) {
                 echo $color['color_background'];
             } else {
-                #efefef;
+                echo '#efefef';
             }; ?>')
             $('.color--text').css('color', '<?php if ($color['color_text']) {
                 echo $color['color_text'];
             } else {
-                #3c3c3c;
+                echo '#3c3c3c';
             }; ?>')
             $('.color--button').css('background', '<?php if ($color['color_button']) {
                 echo $color['color_button'];
             } else {
-                #c1c1c1;
+                echo '#c1c1c1';
             }; ?>')
             $('.color--button-text').css('color', '<?php if ($color['color_button_text']) {
                 echo $color['color_button_text'];
             } else {
-                #000000;
+                echo '#000000';
             }; ?>')
             $('.color--hover').css('background', '<?php if ($color['color_hover']) {
                 echo $color['color_hover'];
             } else {
-                #ffffff;
+                echo '#ffffff';
             }; ?>')
             $('.color--hover-text').css('color', '<?php if ($color['color_hover_text']) {
                 echo $color['color_hover_text'];
             } else {
-                #efefef;
+                echo '#efefef';
             }; ?>')
             $('.position--block').css('text-align', '<?php if ($config['position']) {
                 echo $config['position'];
