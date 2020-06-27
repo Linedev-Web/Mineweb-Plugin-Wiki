@@ -15,7 +15,7 @@ class LitemController extends LwikiAppController
 
                 $id = $this->request->data['id'];
                 $item = $this->Litem->findById($id);
-                $this->response->body(json_encode(array('statut' => true, 'slug' => $item['Litem']['name'], 'content' => htmlspecialchars_decode($item['Litem']['text']))));
+                $this->response->body(json_encode(array('statut' => true, 'slug' => $item['Litem']['name'], 'content' => $item['Litem']['text'])));
 
             } else {
                 $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
@@ -34,7 +34,7 @@ class LitemController extends LwikiAppController
 
             $this->redirect('/admin/lwiki');
         } else {
-            $this->redirect('/toto');
+            $this->redirect('/');
         }
     }
 
@@ -76,7 +76,7 @@ class LitemController extends LwikiAppController
                     $text = $this->request->data['text'];
 
                     $this->Litem->edit($id, $name, $text);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $name . ' ' . $this->Lang->get('WIKI__SAVE_SUCCESS'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
@@ -118,7 +118,7 @@ class LitemController extends LwikiAppController
                     $text = $this->request->data['text'];
 
                     $this->Litem->add($categories_id, $name, $text);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('GLOBAL__SUCCESS'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $name . ' ' . $this->Lang->get('WIKI__SAVE_SUCCESS'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
@@ -148,7 +148,7 @@ class LitemController extends LwikiAppController
                     $id = $this->request->data['id'];
                     $this->Litem->edit_display_ajax($id);
                     $display = $this->Litem->findById($id);
-                    return $this->sendJSON(['statut' => true, 'display' => $display['Litem']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                    return $this->sendJSON(['statut' => true, 'display' => $display['Litem']['display'], 'msg' => $display['Litem']['name'] . ' - ' . $this->Lang->get('WIKI__SUCCESS_DISPLAY')]);
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Litem->validationErrors))));
@@ -211,7 +211,7 @@ class LitemController extends LwikiAppController
                     }
 
                     if (empty($error)) {
-                        return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                        return $this->sendJSON(['statut' => true, 'msg' => $itemName['Litem']['name'] . ' - ' . $this->Lang->get('WIKI__ORDER_SUCCESS')]);
                     } else {
                         return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
                     }

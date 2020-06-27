@@ -37,7 +37,7 @@ class LconfigController extends LwikiAppController
                     $content = $this->request->data('content');
                     $position = $this->request->data('position');
                     $this->Lconfig->edit($title, $content, $position);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('WIKI__SAVE_SUCCESS'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lconfig->validationErrors))));
@@ -61,7 +61,7 @@ class LconfigController extends LwikiAppController
 
                     $this->Lconfig->editColor(1);
                     $this->Lcolor->edit(1, json_encode($this->request->data));
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('WIKI__SUCCESS_COLOR'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lconfig->validationErrors))));

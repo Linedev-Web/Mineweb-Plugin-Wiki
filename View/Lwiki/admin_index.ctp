@@ -7,7 +7,7 @@
                   data-redirect-url="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'admin' => true)) ?>">
                 <div class="form-group">
                     <i class="fa fa-folder" style="margin-right: 1rem"></i>
-                    <input type="text" name="name" class="form-control" placeholder="Ajouter une catégorie" required/>
+                    <input type="text" name="name" class="form-control" placeholder="<?= $Lang->get('WIKI__ADD_TYPE') ?>" required/>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="icon--custom">
@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <i class="fa fa-folder-open" style="margin-right: 1rem"></i>
                                         <input class="form-control" type="text" name="name"
-                                               placeholder="Ajouter une sous-catégorie" required>
+                                               placeholder="<?= $Lang->get('WIKI__ADD_CATEGORY') ?>" required>
                                         <input class="form-control" type="hidden" name="type"
                                                value="<?= $type["Ltypes"]["id"] ?>">
                                     </div>
@@ -192,9 +192,9 @@
 
                 $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
-                        editElementToast('success', 'Modification enregistrée')
+                        editElementToast('success', data.msg)
                     } else {
-                        editElementToast('error', 'Une erreur vient de se produire')
+                        editElementToast('error', data.msg)
                     }
                 });
             }
@@ -216,9 +216,9 @@
 
                 $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
-                        editElementToast('success', 'Modification enregistrée')
+                        editElementToast('success', data.msg)
                     } else {
-                        editElementToast('error', 'Une erreur vient de se produire')
+                        editElementToast('error', data.msg)
                     }
                 });
             }
@@ -236,9 +236,9 @@
 
                 $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'save_ajax', 'admin' => true)) ?>", inputs, function (data) {
                     if (data.statut) {
-                        editElementToast('success', 'Modification enregistrée')
+                        editElementToast('success', data.msg)
                     } else {
-                        editElementToast('error', 'Une erreur vient de se produire')
+                        editElementToast('error', data.msg)
                     }
                 });
             }
@@ -259,9 +259,9 @@
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')
                         }
-                        editElementToast('success', 'Modification enregistrée')
+                        editElementToast('success', data.msg)
                     } else {
-                        editElementToast('error', 'Une erreur vient de se produire')
+                        editElementToast('error', data.msg)
                     }
                     return true
                 });
@@ -274,9 +274,9 @@
                         } else {
                             $(button).html('<i class="fa fa-eye-slash"></i>')
                         }
-                        editElementToast('success', 'Modification enregistrée')
+                        editElementToast('success', data.msg)
                     } else {
-                        editElementToast('error', 'Une erreur vient de se produire')
+                        editElementToast('error', data.msg)
                     }
                     return true
                 });
@@ -291,9 +291,9 @@
         if (bouton.selector === 'category') {
             $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
                 if (data.statut) {
-                    editElementToast('success', 'Modification enregistrée')
+                    editElementToast('success', data.msg)
                 } else {
-                    editElementToast('error', 'Une erreur vient de se produire')
+                    editElementToast('error', data.msg)
                 }
                 return true
             });
@@ -301,9 +301,9 @@
         if (bouton.selector === 'type') {
             $.post("<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'edit_collapse_ajax', 'admin' => true)) ?>", selectId, function (data) {
                 if (data.statut) {
-                    editElementToast('success', 'Modification enregistrée')
+                    editElementToast('success', data.msg)
                 } else {
-                    editElementToast('error', 'Une erreur vient de se produire')
+                    editElementToast('error', data.msg)
                 }
             });
             return true

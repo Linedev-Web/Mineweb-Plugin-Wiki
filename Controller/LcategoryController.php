@@ -46,7 +46,7 @@ class LcategoryController extends LwikiAppController
 
             $this->redirect('/admin/lwiki');
         } else {
-            $this->redirect('/toto');
+            $this->redirect('/');
         }
     }
 
@@ -86,7 +86,7 @@ class LcategoryController extends LwikiAppController
                     $name = $this->request->data['name'];
                     $text = $this->request->data['text'];
                     $this->Lcategory->edit($id, $name, $text);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('SHOP__CATEGORY_EDIT_SUCCESS'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('WIKI__SUCCESS_CATEGORY'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
@@ -114,7 +114,7 @@ class LcategoryController extends LwikiAppController
                     $id = $this->request->data['id'];
                     $this->Lcategory->edit_display_ajax($id);
                     $display = $this->Lcategory->findById($id);
-                    return $this->sendJSON(['statut' => true, 'display' => $display['Lcategory']['display'], 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                    return $this->sendJSON(['statut' => true, 'display' => $display['Lcategory']['display'], 'msg' => $display['Lcategory']['name'] . ' - ' . $this->Lang->get('WIKI__SUCCESS_DISPLAY')]);
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
@@ -133,7 +133,7 @@ class LcategoryController extends LwikiAppController
 
                 $id = $this->request->data['id'];
                 $this->Lcategory->edit_collapse_ajax($id);
-                return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('WIKI__SUCCESS_COLLAPSE')]);
             }
         }
     }
@@ -195,9 +195,9 @@ class LcategoryController extends LwikiAppController
                     }
 
                     if (empty($error)) {
-                        return $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SHOP__SAVE_SUCCESS')]);
+                        return $this->sendJSON(['statut' => true, 'msg' => $categoryName['Lcategory']['name'] . ' - ' . $this->Lang->get('WIKI__ORDER_SUCCESS')]);
                     } else {
-                        return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+                        return $this->sendJSON(['statut' => false, 'msg' => $categoryName['Lcategory']['name'] . ' ' . $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
                     }
                 } else {
                     return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);

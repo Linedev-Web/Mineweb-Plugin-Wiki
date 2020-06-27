@@ -3,7 +3,7 @@
         <div class="col-md-9 col-md-offset-1">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= $Lang->get('WIKI__edit__categorie') ?></h3>
+                    <h3 class="box-title"><?= $Lang->get('WIKI__ADD_ARTICLE') ?></h3>
                 </div>
                 <div class="box-body">
                     <form action="<?= $this->Html->url(array('controller' => 'litem', 'action' => 'add_ajax', 'plugin' => 'lwiki', 'admin' => true)) ?>"
@@ -11,7 +11,8 @@
                           method="post" data-ajax="true">
                         <input type="hidden" name="lcategory_id" value="<?= $lcategory_id ?>">
                         <div class="form-group">
-                            <input class="form-control" name="name" type="text""/>
+                            <label for="name"><?= $Lang->get('WIKI__NAME') ?></label>
+                            <input class="form-control" id="name" name="name" type="text""/>
                         </div>
                         <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
                         <script type="text/javascript">
@@ -25,7 +26,7 @@
                             });
                         </script>
                         <div class="form-group">
-                            <label style="display: block" for="type"><?= $Lang->get('WIKI__type') ?></label>
+                            <label style="display: block" for="type"><?= $Lang->get('WIKI__DESCRIPTION') ?></label>
                             <textarea id="editor" name="text" cols="30" rows="10"></textarea>
                         </div>
 

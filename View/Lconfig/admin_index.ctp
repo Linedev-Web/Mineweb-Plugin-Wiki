@@ -4,24 +4,24 @@
         <div class="col-md-6">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Information du wiki</h3>
+                    <h3 class="box-title"><?= $Lang->get('WIKI__CONFIG') ?></h3>
                 </div>
                 <div class="box-body">
                     <form action="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_info', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           data-redirect-url="<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"
                           method="post" data-ajax="true">
                         <div class="form-group">
-                            <label for="title">Titre</label>
+                            <label for="title"><?= $Lang->get('WIKI__NAME') ?></label>
                             <input class="form-control" id="title" name="title" type="text"
                                    value="<?php if ($config['title']) echo $config['title'] ?>"/>
 
                         </div>
                         <div class="form-group">
-                            <label for="content">Description</label>
+                            <label for="content"><?= $Lang->get('WIKI__DESCRIPTION') ?></label>
                             <textarea class="form-control" rows="5" id="content"
                                       name="content"><?php if ($config['content']) echo $config['content'] ?></textarea>
                         </div>
-                        <label for="position">Alignement du titre, description</label>
+                        <label for="position"><?= $Lang->get('WIKI__CONFIG_ALIGNEMENT') ?></label>
                         <select class="form-control" name="position" id="position">
                             <?php if ($config['position']) : ?>
                                 <option value="<?= $config["position"] ?>"><?= $config["position"] ?></option>
@@ -39,7 +39,7 @@
         <div class=" col-md-6">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Modifier les couleurs du thèmes du wiki</h3>
+                    <h3 class="box-title"><?= $Lang->get('WIKI__CONFIG_COLOR') ?></h3>
                 </div>
                 <div class="box-body">
                     <form action="<?= $this->Html->url(array('controller' => 'Lconfig', 'action' => 'color', 'plugin' => 'lwiki', 'admin' => true)) ?>"
@@ -47,7 +47,7 @@
                           method="post" data-ajax="true" class="row">
 
                         <div class="form-group col-md-2">
-                            <label for="color_background">Fond</label>
+                            <label for="color_background"><?= $Lang->get('WIKI__CONFIG_FOND') ?></label>
                             <input class="form-control" id="color_background" name="color_background"
                                    type="color"
                                    value="<?php if ($color['color_background']) {
@@ -57,7 +57,7 @@
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="color_text">Text</label>
+                            <label for="color_text"><?= $Lang->get('WIKI__CONFIG_TEXT') ?></label>
                             <input class="form-control" id="color_text" name="color_text" type="color"
                                    value="<?php if ($color['color_text']) {
                                        echo $color['color_text'];
@@ -66,7 +66,7 @@
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="color_button">Boutton</label>
+                            <label for="color_button"><?= $Lang->get('WIKI__CONFIG_BUTTON') ?></label>
                             <input class="form-control" id="color_button" name="color_button" type="color"
                                    value="<?php if ($color['color_button']) {
                                        echo $color['color_button'];
@@ -75,7 +75,7 @@
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="color_button_text">Boutton text</label>
+                            <label for="color_button_text"><?= $Lang->get('WIKI__CONFIG_BUTTON_TEXT') ?></label>
                             <input class="form-control" id="color_button_text" name="color_button_text" type="color"
                                    value="<?php if ($color['color_button_text']) {
                                        echo $color['color_button_text'];
@@ -84,7 +84,7 @@
                                    }; ?>"/>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="color_hover">Font au survol</label>
+                            <label for="color_hover"><?= $Lang->get('WIKI__CONFIG_FONT_HOVER') ?></label>
                             <input class="form-control" id="color_hover" name="color_hover" type="color"
                                    value="<?php if ($color['color_hover']) {
                                        echo $color['color_hover'];
@@ -93,7 +93,7 @@
                                    }; ?>"/>
                         </div>
                         <div class=" form-group col-md-2">
-                            <label for="color_hover-text">Text au survol</label>
+                            <label for="color_hover-text"><?= $Lang->get('WIKI__CONFIG_FONT_HOVER_TEXT') ?></label>
                             <input class="form-control" id="color_hover_text" name="color_hover_text" type="color"
                                    value="<?php if ($color['color_hover_text']) {
                                        echo $color['color_hover_text'];
@@ -114,7 +114,7 @@
                 <div class="row">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Prévisualisation du thème</h3>
+                            <h3 class="box-title"><?= $Lang->get('WIKI__CONFIG_DEMO') ?></h3>
                         </div>
                         <div class="box-body">
                             <div class="position--block">
@@ -253,9 +253,9 @@
             $.post("<?= $this->Html->url(array('controller' => 'lconfig', 'action' => 'edit_color', 'admin' => true)) ?>", color, function (data) {
                 console.log(data)
                 if (data.statut) {
-                    editElementToast('success', 'Modification enregistrée')
+                    editElementToast('success', data.msg)
                 } else {
-                    editElementToast('error', 'Une erreur vient de se produire')
+                    editElementToast('error', data.msg)
                 }
                 return true
             });
@@ -287,9 +287,9 @@
                     $('.color--hover').css('background', color['color_hover'])
                     $('.color--hover-text').css('color', color['color_hover_text'])
 
-                    editElementToast('success', 'Réinitialisation enregistrée')
+                    editElementToast('success', data.msg)
                 } else {
-                    editElementToast('error', 'Une erreur vient de se produire')
+                    editElementToast('error', data.msg)
                 }
                 return true
             });
