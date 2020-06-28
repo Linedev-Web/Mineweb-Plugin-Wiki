@@ -10,8 +10,8 @@ class Lconfig extends LwikiAppModel
     public $validate = array(
         'title' => array(
             'between' => array(
-                'rule' => array('between', 1, 64),
-                'message' => 'Le nom de l\'article doit avoir une longueur comprise entre 1 et 30 caractères.',
+                'rule' => array('between', 1, 30),
+                'message' => 'Le nom de l\'article doit avoir une longueur comprise entre 0 et 30 caractères.',
                 'allowEmpty' => false
             ),
         ),

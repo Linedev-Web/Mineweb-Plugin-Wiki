@@ -1,19 +1,21 @@
 {
+  "WIKI__NOT": "Votre wiki ne contient aucune information",
+
   "WIKI__ID": "ID",
 
   "WIKI__NAME": "Titre",
-  "WIKI__DESCRIPTION": "description",
+  "WIKI__DESCRIPTION": "Description",
 
   "WIKI__TYPE": "Type",
   "WIKI__ADD_TYPE": "Ajouter une catégorie",
-  "WIKI__NOT_TYPE": "Nous n'avons pas trouvée de type",
-  "WIKI__SUCCESS_TYPE": "Enregistrée",
+  "WIKI__NOT_TYPE": "Nous n'avons pas trouvé de type",
+  "WIKI__SUCCESS_TYPE": "Enregistré",
 
   "WIKI__CATEGORY": "Catégorie",
   "WIKI__ADD_CATEGORY": "Ajouter une sous-catégorie",
   "WIKI__EDIT_CATEGORY": "Modifier une sous-catégorie",
-  "WIKI__NOT_CATEGORY": "Nous n'avons pas trouvée de catégorie",
-  "WIKI__SUCCESS_CATEGORY": "Catégorie enregistrée avec succes",
+  "WIKI__NOT_CATEGORY": "Nous n'avons pas trouvé de sous-catégorie",
+  "WIKI__SUCCESS_CATEGORY": "Sous-catégorie enregistrée avec succés",
 
   "WIKI__ARTICLE": "Article",
   "WIKI__ADD_ARTICLE": "Ajouter un article",
@@ -22,23 +24,23 @@
 
   "WIKI__CONFIG": "Information du wiki",
   "WIKI__CONFIG_ALIGNEMENT": "Alignement du titre, description",
-  "WIKI__CONFIG_COLOR": "Modifier les couleurs du thèmes du wiki",
+  "WIKI__CONFIG_COLOR": "Modifier les couleurs du thème du wiki",
   "WIKI__CONFIG_FOND": "Fond",
-  "WIKI__CONFIG_TEXT": "Text",
-  "WIKI__CONFIG_BUTTON": "Boutton",
-  "WIKI__CONFIG_BUTTON_TEXT": "Boutton text",
-  "WIKI__CONFIG_FONT_HOVER": "Font au survol",
-  "WIKI__CONFIG_FONT_HOVER_TEXT": "Text au survol",
+  "WIKI__CONFIG_TEXT": "Texte",
+  "WIKI__CONFIG_BUTTON": "Bouton",
+  "WIKI__CONFIG_BUTTON_TEXT": "Bouton texte",
+  "WIKI__CONFIG_FONT_HOVER": "Fond au survol",
+  "WIKI__CONFIG_FONT_HOVER_TEXT": "Texte au survol",
   "WIKI__CONFIG_DEMO": "Prévisualisation du thème",
 
 
   "WIKI__ORDER": "Ordre",
-  "WIKI__ORDER_SUCCESS": "Ordre Sauvegarder !",
+  "WIKI__ORDER_SUCCESS": "Ordre Sauvegardé !",
 
-  "WIKI__SUCCESS_COLLAPSE": "Collapse enregistrée",
+  "WIKI__SUCCESS_COLLAPSE": "Collapse enregistré",
   "WIKI__SUCCESS_DISPLAY": "Affichage enregistrée",
   "WIKI__SUCCESS_COLOR": "Couleur enregistrée",
 
-  "WIKI__SAVE_SUCCESS": "Sauvegarder !",
+  "WIKI__SAVE_SUCCESS": "Sauvegardé !",
   "WIKI__SAVE_ERROR": "Erreur !"
 }

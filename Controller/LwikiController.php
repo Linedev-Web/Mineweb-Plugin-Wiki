@@ -11,12 +11,11 @@ class LwikiController extends LwikiAppController
         $types = $this->Ltypes->get();
         $config = $this->Lconfig->get();
         $color = $this->Lcolor->get();
-        if ($types[0] && $color[0]) {
-            $config = $config[0]['Lconfig'];
-            $color = json_decode($color[0]['Lcolor']['color'], true);
-            $this->set(compact('types', 'config', 'color'));
-            $this->set('title_for_layout', 'Wiki');
-        }
+        $config = $config[0]['Lconfig'];
+        $color = json_decode($color[0]['Lcolor']['color'], true);
+        $text = null;
+        $this->set(compact('types', 'config', 'color', 'text'));
+        $this->set('title_for_layout', 'Wiki');
 
         if ($this->request->is('get')) {
             $element = $this->request->param('element');
@@ -124,7 +123,7 @@ class LwikiController extends LwikiAppController
                     $types_id = $this->request->data['type'];
                     $name = $this->request->data['name'];
                     $this->Lcategory->add($types_id, $name);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $name .' - '.$this->Lang->get('WIKI__SUCCESS_CATEGORY'))));
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $name . ' - ' . $this->Lang->get('WIKI__SUCCESS_CATEGORY'))));
 
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->alertMesasge($this->Lcategory->validationErrors))));
