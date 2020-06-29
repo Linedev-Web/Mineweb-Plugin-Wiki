@@ -11,7 +11,8 @@
             color: <?= $color["color_text"]?>;
         }
 
-        #page--lwiki a {
+        #page--lwiki .list-group a,
+        #page--lwiki .list-group a {
             color: <?= $color["color_text"]?>
         }
 
@@ -21,10 +22,16 @@
 
         }
 
-        #page--lwiki a:not([data-action=type]):active,
-        #page--lwiki a:not([data-action=type]):focus,
-        #page--lwiki a:not([data-action=type]):hover {
+        #page--lwiki .list-group a:not([data-action=type]):active,
+        #page--lwiki .list-group a:not([data-action=type]):focus,
+        #page--lwiki .list-group a:not([data-action=type]):hover {
             background-color: <?= $color["color_hover"]?>;
+            color: <?= $color["color_hover_text"]?>;
+        }
+
+        #page--lwiki .list-group a:not([data-action=type]):active span,
+        #page--lwiki .list-group a:not([data-action=type]):focus span,
+        #page--lwiki .list-group a:not([data-action=type]):hover span {
             color: <?= $color["color_hover_text"]?>;
         }
     </style>
@@ -33,7 +40,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <?php if (isset($config) && !empty($types)): ?>
+            <?php if (isset($config) && !empty($config)): ?>
                 <div class="text-<?= $config['position'] ?>">
                     <h1 class="page--title"><?= $config['title'] ?></h1>
                     <p><?= $config['content'] ?></p>
