@@ -5,9 +5,9 @@ class LitemController extends LwikiAppController
 
     public function getWiki()
     {
-        $this->autoRender = false;
-        $this->response->type('json');
         if ($this->request->is('post')) {
+            $this->response->type('json');
+            $this->autoRender = false;
             $this->loadModel('Lwiki.Litem');
 
             $this->Litem->set($this->request->data);

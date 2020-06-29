@@ -22,13 +22,10 @@ class LwikiController extends LwikiAppController
             $color = null;
         }
         $text = null;
-        $this->set(compact('types', 'config', 'color', 'text'));
-        $this->set('title_for_layout', 'Wiki');
 
-        if ($this->request->is('post')) {
+        if ($this->request->is('get')) {
             $element = $this->request->param('element');
             $id = $this->request->param('id');
-
             if ($element === 'item') {
                 $this->loadModel('Lwiki.Litem');
                 $item = $this->Litem->findById($id);
@@ -42,6 +39,9 @@ class LwikiController extends LwikiAppController
                 $this->set(compact('text'));
             }
         }
+
+        $this->set(compact('types', 'config', 'color', 'text'));
+        $this->set('title_for_layout', 'Wiki');
     }
 
     public function admin_index()

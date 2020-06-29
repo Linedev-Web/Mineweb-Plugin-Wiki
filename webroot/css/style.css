@@ -7,32 +7,34 @@
 }
 
 #page--lwiki .list-group {
+    border-radius: 8px;
+    background-color: #efefef;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 #page--lwiki .list-group .list-group-item {
-    background-color: hsl(233, 13%, 25%);
     padding: 1rem 0.5rem;
 }
 
-#page--lwiki li:focus, #page--lwiki li:hover {
-    color: hsl(0, 0%, 82%);
-    background-color: hsl(233, 20%, 17%);
+
+#page--lwiki .list-group span {
+    color: #000000;
 }
 
-#page--lwiki a {
+#page--lwiki .list-group a {
     display: inline-block;
     position: relative;
     padding: 0.5rem;
     width: 100%;
     border-radius: 8px;
-    color: var(--color-accent);
+    background-color: #c1c1c1;
+    color: #000000;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#page--lwiki a .icon-triangle {
+#page--lwiki .list-group a .icon-triangle {
     margin-left: -.5rem;
     padding-right: 0.5rem;
     display: inline-block;
@@ -40,35 +42,40 @@
     width: 0;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-left: 10px solid var(--color-accent);
+    border-left: 10px solid #3c3c3c;
 }
 
-#page--lwiki a:not([data-action=type]).active, #page--lwiki a:not([data-action=type]):active, #page--lwiki a:not([data-action=type]):focus, #page--lwiki a:not([data-action=type]):hover {
-    background-color: var(--color-contrast-lower);
-}
-
-#page--lwiki a[data-action=type] {
+#page--lwiki .list-group a[data-action=type] {
     font-weight: bold;
     font-size: calc(calc((1em / 1.2) / 1.2) * 1.2);
     font-size: var(--text-sm);
     cursor: default;
 }
 
-#page--lwiki a[data-action=category], #page--lwiki a[data-action=item] {
+#page--lwiki .list-group a[data-action=category],
+#page--lwiki .list-group a[data-action=item] {
     margin: 0.1rem 0;
 }
 
-#page--lwiki a[data-action=category] {
+#page--lwiki .list-group a[data-action=category] {
     text-indent: 1rem;
 }
 
-#page--lwiki a[data-action=item] {
+#page--lwiki a:not([data-action=type]).active,
+#page--lwiki a:not([data-action=type]):active,
+#page--lwiki a:not([data-action=type]):focus,
+#page--lwiki a:not([data-action=type]):hover {
+    background-color: #606060;
+    color: #ffffff;
+}
+
+#page--lwiki .list-group a[data-action=item] {
     text-indent: 1rem;
     margin-left: 2rem;
     max-width: 206px;
 }
 
-#page--lwiki a[data-toggle="collapse"][aria-expanded="true"] .icon-triangle {
+#page--lwiki .list-group a[data-toggle="collapse"][aria-expanded="true"] .icon-triangle {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
 }
@@ -78,7 +85,7 @@
 }
 
 #page--lwiki .replace-element {
+    background-color: #efefef;
     padding: 1rem;
-    background-color: var(--color-contrast-low);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }

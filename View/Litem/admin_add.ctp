@@ -31,6 +31,7 @@
                         </div>
 
                         <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__UPDATE') ?></button>
+                        <a class="btn btn-danger" href="<?= $this->Html->url(array('controller' => 'lwiki', 'action' => 'index', 'plugin' => 'lwiki', 'admin' => true)) ?>"><?= $Lang->get('GLOBAL__PREVIOUS') ?></a>
                     </form>
                 </div>
             </div>

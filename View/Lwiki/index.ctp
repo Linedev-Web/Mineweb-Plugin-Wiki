@@ -47,11 +47,13 @@
                                 <?php foreach ($types as $key => $type) { ?>
                                     <li class="list-group-item">
                                         <a data-action="type"
+                                           title="<?= $type['Ltypes']['name'] ?>"
                                            href="#"><?= $type['Ltypes']['name'] ?></a>
                                         <?php if ($type['Lcategory'] != "undefined"): ?>
                                             <?php foreach ($type['Lcategory'] as $key1 => $category) { ?>
                                                 <?php if ($category['display'] == 0): ?>
                                                     <a class="click-element" data-action="category"
+                                                       title="<?= $category['name'] ?>"
                                                        data-toggle="collapse" role="button" aria-expanded="false"
                                                        data-id="<?= $category['id'] ?>"
                                                        href="#category-<?= $category['id'] ?>">
@@ -65,6 +67,7 @@
                                                             <?php foreach ($category['Litem'] as $key2 => $item) { ?>
                                                                 <?php if ($item['display'] == 0): ?>
                                                                     <a class="click-element" data-action="item"
+                                                                       title="<?= $item['name'] ?>"
                                                                        data-id="<?= $item['id'] ?>"
                                                                        href="#category-<?= $item['id'] ?>">
                                                                         <span><?= $item['name'] ?></span>
@@ -81,7 +84,7 @@
                             </ul>
                         </div>
                     </div>
-                    <?php if (isset($text) && !empty($text)): ?>
+                    <?php if (isset($text)): ?>
                         <div class="col-md-9">
                             <div class="replace-element">
                                 <?= $text ?>
