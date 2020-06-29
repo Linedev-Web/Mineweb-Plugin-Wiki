@@ -11,13 +11,21 @@ class LwikiController extends LwikiAppController
         $types = $this->Ltypes->get();
         $config = $this->Lconfig->get();
         $color = $this->Lcolor->get();
-        $config = $config[0]['Lconfig'];
-        $color = json_decode($color[0]['Lcolor']['color'], true);
+        if (isset($config) && !empty($config)) {
+            $config = $config[0]['Lconfig'];
+        } else {
+            $config = null;
+        }
+        if (isset($color) && !empty($color)) {
+            $color = json_decode($color[0]['Lcolor']['color'], true);
+        } else {
+            $color = null;
+        }
         $text = null;
         $this->set(compact('types', 'config', 'color', 'text'));
         $this->set('title_for_layout', 'Wiki');
 
-        if ($this->request->is('get')) {
+        if ($this->request->is('post')) {
             $element = $this->request->param('element');
             $id = $this->request->param('id');
 
@@ -43,8 +51,8 @@ class LwikiController extends LwikiAppController
             $this->loadModel('Lwiki.Lcategory');
 
             if ($this->request->is('ajax')) {
+                $this->response->type('json');
                 $this->autoRender = null;
-
 
                 $this->Ltypes->set($this->request->data);
                 if ($this->Ltypes->validates()) {
@@ -68,10 +76,10 @@ class LwikiController extends LwikiAppController
 
     public function admin_edit_types()
     {
-        $this->autoRender = false;
-        $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
 
                 $this->loadModel('Lwiki.Ltypes');
 
@@ -96,8 +104,8 @@ class LwikiController extends LwikiAppController
 
     public function admin_delete($id)
     {
+        $this->autoRender = null;
         if ($this->isConnected and $this->User->isAdmin()) {
-            $this->autoRender = null;
 
             $this->loadModel('Lwiki.Ltypes');
 
@@ -112,10 +120,11 @@ class LwikiController extends LwikiAppController
     public function admin_add_category()
     {
         if ($this->isConnected and $this->User->isAdmin()) {
-            $this->loadModel('Lwiki.Lcategory');
-
-            $this->autoRender = null;
             if ($this->request->is('ajax')) {
+                $this->response->type('json');
+                $this->autoRender = null;
+                $this->loadModel('Lwiki.Lcategory');
+
 
                 $this->Lcategory->set($this->request->data);
                 if ($this->Lcategory->validates()) {
@@ -141,10 +150,11 @@ class LwikiController extends LwikiAppController
 
     public function admin_edit_collapse_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 $this->loadModel('Lwiki.Ltypes');
 
                 $id = $this->request->data['id'];
@@ -157,10 +167,11 @@ class LwikiController extends LwikiAppController
 
     public function admin_save_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 if (!empty($this->request->data)) {
 
                     //I explode the contents of the wiki_category_order to retrieve the name of each item.

@@ -6,9 +6,9 @@ class LcategoryController extends LwikiAppController
 
     public function getWiki()
     {
-        $this->autoRender = false;
-        $this->response->type('json');
         if ($this->request->is('post')) {
+            $this->response->type('json');
+            $this->autoRender = false;
 
             $this->loadModel('Lwiki.Lcategory');
 
@@ -72,10 +72,10 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_ajax()
     {
-        $this->autoRender = false;
-        $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->autoRender = false;
+                $this->response->type('json');
                 $this->loadModel('Lwiki.Lcategory');
 
 
@@ -102,10 +102,11 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_display_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 $this->loadModel('Lwiki.Lcategory');
 
                 $this->Lcategory->set($this->request->data);
@@ -125,8 +126,9 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_collapse_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
+            $this->response->type('json');
+            $this->autoRender = false;
 
             if ($this->request->is('post')) {
                 $this->loadModel('Lwiki.Lcategory');
@@ -140,10 +142,12 @@ class LcategoryController extends LwikiAppController
 
     public function admin_save_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
+
                 if (!empty($this->request->data)) {
 
                     //I explode the contents of the wiki_category_order to retrieve the name of each item.

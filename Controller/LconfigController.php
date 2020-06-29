@@ -11,12 +11,17 @@ class LconfigController extends LwikiAppController
             $this->loadModel('Lwiki.Lcolor');
             $config = $this->Lconfig->get();
             $color = $this->Lcolor->get();
-            if ($config[0] && $color[0]) {
+            if (isset($config) && !empty($config)) {
                 $config = $config[0]['Lconfig'];
-                $color = json_decode($color[0]['Lcolor']['color'], true);
-                $this->set(compact('config', 'color'));
-
+            } else {
+                $config = null;
             }
+            if (isset($color) && !empty($color)) {
+                $color = json_decode($color[0]['Lcolor']['color'], true);
+            } else {
+                $color = null;
+            }
+            $this->set(compact('config', 'color'));
         } else {
             $this->redirect('/');
         }
@@ -24,10 +29,10 @@ class LconfigController extends LwikiAppController
 
     public function admin_edit_info()
     {
-        $this->autoRender = null;
-        $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = null;
                 $this->loadModel('Lwiki.Lconfig');
 
                 $this->Lconfig->set($this->request->data);

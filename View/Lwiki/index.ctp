@@ -32,10 +32,13 @@
 <div id="page--lwiki" class="container plugin-lwiki">
     <div class="row">
         <div class="col-md-12">
-            <div class="text-<?= $config['position'] ?>">
-                <h1 class="page--title"><?= $config['title'] ?></h1>
-                <p><?= $config['content'] ?></p>
-            </div>
+
+            <?php if (isset($config) && !empty($types)): ?>
+                <div class="text-<?= $config['position'] ?>">
+                    <h1 class="page--title"><?= $config['title'] ?></h1>
+                    <p><?= $config['content'] ?></p>
+                </div>
+            <?php endif; ?>
             <?php if (isset($types) && !empty($types)): ?>
                 <div class="row contenu-wiki">
                     <div class="col-md-3">
@@ -87,7 +90,7 @@
                     <?php endif ?>
                 </div>
             <?php else: ?>
-                <div class="alert alert-warning">
+                <div class="alert alert-warning mt-10">
                     <p>Votre wiki ne contient aucune information</p>
                 </div>
             <?php endif ?>
@@ -107,8 +110,10 @@
         if ($(this).data('action') === 'item') {
             $.post("<?= $this->Html->url(array('controller' => 'litem', 'action' => 'getWiki', 'plugin' => 'lwiki')) ?>", element, function (data) {
                 if (data.statut) {
-                    history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
-                    $('.replace-element').html(data.content)
+                    if (data.content.length > 1) {
+                        history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
+                        $('.replace-element').html(data.content)
+                    }
                 } else if (!data.statut) {
                     $('.ajax-msg').empty().html('');
                 } else {
@@ -120,8 +125,8 @@
         if ($(this).data('action') === 'category') {
             $.post("<?= $this->Html->url(array('controller' => 'lcategory', 'action' => 'getWiki', 'plugin' => 'lwiki')) ?>", element, function (data) {
                 if (data.statut) {
-                    history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
                     if (data.content.length > 1) {
+                        history.pushState({}, null, '/wiki/' + element['action'] + '&' + string_to_slug(data.slug) + '&' + element['id']);
                         $('.replace-element').html(data.content)
                     }
                 } else if (!data.statut) {

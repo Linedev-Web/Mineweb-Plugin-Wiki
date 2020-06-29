@@ -61,10 +61,10 @@ class LitemController extends LwikiAppController
 
     public function admin_edit_ajax()
     {
-        $this->autoRender = false;
-        $this->response->type('json');
         if ($this->isConnected and $this->User->isAdmin()) {
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 $this->loadModel('Lwiki.Litem');
 
 
@@ -105,10 +105,11 @@ class LitemController extends LwikiAppController
 
     public function admin_add_ajax()
     {
-        $this->autoRender = null;
         if ($this->isConnected and $this->User->isAdmin()) {
             $this->loadModel('Lwiki.Litem');
             if ($this->request->is('ajax')) {
+                $this->response->type('json');
+                $this->autoRender = false;
 
                 $this->Litem->set($this->request->data);
                 if ($this->Litem->validates()) {
@@ -136,10 +137,11 @@ class LitemController extends LwikiAppController
 
     public function admin_edit_display_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 $this->loadModel('Lwiki.Litem');
 
                 $this->Litem->set($this->request->data);
@@ -159,10 +161,11 @@ class LitemController extends LwikiAppController
 
     public function admin_save_ajax()
     {
-        $this->autoRender = false;
         if ($this->isConnected and $this->User->isAdmin()) {
 
             if ($this->request->is('post')) {
+                $this->response->type('json');
+                $this->autoRender = false;
                 if (!empty($this->request->data)) {
 
                     //I explode the contents of the wiki_category_name to retrieve the name of each item.

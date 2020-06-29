@@ -117,10 +117,12 @@
                             <h3 class="box-title"><?= $Lang->get('WIKI__CONFIG_DEMO') ?></h3>
                         </div>
                         <div class="box-body">
-                            <div class="position--block">
-                                <h1 class="page--title"><?= $config['title'] ?></h1>
-                                <p><?= $config['content'] ?></p>
-                            </div>
+                            <?php if (isset($config)): ?>
+                                <div class="position--block">
+                                    <h1 class="page--title"><?= $config['title'] ?></h1>
+                                    <p><?= $config['content'] ?></p>
+                                </div>
+                            <?php endif ?>
                             <div class="contenu-wiki">
                                 <div class="col-md-3">
                                     <ul class="list-group">
@@ -227,7 +229,7 @@
             $('.color--hover').css('background', '<?php if ($color['color_hover']) {
                 echo $color['color_hover'];
             } else {
-                echo '#ffffff';
+                echo '#606060';
             }; ?>')
             $('.color--hover-text').css('color', '<?php if ($color['color_hover_text']) {
                 echo $color['color_hover_text'];
