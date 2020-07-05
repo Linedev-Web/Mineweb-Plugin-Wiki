@@ -69,7 +69,6 @@
 
 #page--lwiki .list-group a[data-action=item] {
     text-indent: 1rem;
-    margin-left: 2rem;
     max-width: 206px;
 }
 
@@ -86,4 +85,15 @@
     background-color: #efefef;
     padding: 1rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+@media (min-width: 992px) {
+    #page--lwiki .replace-element {
+        margin-top: 0;
+    }
+    #page--lwiki .list-group a[data-action=item] {
+        text-indent: 1rem;
+        margin-left: 2rem;
+        max-width: 206px;
+    }
 }
