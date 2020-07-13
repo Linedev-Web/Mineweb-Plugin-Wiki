@@ -25,7 +25,7 @@ class LitemController extends LwikiAppController
 
     public function admin_delete($id)
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             $this->autoRender = null;
 
             $this->loadModel('Lwiki.Litem');
@@ -40,7 +40,7 @@ class LitemController extends LwikiAppController
 
     public function admin_edit($id)
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             $this->layout = 'admin';
 
             if ($id != false) {
@@ -61,7 +61,7 @@ class LitemController extends LwikiAppController
 
     public function admin_edit_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             if ($this->request->is('post')) {
                 $this->response->type('json');
                 $this->autoRender = false;
@@ -91,7 +91,7 @@ class LitemController extends LwikiAppController
 
     public function admin_add($lcategory_id)
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             $this->layout = 'admin';
 
             if ($lcategory_id != false) {
@@ -105,7 +105,7 @@ class LitemController extends LwikiAppController
 
     public function admin_add_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             $this->loadModel('Lwiki.Litem');
             if ($this->request->is('ajax')) {
                 $this->response->type('json');
@@ -137,7 +137,7 @@ class LitemController extends LwikiAppController
 
     public function admin_edit_display_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
 
             if ($this->request->is('post')) {
                 $this->response->type('json');
@@ -161,7 +161,7 @@ class LitemController extends LwikiAppController
 
     public function admin_save_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
 
             if ($this->request->is('post')) {
                 $this->response->type('json');

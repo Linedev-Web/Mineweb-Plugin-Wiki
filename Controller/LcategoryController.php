@@ -37,7 +37,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_delete($id)
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
             $this->autoRender = null;
 
             $this->loadModel('Lwiki.Lcategory');
@@ -52,7 +52,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit($id)
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
             $this->layout = 'admin';
             if ($id != false) {
                 $this->loadModel('Lwiki.Lcategory');
@@ -72,7 +72,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
             if ($this->request->is('post')) {
                 $this->autoRender = false;
                 $this->response->type('json');
@@ -102,7 +102,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_display_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
 
             if ($this->request->is('post')) {
                 $this->response->type('json');
@@ -126,7 +126,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_edit_collapse_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
             $this->response->type('json');
             $this->autoRender = false;
 
@@ -142,7 +142,7 @@ class LcategoryController extends LwikiAppController
 
     public function admin_save_ajax()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI')) {
 
             if ($this->request->is('post')) {
                 $this->response->type('json');

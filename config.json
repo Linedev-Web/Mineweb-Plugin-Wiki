@@ -7,10 +7,12 @@
       "menu": {
         "Configuration du wiki": {
           "icon": "cogs",
+          "permission": "WIKI_ADMIN_MANAGE_WIKI",
           "route": "/admin/lwiki/config"
         },
         "Gérer le Wiki": {
           "icon": "list-alt",
+          "permission": "WIKI_ADMIN_MANAGE_WIKI",
           "route": "/admin/lwiki"
         }
       }
@@ -24,7 +26,7 @@
   "apiID": -1,
   "useEvents": false,
   "permissions": {
-    "available": [],
+    "available": ["WIKI_ADMIN_MANAGE_WIKI"],
     "default": {
       "0": [],
       "2": []

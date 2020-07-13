@@ -42,5 +42,6 @@
   "WIKI__SUCCESS_COLOR": "Couleur enregistrée",
 
   "WIKI__SAVE_SUCCESS": "Sauvegardé !",
-  "WIKI__SAVE_ERROR": "Erreur !"
+  "WIKI__SAVE_ERROR": "Erreur !",
+  "PERMISSIONS__WIKI_ADMIN_MANAGE_WIKI": "Gérer le wiki"
 }

@@ -5,7 +5,7 @@ class LconfigController extends LwikiAppController
 
     public function admin_index()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             $this->layout = 'admin';
             $this->loadModel('Lwiki.Lconfig');
             $this->loadModel('Lwiki.Lcolor');
@@ -29,7 +29,7 @@ class LconfigController extends LwikiAppController
 
     public function admin_edit_info()
     {
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             if ($this->request->is('post')) {
                 $this->response->type('json');
                 $this->autoRender = null;
@@ -57,7 +57,7 @@ class LconfigController extends LwikiAppController
     {
         $this->autoRender = null;
         $this->response->type('json');
-        if ($this->isConnected and $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->Permissions->can('WIKI_ADMIN_MANAGE_WIKI')) {
             if ($this->request->is('post')) {
                 $this->loadModel('Lwiki.Lconfig');
                 $this->loadModel('Lwiki.Lcolor');
