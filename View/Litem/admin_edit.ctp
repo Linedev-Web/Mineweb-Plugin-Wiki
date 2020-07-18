@@ -22,8 +22,20 @@
                                 height: 300,
                                 width: '100%',
                                 language: 'fr_FR',
-                                plugins: "textcolor code image link",
-                                toolbar: "fontselect fontsizeselect bold italic underline strikethrough image link forecolor backcolor alignleft aligncenter alignright alignjustify cut copy paste bullist numlist outdent indent blockquote code"
+                                plugins: "textcolor code image link table importcss",
+                                custom_colors: false,
+                                content_css: '/lwiki/css/root.css',
+                                importcss_file_filter: '/lwiki/css/root.css',
+                                importcss_append: true,
+                                toolbar: "fontsizeselect bold italic underline strikethrough image link alignleft aligncenter alignright alignjustify cut copy paste bullist numlist outdent indent blockquote code",
+
+                                style_formats: [
+                                    {title: 'Primary text', inline: 'span', styles: {color: 'var(--color-primary)'}},
+                                    {title: 'Black text', inline: 'span', styles: {color: 'var(--color-contrast-higher)'}},
+                                    {title: 'Red text', inline: 'span', styles: {color: 'var(--color-error)'}},
+                                    {title: 'Green text', inline: 'span', styles: {color: 'var(--color-success)'}},
+                                    {title: 'Blue text', inline: 'span', styles: {color: 'var(--color-info)'}},
+                                ],
                             });
                         </script>
                         <div class="form-group">

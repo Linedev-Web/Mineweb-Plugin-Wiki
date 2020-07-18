@@ -16,7 +16,7 @@
             color: <?= $color["color_text"]?>
         }
 
-        #page--lwiki a:not([data-action=type]).active {
+        #page--lwiki .list-group a:not([data-action=type]).active {
             background-color: <?= $color["color_button"]?>;
             color: <?= $color["color_button_text"]?>
 

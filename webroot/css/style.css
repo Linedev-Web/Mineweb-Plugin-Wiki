@@ -59,10 +59,10 @@
     text-indent: 1rem;
 }
 
-#page--lwiki a:not([data-action=type]).active,
-#page--lwiki a:not([data-action=type]):active,
-#page--lwiki a:not([data-action=type]):focus,
-#page--lwiki a:not([data-action=type]):hover {
+#page--lwiki .list-group a:not([data-action=type]).active,
+#page--lwiki .list-group a:not([data-action=type]):active,
+#page--lwiki .list-group a:not([data-action=type]):focus,
+#page--lwiki .list-group a:not([data-action=type]):hover {
     background-color: #606060;
     color: #ffffff;
 }

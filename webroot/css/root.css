@@ -1,0 +1,7 @@
+:root {
+    --color-primary: hsl(43, 70%, 48%);
+    --color-error: hsl(350, 75%, 43%);
+    --color-success: hsl(94, 48%, 40%) ;
+    --color-info: hsl(223, 33%, 37%);
+    --color-warning: hsl(46, 100%, 42%) ;
+}
